@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "3404d691-0fc5-4ef0-8db1-2945283cd5ec": {
+      "ProjectGuid": "3404d691-0fc5-4ef0-8db1-2945283cd5ec",
+      "DisplayName": "RenderingLearningOpenGL",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

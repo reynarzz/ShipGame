@@ -1,0 +1,3 @@
+﻿  main.cpp
+B:\Projects\UnityEditorGame\RenderingLearningOpenGL\main.cpp(76,81): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  RenderingLearningOpenGL.vcxproj -> B:\Projects\UnityEditorGame\x64\Debug\RenderingLearningOpenGL.exe
