@@ -74,7 +74,7 @@ int main() {
 	int texWidth = 0;
 	int textHeight = 0;
 
-	tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Miscellaneous.png", texWidth, textHeight);
+	tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Ships.png", texWidth, textHeight);
 
 
 	float factor = gcd(texWidth, textHeight);
@@ -88,14 +88,20 @@ int main() {
 
 	
 	vector<vec2> locations;
-	locations.push_back(vec2(0.0f, 7.0f));
-	locations.push_back(vec2(1.0f, 7.0f));
-	locations.push_back(vec2(0.0f, 6.0f));
-	locations.push_back(vec2(1.0f, 6.0f));
+	locations.push_back(vec2(0.0f, 5.0f));
+	locations.push_back(vec2(1.0f, 5.0f));
+	locations.push_back(vec2(2.0f, 5.0f));
+	//locations.push_back(vec2(1.0f, 6.0f));
 
 	SpriteAnimation* anim = new SpriteAnimation(quad);
 
-	for (vec2 location : locations)
+	auto mapLoc = Utils::getAtlasUVLocations(tex, 8);
+
+	anim->SetAnimUvLocation(mapLoc[std::pair<int, int>(0.0, 5.0)]);
+	anim->SetAnimUvLocation(mapLoc[std::pair<int, int>(1.0, 5.0)]);
+	anim->SetAnimUvLocation(mapLoc[std::pair<int, int>(2.0, 5.0)]);
+
+	/*for (vec2 location : locations)
 	{
 		float x = location.x;
 		float y = location.y;
@@ -107,8 +113,11 @@ int main() {
 		atlasTexCoord.push_back(glm::vec2((x * tileSize) / texAspectWidth, ((y + 1.0f) * tileSize) / texAspectHeigh));
 
 		anim->SetAnimUvLocation(atlasTexCoord);
-	}
+	}*/
 	
+	
+
+
 	Material* mat = new Material(new Shader(vertex, fragment));
 
 	mat->SetTexture(tex);

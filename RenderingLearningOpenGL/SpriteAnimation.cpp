@@ -1,28 +1,29 @@
 #include "SpriteAnimation.h"
 
 namespace Engine {
-	SpriteAnimation::SpriteAnimation(Mesh* mesh) : _mesh(mesh), _canPlay(false), _currentFrame(0), _fps(0.1f), _uvAnim(new vector<vector<vec2>>())
+	SpriteAnimation::SpriteAnimation(Mesh* mesh) : _mesh(mesh), _canPlay(false), _currentFrame(0),
+												   _fps(0.1f), _uvAnim(new vector<vector<vec2>>())
 	{
 	}
 
 	SpriteAnimation::~SpriteAnimation()
 	{
+		delete[] _uvAnim;
 	}
 
-	float _as;
 	void SpriteAnimation::Update()
 	{
 		if (_uvAnim->size() > 0) {
-			_as += _fps;
+			_time += _fps;
 
-			int index = glm::round(_as);
+			_currentFrame = glm::trunc(((sin(_time) + 1.0f) * 0.5f) * _uvAnim->size());
 
-			if (index >= _uvAnim->size()) {
-				_as = 0;
-				index = 0;
+			if (_currentFrame >= _uvAnim->size()) {
+				_time = 0;
+				_currentFrame = 0;
 			}
 
-			_mesh->updateTexcoord(_uvAnim->at(index));
+			_mesh->updateTexcoord(_uvAnim->at(_currentFrame));
 		}
 	}
 
@@ -40,6 +41,7 @@ namespace Engine {
 	{
 		_canPlay = false;
 		_currentFrame = 0;
+		_time = 0;
 	}
 
 	void SpriteAnimation::SetFPS(const float& speed)

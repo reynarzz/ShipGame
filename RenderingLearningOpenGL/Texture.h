@@ -13,6 +13,9 @@ namespace Engine {
 		void UnBind() const;
 
 		unsigned int getTexID() const;
+		int getWidth() const;
+		int getHeight() const;
+
 	private:
 		unsigned int _texID;
 		int _width;

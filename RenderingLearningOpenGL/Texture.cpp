@@ -55,3 +55,13 @@ unsigned int Engine::Texture::getTexID() const
 {
 	return _texID;
 }
+
+int Engine::Texture::getWidth() const
+{
+	return _width;
+}
+
+int Engine::Texture::getHeight() const
+{
+	return _height;
+}

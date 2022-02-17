@@ -25,6 +25,7 @@ namespace Engine {
 		int _currentFrame;
 		float _fps;
 		bool _canPlay;
+		float _time;
 		Mesh* _mesh;
 	};
 }
