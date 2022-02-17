@@ -13,7 +13,7 @@ namespace Engine {
 
 	void SpriteAnimation::Update()
 	{
-		if (_uvAnim->size() > 0) {
+		if (_canPlay && _uvAnim->size() > 0) {
 			_time += _fps;
 
 			_currentFrame = glm::trunc(((sin(_time) + 1.0f) * 0.5f) * _uvAnim->size());
@@ -57,10 +57,12 @@ namespace Engine {
 	void SpriteAnimation::GoToFrame(int frame)
 	{
 		_currentFrame = frame;
+		_mesh->updateTexcoord(_uvAnim->at(_currentFrame));
 	}
 
 	void SpriteAnimation::AddAnimUvLocation(vector<vec2> loc)
 	{
 		_uvAnim->push_back(loc);
+		_mesh->updateTexcoord(_uvAnim->at(0));
 	}
 }

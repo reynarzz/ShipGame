@@ -12,21 +12,22 @@ namespace Engine {
 	Transform::~Transform() {
 
 	}
-
-	void Transform::SetPosition(glm::vec3 pos)
-	{
-		_position = glm::translate(glm::mat4(1.0f), pos);
-
-		_v_position = pos;
-
-		updateModelM();
-	}
-
+	
 	void Transform::SetPosition(float x, float y, float z)
 	{
 		SetPosition(glm::vec3(x, y, z));
 	}
 
+	void Transform::SetPosition(glm::vec3 pos)
+	{
+		_v_position = pos;
+
+		_position = glm::translate(glm::mat4(1.0f), pos);
+
+		updateModelM();
+	}
+
+	
 	void Transform::SetRotation(float x, float y, float z)
 	{
 		SetRotation(glm::vec3(x, y, z));

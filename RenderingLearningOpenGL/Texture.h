@@ -8,7 +8,7 @@ namespace Engine {
 		Texture();
 		~Texture();
 
-		void LoadImage(const std::string&, int& width, int& height);
+		void LoadImage(const std::string&);
 		void Bind(unsigned int slot = 0) const;
 		void UnBind() const;
 

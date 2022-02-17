@@ -12,7 +12,7 @@ Engine::Texture::~Texture()
 	glDeleteTextures(1, &_texID);
 }
 
-void Engine::Texture::LoadImage(const std::string& path, int& width, int& height)
+void Engine::Texture::LoadImage(const std::string& path)
 {
 	if (_texID != 0) {
 		glDeleteTextures(1, &_texID);
@@ -21,9 +21,7 @@ void Engine::Texture::LoadImage(const std::string& path, int& width, int& height
 	stbi_set_flip_vertically_on_load(1);
 
 	_imageBuffer = stbi_load(path.c_str(), &_width, &_height, &_channels, 4);
-	width = _width;
-	height = _height;
-
+	
 	glGenTextures(1, &_texID);
 	glBindTexture(GL_TEXTURE_2D, _texID);
 

@@ -12,7 +12,7 @@
 #include "Game/Player.h"
 #include "SpriteAnimation.h"
 #include "SpriteAtlast.h"
-
+#include "Input.h"
 
 
 
@@ -27,6 +27,8 @@ std::string vertex = "#version 330 core\n"
 "_texUV = _texCoord;\n"
 "}\n";
 
+
+
 std::string fragment = "#version 330 core\n"
 "out vec4 col;\n"
 "in vec2 _texUV;\n"
@@ -35,8 +37,59 @@ std::string fragment = "#version 330 core\n"
 "col = texture2D(_tex0, _texUV) * vec4(1.0, 1.0, 1.0, 1.0);\n"
 "}\n";
 
-using namespace Engine;
 
+KeyboardInput* _input;
+
+void Set(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	if (action == GLFW_PRESS || action == GLFW_REPEAT) {
+		if (key == GLFW_KEY_A) {
+			_input->_A_Pressed = true;
+			_input->_D_Pressed = false;
+
+		}
+		else if (key == GLFW_KEY_D) {
+			_input->_D_Pressed = true;
+			_input->_A_Pressed =false;
+
+		}
+		else {
+			_input->_A_Pressed = false;
+			_input->_D_Pressed = false;
+		}
+
+		if (key == GLFW_KEY_W) {
+			_input->_W_Pressed = true;
+			_input->_S_Pressed = false;
+
+		}
+		else if (key == GLFW_KEY_S) {
+			_input->_S_Pressed = true;
+			_input->_W_Pressed = false;
+
+		}
+		else {
+			_input->_W_Pressed = false;
+			_input->_S_Pressed = false;
+		}
+	}
+	else {
+		_input->_A_Pressed = false;
+		_input->_D_Pressed = false;
+		_input->_W_Pressed = false;
+		_input->_S_Pressed = false;
+	}
+}
+
+void Init(GLFWwindow* window) {
+
+	_input = new KeyboardInput();
+	/*bool aPressed = false;
+	bool DPressed = false;
+	glfwSetKeyCallback(window, Set);
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);*/
+}
+
+using namespace Engine;
 int gcd(int a, int b)
 {
 	while (b != 0)
@@ -72,39 +125,41 @@ int main() {
 		return -1;
 	}
 
-
+	Init(window);
 	GameEntity* gameEntity = new GameEntity("Nave");
-	gameEntity->AddComponent(new Navecita::Player(gameEntity));
-	Texture* tex = new Texture();
-	int texWidth = 0;
-	int textHeight = 0;
+	//Texture* tex = new Texture();
+	
+	//tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Ships.png");
+	
+	//int texWidth = tex->getWidth();
+	//int textHeight = tex->getHeight();
 
-	tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Ships.png", texWidth, textHeight);
 
-
-	float factor = gcd(texWidth, textHeight);
+	//float factor = gcd(texWidth, textHeight);
 
 	Mesh* quad = Utils::GetQuadMesh(/*(float)texWidth / factor, (float)textHeight / factor*/);
 
 	float tileSize = 8.0f;
 
-	SpriteAnimation* anim = new SpriteAnimation(quad);
+	//SpriteAnimation* anim = new SpriteAnimation(quad);
 
-	SpriteAtlast atlas(tex, tileSize);
+	//SpriteAtlast atlas(tex, tileSize);
 	
-	anim->AddAnimUvLocation(atlas.getTileUV(0.0, 8.0));
-	anim->AddAnimUvLocation(atlas.getTileUV(1.0, 8.0));
-	anim->AddAnimUvLocation(atlas.getTileUV(2.0, 8.0));
+//	anim->AddAnimUvLocation(atlas.getTileUV(0.0, 8.0));
+	//anim->AddAnimUvLocation(atlas.getTileUV(1.0, 8.0));
+	//anim->AddAnimUvLocation(atlas.getTileUV(2.0, 8.0));
 	//anim->SetAnimUvLocation(atlas.getTileUVLoc(6.0, 5.0));
-
 
 
 	Material* mat = new Material(new Shader(vertex, fragment));
 
-	mat->SetTexture(tex);
+//	mat->SetTexture(tex);
 
 	QuadRenderer* renderer = new QuadRenderer(mat, quad);
 	gameEntity->_renderer = renderer;
+	auto player = new Navecita::Player(gameEntity);
+	player->SetInput_Test(_input);
+	gameEntity->AddComponent(player);
 
 	Camera* cam = new Camera();
 	cam->_viewTransform->SetPosition(0, 0, -10);
@@ -118,14 +173,17 @@ int main() {
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
-
+		_input->_A_Pressed = glfwGetKey(window, GLFW_KEY_A);
+		_input->_D_Pressed = glfwGetKey(window, GLFW_KEY_D);
+		_input->_S_Pressed = glfwGetKey(window, GLFW_KEY_S);
+		_input->_W_Pressed = glfwGetKey(window, GLFW_KEY_W);
+			
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 
 		glfwGetWindowSize(window, &width, &height);
-
 
 		float targetH = 16.0f;
 		float targetW = 16.0f;// 9.0f;
@@ -139,11 +197,11 @@ int main() {
 		else
 			h = targetH, w = width / scale_h;
 
-		//std::cout << "width: " << w << ", height: " << h << std::endl;
 		glViewport(0, 0, width, height);
+
 		cam->SetOrtho(-w / 2, w / 2, -h / 2, h / 2);
 
-		anim->Update();
+	//	anim->Update();
 
 		scene->Update();
 
