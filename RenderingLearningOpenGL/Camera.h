@@ -1,18 +1,20 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "Transform.h"
-#include "Entity.h"
+#include <glfw/glfw3.h>
 
 namespace Engine {
-	class Camera : public Entity
+	class Camera 
 	{
 	public:
-		Camera(float n, float f, float fov);
+		Camera();
+
+		void SetProj(float fov, float aspect, float n, float f);
 		glm::mat4 getProj();
 		glm::mat4 getView();
+		Transform* _viewTransform;
 
 	private:
-		Transform* _viewTransform;
 		glm::mat4 _proj;
 	};
 }

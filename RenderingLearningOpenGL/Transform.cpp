@@ -13,7 +13,7 @@ namespace Engine {
 
 	}
 
-	void Transform::SetPosition(glm::vec3 pos) 
+	void Transform::SetPosition(glm::vec3 pos)
 	{
 		_position = glm::translate(glm::mat4(1.0f), pos);
 
@@ -22,8 +22,35 @@ namespace Engine {
 		updateModelM();
 	}
 
-	void Transform::SetPosition(float x, float y, float z) {
+	void Transform::SetPosition(float x, float y, float z)
+	{
 		SetPosition(glm::vec3(x, y, z));
+	}
+
+	void Transform::SetRotation(float x, float y, float z)
+	{
+		SetRotation(glm::vec3(x, y, z));
+	}
+
+	void Transform::SetRotation(glm::vec3 angle)
+	{
+		glm::mat4 xRot = glm::rotate(glm::mat4(1.0f), angle.x, glm::vec3(1, 0, 0));
+		glm::mat4 yRot = glm::rotate(glm::mat4(1.0f), angle.y, glm::vec3(0, 1, 0));
+		glm::mat4 zRot = glm::rotate(glm::mat4(1.0f), angle.z, glm::vec3(0, 0, 1));
+
+		_rotation = zRot * yRot * xRot;
+
+		updateModelM();
+	}
+
+
+	void Transform::SetScale(glm::vec3 scale)
+	{
+		_scale = glm::scale(glm::mat4(1.0), scale);
+	}
+
+	void Transform::SetScale(float x, float y, float z)
+	{
 	}
 
 	glm::vec3 Transform::getPosition() const

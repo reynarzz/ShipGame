@@ -9,4 +9,9 @@ namespace Engine {
 	Entity::~Entity() {
 		delete _transform;
 	}
+
+	void Entity::Bind(Camera* cam)
+	{
+		_renderer->Bind(_transform->getModelM(), cam->getView(), cam->getProj());
+	}
 }

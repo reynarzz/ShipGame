@@ -1,6 +1,6 @@
 #include "Material.h"
 #include <glew.h>
-#include <iostream>
+
 Engine::Material::Material(Shader* shader) : _shader(shader), _textures(std::vector<Texture*>())
 {
 }
@@ -14,7 +14,6 @@ void Engine::Material::Bind() const
 		Texture* tex = _textures.at(i);
 		
 		std::string texName = "_tex" + std::to_string(i);
-		std::cout << texName;
 		
 		tex->Bind(i);
 
@@ -60,4 +59,6 @@ void Engine::Material::SetMat4(std::string name, glm::mat4 value) const
 Engine::Material::~Material()
 {
 	delete _shader;
+
+	_textures.clear();
 }

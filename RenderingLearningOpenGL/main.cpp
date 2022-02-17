@@ -6,14 +6,15 @@
 #include "Entity.h"
 #include "Mesh.h"
 #include "Utils.h"
-
+#include "Camera.h"
 
 std::string vertex = "#version 330 core\n"
 "layout (location=0) in vec3 vPos;\n"
 "layout (location=1) in vec2 _texCoord;\n"
+"uniform mat4 _MVP_;"
 "out vec2 _texUV;\n"
 "void main(){\n"
-"gl_Position = vec4(vPos.x, vPos.y, vPos.z, 1.0);\n"
+"gl_Position = _MVP_ * vec4(vPos.x, vPos.y, vPos.z, 1.0);\n"
 "_texUV = _texCoord;\n"
 "}\n";
 
@@ -48,7 +49,7 @@ int main() {
 		return -1;
 	}
 
-	Engine::Mesh* quad = Engine::Utils::GetQuadMesh(0.2f);
+	Engine::Mesh* quad = Engine::Utils::GetQuadMesh(1.0f);
 
 	Engine::Texture* tex = new Engine::Texture();
 	tex->LoadImage("C:/Users/Reynardo/Desktop/shipTest.png");
@@ -57,8 +58,16 @@ int main() {
 	mat->SetTexture(tex);
 
 	Engine::QuadRenderer* renderer = new Engine::QuadRenderer(mat, quad);
+	Engine::Camera* cam = new Engine::Camera();
+	cam->_viewTransform->SetPosition(0,0,-10);
+	Engine::Entity* entity = new Engine::Entity("Player");
+	entity->_renderer = renderer;
+
+	int width, height;
+
+	float angle = 0;
 	
-	renderer->Bind(glm::mat4(1.0f), glm::mat4(1.0f), glm::mat4(1.0f));
+	float targetAspectRatio =  9.0f / 16.0f;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -67,11 +76,20 @@ int main() {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
-		int width, height;
-		glfwGetWindowSize(window, &width, &height);
 
+		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
+		
+		glfwGetWindowSize(window, &width, &height);
 		glViewport(0, 0, width, height);
+
+		cam->SetProj(45.0f, (float)width / height, 1.0f, 100.0f);
+		
+		angle += 0.01f;
+
+		entity->getTransform()->SetPosition(0, sin(angle), 0);
+		entity->getTransform()->SetRotation(0, angle * 0.5f, 0);
+		entity->Bind(cam);
+
 
 		glDrawElements(GL_TRIANGLES, quad->getIndices()->size(), GL_UNSIGNED_INT, NULL);
 		

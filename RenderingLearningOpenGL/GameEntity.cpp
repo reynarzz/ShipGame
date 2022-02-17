@@ -1,7 +1,7 @@
 #include "GameEntity.h"
 
-void Engine::GameEntity::Bind(Camera*)
-{
-}
+//void Engine::GameEntity::Bind(Camera*)
+//{
+//}
 
 
