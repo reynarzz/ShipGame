@@ -24,7 +24,6 @@ namespace Engine {
 
 			//Unbind
 			ge->UnBind();
-
 		}
 	}
 

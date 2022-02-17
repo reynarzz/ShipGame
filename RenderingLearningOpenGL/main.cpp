@@ -102,6 +102,7 @@ int main() {
 
 	_input = new KeyboardInput();
 
+	//Entity 1
 	GameEntity* gameEntity = new GameEntity("Nave");
 
 	Mesh* quad = Utils::GetQuadMesh(/*(float)texWidth / factor, (float)textHeight / factor*/);
@@ -115,19 +116,22 @@ int main() {
 	gameEntity->AddComponent(player);
 
 
+
+	//Entity 2
 	GameEntity* gameEntity2 = new GameEntity("Crater");
 	Mesh* quad2 = Utils::GetQuadMesh(/*(float)texWidth / factor, (float)textHeight / factor*/);
-
-
+	gameEntity2->getTransform()->SetPosition(0, 10, 0);
 	Material* mat2 = new Material(new Shader(vertex, fragment));
 
 	Texture* tex2 = new Texture();
+	tex2->LoadImage("B:/Projects/UnityEditorGame/assets/spaceShooter/SpaceShooterAssetPack_IU.png");
 
-	//mat2->SetTexture();
+	mat2->SetTexture(tex2);
 	QuadRenderer* renderer2 = new QuadRenderer(mat2, quad2);
 	gameEntity2->_renderer = renderer2;
 
 
+	//Setup
 	Camera* cam = new Camera();
 	cam->_viewTransform->SetPosition(0, -10, -10);
 
@@ -140,7 +144,7 @@ int main() {
 
 	while (!glfwWindowShouldClose(window))
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		_input->_A_Pressed = glfwGetKey(window, GLFW_KEY_A);
 		_input->_D_Pressed = glfwGetKey(window, GLFW_KEY_D);
 		_input->_S_Pressed = glfwGetKey(window, GLFW_KEY_S);
