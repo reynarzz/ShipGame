@@ -20,7 +20,7 @@ namespace Engine {
 		void SetFPS(const float& speed);
 		int getFramesCount() const;
 		void GoToFrame(int frame);
-		void SetAnimUvLocation(vector<vec2> loc);
+		void AddAnimUvLocation(vector<vec2> loc);
 	private:
 		vector<vector<vec2>>* _uvAnim;
 		int _currentFrame;

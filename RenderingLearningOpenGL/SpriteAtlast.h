@@ -16,8 +16,8 @@ namespace Engine {
 	public:
 		SpriteAtlast(Texture* tex, const int& tileSize);
 		
-		vector<vec2> getSpriteUVLoc(int index);
-		vector<vec2> getSpriteUVLoc(int x, int y);
+		vector<vec2> getTileUV(int index);
+		vector<vec2> getTileUV(int x, int y);
 
 	private:
 		map<pair<int, int>, vector<vec2>> _locations;

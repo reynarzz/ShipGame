@@ -5,6 +5,11 @@
       "ProjectGuid": "3404d691-0fc5-4ef0-8db1-2945283cd5ec",
       "DisplayName": "RenderingLearningOpenGL",
       "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
     }
   },
   "NextColorIndex": 1

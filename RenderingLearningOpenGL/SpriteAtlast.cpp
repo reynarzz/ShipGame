@@ -6,7 +6,7 @@ namespace Engine {
 		_locations = getAtlasUVLocations(tex, spriteSize);
 	}
 
-    vector<vec2> SpriteAtlast::getSpriteUVLoc(int index)
+    vector<vec2> SpriteAtlast::getTileUV(int index)
     {
 		/*map<pair<int, int>, vector<vec2>>::iterator it = _locations.begin();
 		vector<vec2> element = (++it);
@@ -16,7 +16,7 @@ namespace Engine {
 		return vector<vec2>();
     }
 
-    vector<vec2> Engine::SpriteAtlast::getSpriteUVLoc(int x, int y)
+    vector<vec2> Engine::SpriteAtlast::getTileUV(int x, int y)
     {
 		return _locations[pair<int, int>(x, y)];
     }

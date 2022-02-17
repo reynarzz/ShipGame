@@ -59,7 +59,7 @@ namespace Engine {
 		_currentFrame = frame;
 	}
 
-	void SpriteAnimation::SetAnimUvLocation(vector<vec2> loc)
+	void SpriteAnimation::AddAnimUvLocation(vector<vec2> loc)
 	{
 		_uvAnim->push_back(loc);
 	}

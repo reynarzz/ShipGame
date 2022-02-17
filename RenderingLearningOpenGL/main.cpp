@@ -92,10 +92,10 @@ int main() {
 
 	SpriteAtlast atlas(tex, tileSize);
 	
-	anim->SetAnimUvLocation(atlas.getSpriteUVLoc(0.0, 5.0));
-	anim->SetAnimUvLocation(atlas.getSpriteUVLoc(1.0, 5.0));
-	anim->SetAnimUvLocation(atlas.getSpriteUVLoc(2.0, 5.0));
-	//anim->SetAnimUvLocation(atlas.getSpriteUVLoc(6.0, 5.0));
+	anim->AddAnimUvLocation(atlas.getTileUV(0.0, 8.0));
+	anim->AddAnimUvLocation(atlas.getTileUV(1.0, 8.0));
+	anim->AddAnimUvLocation(atlas.getTileUV(2.0, 8.0));
+	//anim->SetAnimUvLocation(atlas.getTileUVLoc(6.0, 5.0));
 
 
 
