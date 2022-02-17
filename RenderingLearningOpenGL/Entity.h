@@ -9,21 +9,16 @@ namespace Engine {
 	class Entity
 	{
 	public:
-		QuadRenderer* _renderer;
 
 		std::string _name;
 
 		Entity(std::string);
 		~Entity();
-		void Bind(Camera* cam);
 
-		Transform* getTransform() const {
-			return _transform;
-		}
-
+		int getGUID();
 
 	private:
-		Transform* _transform;
+		long _GUID;
 	};
 }
 

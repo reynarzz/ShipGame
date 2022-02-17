@@ -56,6 +56,12 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
@@ -91,5 +97,12 @@
     <ClInclude Include="Texture.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityBehaviour.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h" />
   </ItemGroup>
 </Project>

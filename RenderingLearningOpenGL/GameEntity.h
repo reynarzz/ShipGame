@@ -2,15 +2,25 @@
 #include <vector>
 #include "QuadRenderer.h"
 #include "Camera.h"
+#include "Entity.h"
 
 namespace Engine {
-	//class GameEntity
-	//{
-	//public:
-	//	void Bind(Camera*);
-	//	QuadRenderer* _renderer;
-	//	
-	//private:
-	//	//--vector<Component*> _components;
-	//};
+	class GameEntity : Entity
+	{
+	public:
+		GameEntity(std::string name = "EntityObj");
+		~GameEntity();
+
+		void Bind(Camera*);
+		QuadRenderer* _renderer;
+		Transform* getTransform() const;
+
+		void AddComponent(Component* component);
+		void RemoveComponent(Component* component);
+		void Update();
+
+	private:
+		Transform* _transform;
+		vector<Component*> _components;
+	};
 }

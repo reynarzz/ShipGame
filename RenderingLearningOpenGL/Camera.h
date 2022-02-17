@@ -18,4 +18,3 @@ namespace Engine {
 		glm::mat4 _proj;
 	};
 }
-

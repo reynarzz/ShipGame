@@ -43,7 +43,6 @@ namespace Engine {
 		updateModelM();
 	}
 
-
 	void Transform::SetScale(glm::vec3 scale)
 	{
 		_scale = glm::scale(glm::mat4(1.0), scale);

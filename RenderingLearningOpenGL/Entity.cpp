@@ -1,17 +1,23 @@
 #include "Entity.h"
+//#include <edpwin32.h>
+//#include <rpc.h>
 
 namespace Engine {
+	
 	Entity::Entity(std::string name) {
 		_name = name;
-		_transform = new Transform();
+
+		//GUID gidReference;
+		//_GUID = UuidCreate(&gidReference);
+	}
+
+	
+
+	int Entity::getGUID()
+	{
+		return _GUID;
 	}
 
 	Entity::~Entity() {
-		delete _transform;
-	}
-
-	void Entity::Bind(Camera* cam)
-	{
-		_renderer->Bind(_transform->getModelM(), cam->getView(), cam->getProj());
 	}
 }

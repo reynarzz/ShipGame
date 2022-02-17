@@ -3,10 +3,12 @@
 #include <glfw/glfw3.h>
 #include <string>
 #include <glm/glm.hpp>
+#include "Scene.h"
 #include "Entity.h"
 #include "Mesh.h"
 #include "Utils.h"
 #include "Camera.h"
+#include "GameEntity.h"
 
 std::string vertex = "#version 330 core\n"
 "layout (location=0) in vec3 vPos;\n"
@@ -26,6 +28,7 @@ std::string fragment = "#version 330 core\n"
 "col = texture2D(_tex0, _texUV) * vec4(1.0, 1.0, 1.0, 1.0);\n"
 "}\n";
 
+using namespace Engine;
 
 int main() {
 
@@ -49,19 +52,27 @@ int main() {
 		return -1;
 	}
 
-	Engine::Mesh* quad = Engine::Utils::GetQuadMesh(1.0f);
+	
+	GameEntity* gameEntity = new GameEntity();
 
-	Engine::Texture* tex = new Engine::Texture();
+	Mesh* quad = Utils::GetQuadMesh(1.0f);
+
+	Texture* tex = new Texture();
 	tex->LoadImage("C:/Users/Reynardo/Desktop/shipTest.png");
 
-	Engine::Material* mat = new Engine::Material(new Engine::Shader(vertex, fragment));
+	Material* mat = new Material(new Shader(vertex, fragment));
+
 	mat->SetTexture(tex);
 
-	Engine::QuadRenderer* renderer = new Engine::QuadRenderer(mat, quad);
-	Engine::Camera* cam = new Engine::Camera();
-	cam->_viewTransform->SetPosition(0,0,-10);
-	Engine::Entity* entity = new Engine::Entity("Player");
-	entity->_renderer = renderer;
+	QuadRenderer* renderer = new QuadRenderer(mat, quad);
+	gameEntity->_renderer = renderer;
+
+	Camera* cam = new Camera();
+	cam->_viewTransform->SetPosition(0, 0, -10);
+
+	Scene* scene = new Scene(nullptr);
+	scene->SetCamera(cam);
+	scene->AddEntity(gameEntity);
 
 	int width, height;
 
@@ -82,13 +93,14 @@ int main() {
 		glfwGetWindowSize(window, &width, &height);
 		glViewport(0, 0, width, height);
 
+		scene->Update();
+
 		cam->SetProj(45.0f, (float)width / height, 1.0f, 100.0f);
 		
 		angle += 0.01f;
 
-		entity->getTransform()->SetPosition(0, sin(angle), 0);
-		entity->getTransform()->SetRotation(0, angle * 0.5f, 0);
-		entity->Bind(cam);
+		gameEntity->getTransform()->SetPosition(0, sin(angle), 0);
+		gameEntity->getTransform()->SetRotation(0, angle * 0.5f, 0);
 
 
 		glDrawElements(GL_TRIANGLES, quad->getIndices()->size(), GL_UNSIGNED_INT, NULL);
