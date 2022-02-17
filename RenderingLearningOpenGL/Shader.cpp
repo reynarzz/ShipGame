@@ -60,6 +60,4 @@ namespace Engine {
 	{
 		glUseProgram(0);
 	}
-
-
 }

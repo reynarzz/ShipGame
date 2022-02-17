@@ -15,9 +15,16 @@ namespace Engine {
 	{
 		for (GameEntity* ge : _entities)
 		{
+			ge->Bind(_camera);
+
 			ge->Update();
 
-			ge->Bind(_camera);
+			//remove this from here
+			glDrawElements(GL_TRIANGLES, ge->_renderer->_mesh->getIndices().size(), GL_UNSIGNED_INT, NULL);
+
+			//Unbind
+			ge->UnBind();
+
 		}
 	}
 

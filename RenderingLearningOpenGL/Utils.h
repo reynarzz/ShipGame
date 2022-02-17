@@ -18,14 +18,14 @@ namespace Engine {
 			verts.push_back(vec3(1.0 * x, 1.0 * y, 0.0));
 			verts.push_back(vec3(-1.0 * x, 1.0 * y, 0.0));
 
-			vector<unsigned int>* indices = new vector<unsigned int>();
-			indices->push_back(0);
-			indices->push_back(1);
-			indices->push_back(2);
+			vector<unsigned int> indices;
+			indices.push_back(0);
+			indices.push_back(1);
+			indices.push_back(2);
 
-			indices->push_back(2);
-			indices->push_back(3);
-			indices->push_back(0);
+			indices.push_back(2);
+			indices.push_back(3);
+			indices.push_back(0);
 
 			vector<vec2> uv;
 			uv.push_back(vec2(0.0f, 0.0f));

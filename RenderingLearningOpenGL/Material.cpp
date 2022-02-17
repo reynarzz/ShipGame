@@ -3,6 +3,7 @@
 
 Engine::Material::Material(Shader* shader) : _shader(shader), _textures(std::vector<Texture*>())
 {
+
 }
 
 void Engine::Material::Bind() const
@@ -23,6 +24,13 @@ void Engine::Material::Bind() const
 
 void Engine::Material::UnBind()
 {
+	_shader->Unbind();
+
+	for (unsigned int i = 0; i < _textures.size(); i++)
+	{
+		Texture* tex = _textures.at(i);
+		tex->UnBind();
+	}
 }
 
 void Engine::Material::SetVec4(std::string name, glm::vec4 value) const

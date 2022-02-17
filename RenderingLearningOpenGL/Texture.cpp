@@ -46,6 +46,8 @@ void Engine::Texture::Bind(unsigned int slot) const
 
 void Engine::Texture::UnBind() const
 {
+	glActiveTexture(GL_TEXTURE0);
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 

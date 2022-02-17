@@ -12,6 +12,7 @@ namespace Engine {
 		~GameEntity();
 
 		void Bind(Camera*);
+		void UnBind();
 		QuadRenderer* _renderer;
 		Transform* getTransform() const;
 

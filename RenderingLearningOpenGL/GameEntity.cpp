@@ -38,6 +38,11 @@ namespace Engine {
 		_renderer->Bind(_transform->getModelM(), cam->getView(), cam->getProj());
 	}
 
+	void GameEntity::UnBind()
+	{
+		_renderer->UnBind();
+	}
+
 	Transform* GameEntity::getTransform() const
 	{
 		return _transform;

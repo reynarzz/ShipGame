@@ -17,7 +17,8 @@ void Engine::QuadRenderer::Bind(glm::mat4 modelM, glm::mat4 viewM, glm::mat4 pro
 
 void Engine::QuadRenderer::UnBind() const
 {
-
+	_mesh->UnBind();
+	_material->UnBind();
 }
 
 void Engine::QuadRenderer::Update()
