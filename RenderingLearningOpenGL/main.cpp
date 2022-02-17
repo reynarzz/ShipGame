@@ -9,6 +9,8 @@
 #include "Utils.h"
 #include "Camera.h"
 #include "GameEntity.h"
+#include "Game/Player.h"
+
 
 std::string vertex = "#version 330 core\n"
 "layout (location=0) in vec3 vPos;\n"
@@ -43,7 +45,7 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	
-	GLFWwindow* window = glfwCreateWindow(500, 500, "Reynardo's renderer", NULL, nullptr);
+	GLFWwindow* window = glfwCreateWindow(500, 500, "Navecita", NULL, nullptr);
 
 	glfwMakeContextCurrent(window);
 
@@ -54,6 +56,7 @@ int main() {
 
 	
 	GameEntity* gameEntity = new GameEntity();
+	gameEntity->AddComponent(new Navecita::Player(gameEntity));
 
 	Mesh* quad = Utils::GetQuadMesh(1.0f);
 
@@ -76,8 +79,6 @@ int main() {
 
 	int width, height;
 
-	float angle = 0;
-	
 	float targetAspectRatio =  9.0f / 16.0f;
 
 	while (!glfwWindowShouldClose(window))
@@ -86,7 +87,6 @@ int main() {
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 
 		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 		
@@ -97,12 +97,6 @@ int main() {
 
 		cam->SetProj(45.0f, (float)width / height, 1.0f, 100.0f);
 		
-		angle += 0.01f;
-
-		gameEntity->getTransform()->SetPosition(0, sin(angle), 0);
-		gameEntity->getTransform()->SetRotation(0, angle * 0.5f, 0);
-
-
 		glDrawElements(GL_TRIANGLES, quad->getIndices()->size(), GL_UNSIGNED_INT, NULL);
 		
 		glfwSwapBuffers(window);

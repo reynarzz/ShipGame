@@ -17,6 +17,8 @@ namespace Engine {
 
 		void AddComponent(Component* component);
 		void RemoveComponent(Component* component);
+		vector<Component*> getComponents();
+
 		void Update();
 
 	private:

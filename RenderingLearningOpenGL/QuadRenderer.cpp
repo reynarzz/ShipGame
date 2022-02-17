@@ -15,13 +15,13 @@ void Engine::QuadRenderer::Bind(glm::mat4 modelM, glm::mat4 viewM, glm::mat4 pro
 	_material->SetMat4("_MVP_", projM * viewM * modelM);
 }
 
-
-void Engine::QuadRenderer::Update() { }
-
-
 void Engine::QuadRenderer::UnBind() const
 {
 
+}
+
+void Engine::QuadRenderer::Update()
+{
 }
 
 Engine::QuadRenderer::~QuadRenderer()

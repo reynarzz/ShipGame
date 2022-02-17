@@ -1,8 +1,5 @@
 #pragma once
 
-#include "Transform.h"
-#include "QuadRenderer.h"
-#include "Camera.h"
 #include <string>
 
 namespace Engine {
@@ -15,7 +12,7 @@ namespace Engine {
 		Entity(std::string);
 		~Entity();
 
-		int getGUID();
+		long getGUID();
 
 	private:
 		long _GUID;

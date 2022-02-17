@@ -1,10 +1,12 @@
-#include "Material.h"
-#include "Mesh.h"
+#pragma once
 #include "Component.h"
 
+#include "Material.h"
+#include "Mesh.h"
+
 namespace Engine {
-#pragma once
-	class QuadRenderer : Component
+
+	class QuadRenderer : public Component
 	{
 	public:
 		QuadRenderer(Material* mat, Mesh* mesh);

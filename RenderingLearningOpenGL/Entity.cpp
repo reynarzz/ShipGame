@@ -13,7 +13,7 @@ namespace Engine {
 
 	
 
-	int Entity::getGUID()
+	long Entity::getGUID()
 	{
 		return _GUID;
 	}

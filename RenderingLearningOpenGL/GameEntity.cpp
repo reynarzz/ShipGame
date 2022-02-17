@@ -1,27 +1,35 @@
 #include "Entity.h"
 #include "GameEntity.h"
+#include <iostream>
 
 namespace Engine {
-	//void Engine::GameEntity::Bind(Camera*)
-	//{
-	//}
-
-	GameEntity::GameEntity(std::string name) : Entity(name)
+	
+	GameEntity::GameEntity(std::string name) : Entity(name), _renderer(nullptr)
 	{
 		_transform = new Transform();
 	}
 
 	void GameEntity::Update()
 	{
-
+		for (Component* component : _components)
+		{
+			std::cout << "updating components\n";
+			component->Update();
+		}
 	}
 
-	void Engine::GameEntity::AddComponent(Component* component)
+	void GameEntity::AddComponent(Component* component)
 	{
+		_components.push_back(component);
 	}
 
 	void Engine::GameEntity::RemoveComponent(Component* component)
 	{
+	}
+
+	vector<Component*> GameEntity::getComponents()
+	{
+		return _components;
 	}
 
 	void GameEntity::Bind(Camera* cam)
