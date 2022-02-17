@@ -11,6 +11,11 @@
 #include "GameEntity.h"
 #include "Game/Player.h"
 #include "SpriteAnimation.h"
+#include "SpriteAtlast.h"
+
+
+
+
 
 std::string vertex = "#version 330 core\n"
 "layout (location=0) in vec3 vPos;\n"
@@ -81,41 +86,17 @@ int main() {
 
 	Mesh* quad = Utils::GetQuadMesh(/*(float)texWidth / factor, (float)textHeight / factor*/);
 
-	float texAspectWidth = texWidth; (float)texWidth / factor;
-	float texAspectHeigh = textHeight; (float)textHeight / factor;
-
 	float tileSize = 8.0f;
-
-	
-	vector<vec2> locations;
-	locations.push_back(vec2(0.0f, 5.0f));
-	locations.push_back(vec2(1.0f, 5.0f));
-	locations.push_back(vec2(2.0f, 5.0f));
-	//locations.push_back(vec2(1.0f, 6.0f));
 
 	SpriteAnimation* anim = new SpriteAnimation(quad);
 
-	auto mapLoc = Utils::getAtlasUVLocations(tex, 8);
-
-	anim->SetAnimUvLocation(mapLoc[std::pair<int, int>(0.0, 5.0)]);
-	anim->SetAnimUvLocation(mapLoc[std::pair<int, int>(1.0, 5.0)]);
-	anim->SetAnimUvLocation(mapLoc[std::pair<int, int>(2.0, 5.0)]);
-
-	/*for (vec2 location : locations)
-	{
-		float x = location.x;
-		float y = location.y;
-
-		vector<glm::vec2> atlasTexCoord;
-		atlasTexCoord.push_back(glm::vec2((x * tileSize) / texAspectWidth, (y * tileSize) / texAspectHeigh));
-		atlasTexCoord.push_back(glm::vec2(((x + 1.0f) * tileSize) / texAspectWidth, (y * tileSize) / texAspectHeigh));
-		atlasTexCoord.push_back(glm::vec2(((x + 1.0f) * tileSize) / texAspectWidth, ((y + 1.0f) * tileSize) / texAspectHeigh));
-		atlasTexCoord.push_back(glm::vec2((x * tileSize) / texAspectWidth, ((y + 1.0f) * tileSize) / texAspectHeigh));
-
-		anim->SetAnimUvLocation(atlasTexCoord);
-	}*/
+	SpriteAtlast atlas(tex, tileSize);
 	
-	
+	anim->SetAnimUvLocation(atlas.getSpriteUVLoc(0.0, 5.0));
+	anim->SetAnimUvLocation(atlas.getSpriteUVLoc(1.0, 5.0));
+	anim->SetAnimUvLocation(atlas.getSpriteUVLoc(2.0, 5.0));
+	//anim->SetAnimUvLocation(atlas.getSpriteUVLoc(6.0, 5.0));
+
 
 
 	Material* mat = new Material(new Shader(vertex, fragment));

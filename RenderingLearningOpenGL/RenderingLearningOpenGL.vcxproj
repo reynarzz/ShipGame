@@ -159,6 +159,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SpriteAnimation.cpp" />
+    <ClCompile Include="SpriteAtlast.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="stb_image.h" />
     <ClCompile Include="Texture.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SpriteAnimation.h" />
+    <ClInclude Include="SpriteAtlast.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Utils.h" />

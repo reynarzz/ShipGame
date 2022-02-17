@@ -12,6 +12,7 @@ namespace Engine {
 	public:
 		SpriteAnimation(Mesh* mesh);
 		~SpriteAnimation();
+
 		void Play();
 		void Pause();
 		void Stop();
