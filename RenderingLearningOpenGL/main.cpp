@@ -40,55 +40,6 @@ std::string fragment = "#version 330 core\n"
 
 KeyboardInput* _input;
 
-void Set(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	if (action == GLFW_PRESS || action == GLFW_REPEAT) {
-		if (key == GLFW_KEY_A) {
-			_input->_A_Pressed = true;
-			_input->_D_Pressed = false;
-
-		}
-		else if (key == GLFW_KEY_D) {
-			_input->_D_Pressed = true;
-			_input->_A_Pressed =false;
-
-		}
-		else {
-			_input->_A_Pressed = false;
-			_input->_D_Pressed = false;
-		}
-
-		if (key == GLFW_KEY_W) {
-			_input->_W_Pressed = true;
-			_input->_S_Pressed = false;
-
-		}
-		else if (key == GLFW_KEY_S) {
-			_input->_S_Pressed = true;
-			_input->_W_Pressed = false;
-
-		}
-		else {
-			_input->_W_Pressed = false;
-			_input->_S_Pressed = false;
-		}
-	}
-	else {
-		_input->_A_Pressed = false;
-		_input->_D_Pressed = false;
-		_input->_W_Pressed = false;
-		_input->_S_Pressed = false;
-	}
-}
-
-void Init(GLFWwindow* window) {
-
-	_input = new KeyboardInput();
-	/*bool aPressed = false;
-	bool DPressed = false;
-	glfwSetKeyCallback(window, Set);
-	glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);*/
-}
-
 using namespace Engine;
 int gcd(int a, int b)
 {
@@ -125,31 +76,13 @@ int main() {
 		return -1;
 	}
 
-	Init(window);
+	_input = new KeyboardInput();
+
 	GameEntity* gameEntity = new GameEntity("Nave");
-	//Texture* tex = new Texture();
-	
-	//tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Ships.png");
-	
-	//int texWidth = tex->getWidth();
-	//int textHeight = tex->getHeight();
-
-
-	//float factor = gcd(texWidth, textHeight);
 
 	Mesh* quad = Utils::GetQuadMesh(/*(float)texWidth / factor, (float)textHeight / factor*/);
 
 	float tileSize = 8.0f;
-
-	//SpriteAnimation* anim = new SpriteAnimation(quad);
-
-	//SpriteAtlast atlas(tex, tileSize);
-	
-//	anim->AddAnimUvLocation(atlas.getTileUV(0.0, 8.0));
-	//anim->AddAnimUvLocation(atlas.getTileUV(1.0, 8.0));
-	//anim->AddAnimUvLocation(atlas.getTileUV(2.0, 8.0));
-	//anim->SetAnimUvLocation(atlas.getTileUVLoc(6.0, 5.0));
-
 
 	Material* mat = new Material(new Shader(vertex, fragment));
 
@@ -185,8 +118,8 @@ int main() {
 
 		glfwGetWindowSize(window, &width, &height);
 
-		float targetH = 16.0f;
-		float targetW = 16.0f;// 9.0f;
+		float targetH = 16.0f*2;
+		float targetW = 9.0f/2;// 9.0f;
 
 		float scale_w = width / targetW;
 		float scale_h = height / targetH;
@@ -200,8 +133,6 @@ int main() {
 		glViewport(0, 0, width, height);
 
 		cam->SetOrtho(-w / 2, w / 2, -h / 2, h / 2);
-
-	//	anim->Update();
 
 		scene->Update();
 

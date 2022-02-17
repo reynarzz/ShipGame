@@ -10,9 +10,9 @@ namespace Navecita {
 		//tex->LoadImage("assets/spaceShooter/SpaceShooterAssetPack_Ships.png");
 		
 		auto atlas = SpriteAtlast(tex, 8);
-		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 8.0));
-		_anim->AddAnimUvLocation(atlas.getTileUV(1.0, 8.0));
-		_anim->AddAnimUvLocation(atlas.getTileUV(2.0, 8.0));
+		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 5.0));
+		_anim->AddAnimUvLocation(atlas.getTileUV(1.0, 5.0));
+		_anim->AddAnimUvLocation(atlas.getTileUV(2.0, 5.0));
 
 		_anim->GoToFrame(1);
 
@@ -48,10 +48,6 @@ namespace Navecita {
 		}
 
 		getGameEntity()->getTransform()->SetPosition(_pos.x, _pos.y, 0);
-
-		//getGameEntity()->getTransform()->SetPosition(0, sin(_angle), 0);
-		//getGameEntity()->getTransform()->SetRotation(0, 0, _angle * 0.5f);
-		//getGameEntity()->getTransform()->SetScale(4, 4, 4);
 	}
 
 	void Player::FixedUpdate()
