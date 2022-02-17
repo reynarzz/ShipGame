@@ -32,6 +32,19 @@ std::string fragment = "#version 330 core\n"
 
 using namespace Engine;
 
+int gcd(int a, int b)
+{
+	while (b != 0)
+	{
+		int tmp = a;
+		a = b;
+		b = tmp % b;
+		{
+			return a;
+		}
+	}
+}
+
 int main() {
 
 	if (!glfwInit()) {
@@ -40,12 +53,12 @@ int main() {
 
 		return -1;
 	}
-	
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	
-	GLFWwindow* window = glfwCreateWindow(500, 500, "Navecita", NULL, nullptr);
+
+	GLFWwindow* window = glfwCreateWindow(420, 680, "Navecita", NULL, nullptr);
 
 	glfwMakeContextCurrent(window);
 
@@ -54,14 +67,20 @@ int main() {
 		return -1;
 	}
 
-	
-	GameEntity* gameEntity = new GameEntity();
+
+	GameEntity* gameEntity = new GameEntity("Nave");
 	gameEntity->AddComponent(new Navecita::Player(gameEntity));
-
-	Mesh* quad = Utils::GetQuadMesh(1.0f);
-
 	Texture* tex = new Texture();
-	tex->LoadImage("C:/Users/Reynardo/Desktop/shipTest.png");
+	int texWidth = 0;
+	int textHeight = 0;
+
+	tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_IU.png", texWidth, textHeight);
+
+
+	float factor = gcd(texWidth, textHeight);
+
+	Mesh* quad = Utils::GetQuadMesh((float)texWidth / factor, (float)textHeight / factor);
+
 
 	Material* mat = new Material(new Shader(vertex, fragment));
 
@@ -79,8 +98,6 @@ int main() {
 
 	int width, height;
 
-	float targetAspectRatio =  9.0f / 16.0f;
-
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -89,16 +106,32 @@ int main() {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
-		
+
 		glfwGetWindowSize(window, &width, &height);
+
+
+		float targetH = 16.0f;
+		float targetW = 16.0f;// 9.0f;
+
+		float scale_w = width / targetW;
+		float scale_h = height / targetH;
+		float w, h;
+
+		if (scale_w < scale_h)
+			w = targetW, h = height / scale_w;
+		else
+			h = targetH, w = width / scale_h;
+
+		std::cout << "width: " << w << ", height: " << h << std::endl;
 		glViewport(0, 0, width, height);
+		cam->SetOrtho(-w / 2, w / 2, -h / 2, h / 2);
 
 		scene->Update();
 
-		cam->SetProj(45.0f, (float)width / height, 1.0f, 100.0f);
-		
+		//cam->SetProj(45.0f, (float)width / height, 1.0f, 100.0f);
+
 		glDrawElements(GL_TRIANGLES, quad->getIndices()->size(), GL_UNSIGNED_INT, NULL);
-		
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

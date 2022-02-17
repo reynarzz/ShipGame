@@ -6,6 +6,8 @@ namespace Engine {
 	
 	GameEntity::GameEntity(std::string name) : Entity(name), _renderer(nullptr)
 	{
+		std::cout << "Entity:"<< name << "\n";
+
 		_transform = new Transform();
 	}
 
@@ -13,7 +15,6 @@ namespace Engine {
 	{
 		for (Component* component : _components)
 		{
-			std::cout << "updating components\n";
 			component->Update();
 		}
 	}

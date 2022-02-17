@@ -10,6 +10,7 @@ namespace Engine {
 		Camera();
 
 		void SetProj(float fov, float aspect, float n, float f);
+		void SetOrtho(float left, float right, float bottom, float top);
 		glm::mat4 getProj();
 		glm::mat4 getView();
 		Transform* _viewTransform;

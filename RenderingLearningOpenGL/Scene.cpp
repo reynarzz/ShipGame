@@ -48,8 +48,6 @@ namespace Engine {
 				break;
 			}
 		}
-
-
 	}
 
 	void Scene::DestroyEntity(GameEntity* entity)

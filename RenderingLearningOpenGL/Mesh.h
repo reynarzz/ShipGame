@@ -11,7 +11,7 @@ namespace Engine {
 	class Mesh
 	{
 	public:
-		Mesh(vector<vec3>* verts, vector<unsigned int>* indices, vector<glm::vec2>* texcoord);
+		Mesh(vector<vec3>& verts, vector<unsigned int>* indices, vector<glm::vec2>& texcoord);
 		~Mesh();
 		
 		void Bind() const;
@@ -22,8 +22,6 @@ namespace Engine {
 	private:
 		unsigned int _meshID;
 		unsigned int _vertexArrayID;
-		vector<vec3>* _vertices;
-		vector<vec3>* _uv;
 		vector<unsigned int>* _indices;
 	};
 }

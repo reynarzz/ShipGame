@@ -46,10 +46,12 @@ namespace Engine {
 	void Transform::SetScale(glm::vec3 scale)
 	{
 		_scale = glm::scale(glm::mat4(1.0), scale);
+		updateModelM();
 	}
 
 	void Transform::SetScale(float x, float y, float z)
 	{
+		SetScale(glm::vec3(x, y, z));
 	}
 
 	glm::vec3 Transform::getPosition() const

@@ -6,7 +6,6 @@ namespace Engine {
 	class Entity
 	{
 	public:
-
 		std::string _name;
 
 		Entity(std::string);

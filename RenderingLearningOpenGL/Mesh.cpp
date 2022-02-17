@@ -1,15 +1,15 @@
 #include "Mesh.h"
 
 namespace Engine {
-	Mesh::Mesh(vector<vec3>* verts, vector<unsigned int>* indices, vector<glm::vec2>* texcoord) :
-		_vertices(verts), _indices(indices)
+	Mesh::Mesh(vector<vec3>& verts, vector<unsigned int>* indices, vector<glm::vec2>& texcoord) :
+		 _indices(indices)
 	{
 		vector<float> vertAttrib;
 
-		for (size_t i = 0; i < verts->size(); i++)
+		for (size_t i = 0; i < verts.size(); i++)
 		{
-			glm::vec3 pos = verts->at(i);
-			glm::vec2 uv = texcoord->at(i);
+			glm::vec3 pos = verts.at(i);
+			glm::vec2 uv = texcoord.at(i);
 
 			vertAttrib.push_back(pos.x);
 			vertAttrib.push_back(pos.y);
@@ -28,11 +28,13 @@ namespace Engine {
 
 
 		glBufferData(GL_ARRAY_BUFFER, vertAttrib.size() * sizeof(float) * 3, &vertAttrib.at(0), GL_STATIC_DRAW);
+
+		// Vertices
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 
 		// UV
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(1);
+
 
 		// Set Index buffer
 		unsigned int elementID;
@@ -44,21 +46,18 @@ namespace Engine {
 		glBindVertexArray(0);
 	}
 
-	const vector<vec3>* Mesh::getVertices() const {
-		return _vertices;
-	}
-
 	const vector<unsigned int>* Mesh::getIndices() const {
 		return _indices;
 	}
 
 	void Mesh::Bind() const {
 		glBindVertexArray(_vertexArrayID);
+
 		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
 	}
 
 	Mesh::~Mesh() {
-		delete[] _vertices;
 		delete[] _indices;
 	}
 
