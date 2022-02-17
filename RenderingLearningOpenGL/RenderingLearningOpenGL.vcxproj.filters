@@ -68,6 +68,9 @@
     <ClCompile Include="EntityBehaviour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteAnimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
@@ -111,5 +114,6 @@
     </ClInclude>
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Game\Player.h" />
+    <ClInclude Include="SpriteAnimation.h" />
   </ItemGroup>
 </Project>

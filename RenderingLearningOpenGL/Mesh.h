@@ -19,10 +19,13 @@ namespace Engine {
 		const vector<vec3>* getVertices() const;
 		const vector<unsigned int>* getIndices() const;
 
+		void updateTexcoord(vector<glm::vec2>& texcoord);
+
 	private:
 		unsigned int _meshID;
 		unsigned int _vertexArrayID;
 		vector<unsigned int>* _indices;
+		vector<float>* _vertexData;
 	};
 }
 

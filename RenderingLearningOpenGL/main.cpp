@@ -10,7 +10,7 @@
 #include "Camera.h"
 #include "GameEntity.h"
 #include "Game/Player.h"
-
+#include "SpriteAnimation.h"
 
 std::string vertex = "#version 330 core\n"
 "layout (location=0) in vec3 vPos;\n"
@@ -74,14 +74,41 @@ int main() {
 	int texWidth = 0;
 	int textHeight = 0;
 
-	tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_IU.png", texWidth, textHeight);
+	tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Miscellaneous.png", texWidth, textHeight);
 
 
 	float factor = gcd(texWidth, textHeight);
 
-	Mesh* quad = Utils::GetQuadMesh((float)texWidth / factor, (float)textHeight / factor);
+	Mesh* quad = Utils::GetQuadMesh(/*(float)texWidth / factor, (float)textHeight / factor*/);
 
+	float texAspectWidth = texWidth; (float)texWidth / factor;
+	float texAspectHeigh = textHeight; (float)textHeight / factor;
 
+	float tileSize = 8.0f;
+
+	
+	vector<vec2> locations;
+	locations.push_back(vec2(0.0f, 7.0f));
+	locations.push_back(vec2(1.0f, 7.0f));
+	locations.push_back(vec2(0.0f, 6.0f));
+	locations.push_back(vec2(1.0f, 6.0f));
+
+	SpriteAnimation* anim = new SpriteAnimation(quad);
+
+	for (vec2 location : locations)
+	{
+		float x = location.x;
+		float y = location.y;
+
+		vector<glm::vec2> atlasTexCoord;
+		atlasTexCoord.push_back(glm::vec2((x * tileSize) / texAspectWidth, (y * tileSize) / texAspectHeigh));
+		atlasTexCoord.push_back(glm::vec2(((x + 1.0f) * tileSize) / texAspectWidth, (y * tileSize) / texAspectHeigh));
+		atlasTexCoord.push_back(glm::vec2(((x + 1.0f) * tileSize) / texAspectWidth, ((y + 1.0f) * tileSize) / texAspectHeigh));
+		atlasTexCoord.push_back(glm::vec2((x * tileSize) / texAspectWidth, ((y + 1.0f) * tileSize) / texAspectHeigh));
+
+		anim->SetAnimUvLocation(atlasTexCoord);
+	}
+	
 	Material* mat = new Material(new Shader(vertex, fragment));
 
 	mat->SetTexture(tex);
@@ -122,13 +149,13 @@ int main() {
 		else
 			h = targetH, w = width / scale_h;
 
-		std::cout << "width: " << w << ", height: " << h << std::endl;
+		//std::cout << "width: " << w << ", height: " << h << std::endl;
 		glViewport(0, 0, width, height);
 		cam->SetOrtho(-w / 2, w / 2, -h / 2, h / 2);
 
-		scene->Update();
+		anim->Update();
 
-		//cam->SetProj(45.0f, (float)width / height, 1.0f, 100.0f);
+		scene->Update();
 
 		glDrawElements(GL_TRIANGLES, quad->getIndices()->size(), GL_UNSIGNED_INT, NULL);
 
