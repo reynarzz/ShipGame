@@ -4,6 +4,7 @@ namespace Navecita {
 
 	Player::Player(GameEntity* entity) : EntityBehaviour(entity) {
 		Texture* tex = new Texture();
+		_aabb = new AABB();
 
 		entity->_renderer->_material->SetTexture(tex);
 		tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Ships.png");
@@ -52,6 +53,8 @@ namespace Navecita {
 		}
 
 		getGameEntity()->getTransform()->SetPosition(_pos.x, _pos.y, 0);
+
+		_aabb->UpdateBoundingBox(_pos.x, _pos.y, 1, 1);
 	}
 
 	void Player::FixedUpdate()

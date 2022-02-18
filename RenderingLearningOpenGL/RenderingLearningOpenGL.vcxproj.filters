@@ -80,6 +80,9 @@
     <ClCompile Include="Game\Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AABB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
@@ -129,5 +132,6 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Game\Enemy.h" />
+    <ClInclude Include="AABB.h" />
   </ItemGroup>
 </Project>

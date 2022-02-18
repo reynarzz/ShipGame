@@ -1,14 +1,22 @@
 #include "Material.h"
 #include <glew.h>
 
-Engine::Material::Material(Shader* shader) : _shader(shader), _textures(std::vector<Texture*>())
+Engine::Material::Material(Shader* shader) : _shader(shader), 
+_textures(std::vector<Texture*>()), _color(glm::vec4(1,1,1,1))
 {
-
 }
 
-void Engine::Material::Bind() const
+void Engine::Material::SetColor(glm::vec4 col)
+{
+	_color = col;
+	SetVec4("_COLOR_", col);
+}
+
+void Engine::Material::Bind() 
 {
 	_shader->Bind();
+
+	SetColor(_color);
 
 	for (unsigned int i = 0; i < _textures.size(); i++)
 	{

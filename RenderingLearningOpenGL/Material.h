@@ -12,7 +12,8 @@ namespace Engine {
 		Material(Shader* shader);
 		~Material();
 
-		void Bind() const;
+		void SetColor(glm::vec4 col);
+		void Bind();
 		void UnBind();
 		void SetVec3(std::string name, glm::vec3 value) const;
 		void SetInt(std::string name, int value) const;
@@ -23,5 +24,6 @@ namespace Engine {
 	private:
 		Shader* _shader;
 		std::vector<Texture*> _textures;
+		glm::vec4 _color;
 	};
 }
