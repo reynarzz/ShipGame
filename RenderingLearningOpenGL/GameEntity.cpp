@@ -3,11 +3,11 @@
 #include <iostream>
 
 namespace Engine {
-	
+
 	GameEntity::GameEntity(std::string name) : Entity(name), _renderer(nullptr)
 	{
 		_aabb = new AABB(0, 0, 1, 1);
-		std::cout << "Entity:"<< name << "\n";
+		std::cout << "Entity:" << name << "\n";
 
 		_transform = new Transform();
 	}

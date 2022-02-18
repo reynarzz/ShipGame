@@ -17,18 +17,20 @@ namespace Engine {
 
 		for (int i = 0; i < count; i++)
 		{
-			GameEntity* ge = _entities.at(i);
+			GameEntity* current = _entities.at(i);
 
-			ge->Update();
+			current->Update();
 
+
+			// Brute force collision verification.
 			for (size_t j = 0; j < count; j++)
 			{
 				auto target = _entities.at(j);
 
-				if (!ge->_pendingToDestroy && !target->_pendingToDestroy && ge != target) {
-					if (ge->GetAABB()->Collide(target->GetAABB())) {
-						((EntityBehaviour*)ge->getComponents().at(0))->OnCollision(target);
-						((EntityBehaviour*)target->getComponents().at(0))->OnCollision(ge);
+				if (!current->_pendingToDestroy && !target->_pendingToDestroy && current != target) {
+					if (current->GetAABB()->Collide(target->GetAABB())) {
+						((EntityBehaviour*)current->getComponents().at(0))->OnCollision(target);
+						((EntityBehaviour*)target->getComponents().at(0))->OnCollision(current);
 					
 					}
 				}
@@ -37,13 +39,13 @@ namespace Engine {
 				}
 			}
 
-			ge->Bind(_camera);
+			current->Bind(_camera);
 
 			//remove this from here
-			glDrawElements(GL_TRIANGLES, ge->_renderer->_mesh->getIndices().size(), GL_UNSIGNED_INT, NULL);
+			glDrawElements(GL_TRIANGLES, current->_renderer->_mesh->getIndices().size(), GL_UNSIGNED_INT, NULL);
 
 			//Unbind
-			ge->UnBind();
+			current->UnBind();
 		}
 
 		for (auto i = _prendingEntities.begin(); i != _prendingEntities.end(); i++)

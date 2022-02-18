@@ -55,8 +55,8 @@ namespace Navecita {
 		if (entity->getName() == "Enemy") {
 			DestroyEntity(entity);
 			DestroyEntity(getGameEntity());
-			int x = (rand() % 10) - 5;
-			int y = (rand() % 10)  - 5;
+			int x = (rand() % 5) ;
+			int y = 25;
 			CreateGameEntity<Enemy>("Enemy")->GetTransform()->SetPosition({ x, y, 0 });
 		}
 	}

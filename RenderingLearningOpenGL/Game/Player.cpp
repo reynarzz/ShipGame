@@ -89,6 +89,6 @@ namespace Navecita {
 	{
 		auto bullet = CreateGameEntity<Projectile>("PlayerBullet");
 
-		bullet->Shoot(_pos, { 0, 1 }, 0.4f);
+		bullet->Shoot(_pos, { 0, 1 }, 0.5f);
 	}
 }
