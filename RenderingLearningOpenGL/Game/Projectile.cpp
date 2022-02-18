@@ -1,9 +1,10 @@
 #include "Projectile.h"
+#include "../GameHelper.h"
+#include "Enemy.h"
 
 namespace Navecita {
 
 	Projectile::Projectile(GameEntity* entity) : EntityBehaviour(entity) {
-		_aabb = new AABB();
 
 	}
 
@@ -19,8 +20,6 @@ namespace Navecita {
 
 		posOut += _moveDir * _speed;
 		getGameEntity()->getTransform()->SetPosition(posOut.x, posOut.y, 0.0f);
-
-		_aabb->UpdateBoundingBox(posOut.x, posOut.y, 1, 1);
 	}
 
 	void Projectile::OnRenderStart()
@@ -49,5 +48,16 @@ namespace Navecita {
 
 		getGameEntity()->getTransform()->SetPosition(startPos.x, startPos.y, 0);
 
+	}
+
+	void Projectile::OnCollision(GameEntity* entity)
+	{
+		if (entity->getName() == "Enemy") {
+			DestroyEntity(entity);
+			DestroyEntity(getGameEntity());
+			int x = (rand() % 10) - 5;
+			int y = (rand() % 10)  - 5;
+			CreateGameEntity<Enemy>("Enemy")->GetTransform()->SetPosition({ x, y, 0 });
+		}
 	}
 }

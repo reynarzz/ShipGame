@@ -11,7 +11,6 @@
 
 using std::map;
 
-
 namespace Engine {
 	class Scene
 	{
@@ -24,7 +23,6 @@ namespace Engine {
 		
 		void Start();
 		void Update();
-		void FixedUpdate();
 		void SetCamera(Camera* camera);
 	private:
 		void RemoveEntity(GameEntity* entity);

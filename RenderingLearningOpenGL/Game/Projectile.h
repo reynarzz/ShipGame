@@ -3,7 +3,6 @@
 #include "../EntityBehaviour.h"
 #include "../SpriteAnimation.h"
 #include "../SpriteAtlast.h"
-#include "../AABB.h"
 
 using namespace Engine;
 
@@ -18,7 +17,8 @@ namespace Navecita {
 		void Start() override;
 		void OnRenderStart() override;
 		void Shoot(glm::vec2 startPos, glm::vec2 dir, float speed);
-		AABB* _aabb;
+		void OnCollision(GameEntity* entity) override;
+
 	private:
 		SpriteAnimation* _anim;
 		glm::vec2 _moveDir;

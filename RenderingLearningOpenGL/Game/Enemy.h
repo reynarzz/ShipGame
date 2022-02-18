@@ -13,12 +13,13 @@ namespace Navecita {
 	public:
 		float _angle;
 		Enemy(GameEntity* entity);
+		~Enemy();
 
 		void Update() override;
 		void Start() override;
 		void OnRenderStart() override;
-		
-		AABB* _aabb;
+		void OnCollision(GameEntity* entity) override;
+
 	private:
 		SpriteAnimation* _anim;
 	};

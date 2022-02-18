@@ -78,7 +78,12 @@ int main() {
 	Navecita::Player* player = CreateGameEntity<Navecita::Player>("Player");
 	player->SetInput_Test(_input);
 
-	Navecita::Enemy* enemy = CreateGameEntity<Navecita::Enemy>("Enemy");
+	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 0, 3, 0 });
+
+	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ -4, 3, 0 });
+	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 1, 10, 0 });
+	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 4, 15, 0 });
+	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({4, 12, 0});
 
 	int width, height;
 
@@ -95,7 +100,6 @@ int main() {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
-
 
 		glfwGetWindowSize(window, &width, &height);
 
@@ -117,23 +121,9 @@ int main() {
 
 		_scene->Update();
 
-		if (enemy != nullptr && player->_aabb->Collide(enemy->_aabb) != 0) {
-			_scene->DestroyEntity(enemy->getGameEntity());
-			enemy = nullptr;
-		}
-		else {
-		}
-
-		//std::cout << player->getGameEntity()->getTransform()->getPosition().x << ", " << player->getGameEntity()->getTransform()->getPosition().y;
-
-		//glDrawElements(GL_TRIANGLES, quad->getIndices()->size(), GL_UNSIGNED_INT, NULL);
-
 		glfwSwapBuffers(window);
 
-		_scene->FixedUpdate();
-
 		glfwPollEvents();
-
 	}
 
 	glfwTerminate();

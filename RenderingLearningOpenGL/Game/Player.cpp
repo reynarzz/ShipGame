@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "../GameHelper.h"
 #include "Projectile.h"
-
+#include <iostream>
 namespace Navecita {
 
 	Player::Player(GameEntity* entity) : EntityBehaviour(entity) {
@@ -53,14 +53,18 @@ namespace Navecita {
 		}
 
 		getGameEntity()->getTransform()->SetPosition(_pos.x, _pos.y, 0);
+	}
 
-		_aabb->UpdateBoundingBox(_pos.x, _pos.y, 1, 1);
+	void Player::OnCollision(GameEntity* entity) {
+
+		if (entity->getName() == "Enemy") {
+			DestroyEntity(entity);
+		}
 	}
 
 	void Player::OnRenderStart()
 	{
 		Texture* tex = new Texture();
-		_aabb = new AABB();
 
 		getGameEntity()->_renderer->_material->SetTexture(tex);
 		tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Ships.png");

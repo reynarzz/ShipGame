@@ -6,6 +6,7 @@ namespace Engine {
 	
 	GameEntity::GameEntity(std::string name) : Entity(name), _renderer(nullptr)
 	{
+		_aabb = new AABB(0, 0, 1, 1);
 		std::cout << "Entity:"<< name << "\n";
 
 		_transform = new Transform();
@@ -13,10 +14,19 @@ namespace Engine {
 
 	void GameEntity::Update()
 	{
+		glm::vec3 pos = _transform->getPosition();
+
+		_aabb->UpdateBoundingBox(pos.x, pos.y, 1, 1);
+
 		for (Component* component : _components)
 		{
 			component->Update();
 		}
+	}
+
+	AABB* GameEntity::GetAABB() const
+	{
+		return _aabb;
 	}
 
 	void GameEntity::AddComponent(Component* component)
@@ -31,6 +41,11 @@ namespace Engine {
 	vector<Component*> GameEntity::getComponents()
 	{
 		return _components;
+	}
+
+	const std::string& GameEntity::getName() const
+	{
+		return _name;
 	}
 
 	void GameEntity::Bind(Camera* cam)
@@ -52,6 +67,7 @@ namespace Engine {
 	{
 		delete _transform;
 		delete _renderer;
+		delete _aabb;
 
 		_components.clear();
 	}

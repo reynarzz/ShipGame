@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef GameHelper
-#define GameHelper
+#ifndef GAMEHELPER
+#define GAMEHELPER
 
 
 #include "Mesh.h"
@@ -41,5 +41,9 @@ inline T* CreateGameEntity(std::string name) {
 	component->OnRenderStart();
 
 	return (T*)component;
+}
+
+inline void DestroyEntity(GameEntity* entity) {
+	_scene->DestroyEntity(entity);
 }
 #endif

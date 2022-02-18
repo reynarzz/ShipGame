@@ -17,9 +17,16 @@ namespace Engine {
     {
     }*/
 
+    Transform* EntityBehaviour::GetTransform() const
+    {
+        return _gameEntity->getTransform();
+    }
+
     void EntityBehaviour::OnDestroyed()
     {
     }
+
+
 
     GameEntity* EntityBehaviour::getGameEntity()
     {

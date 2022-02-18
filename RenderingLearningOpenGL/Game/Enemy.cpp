@@ -3,8 +3,12 @@
 namespace Navecita {
 
 	Enemy::Enemy(GameEntity* entity) : EntityBehaviour(entity) {
-		_aabb = new AABB();
-		
+		entity->GetAABB()->_width = 2;
+		entity->GetAABB()->_height = 2;
+	}
+
+	Enemy::~Enemy()
+	{
 	}
 
 	void Enemy::Start()
@@ -18,7 +22,6 @@ namespace Navecita {
 		_anim->Update();
 
 		auto pos = getGameEntity()->getTransform()->getPosition();
-		_aabb->UpdateBoundingBox(pos.x, pos.y, 2, 2);
 	}
 
 	void Enemy::OnRenderStart() {
@@ -30,13 +33,19 @@ namespace Navecita {
 		auto atlas = SpriteAtlast(tex, 8);
 
 		_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
-		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 6.0));
-		_anim->AddAnimUvLocation(atlas.getTileUV(1.0, 6.0));
-		_anim->AddAnimUvLocation(atlas.getTileUV(2.0, 6.0));
 
+		int val = rand() % 3;
+
+		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 6.0 + val));
+		_anim->AddAnimUvLocation(atlas.getTileUV(1.0, 6.0 + val));
+		_anim->AddAnimUvLocation(atlas.getTileUV(2.0, 6.0 + val));
+		
 		_anim->GoToFrame(1);
 		getGameEntity()->getTransform()->SetPosition(0, 10, 0);
 		_anim->Play();
 		tex->UnBind();
+	}
+	void Enemy::OnCollision(GameEntity* entity)
+	{
 	}
 }

@@ -21,6 +21,22 @@ namespace Engine {
 
 			ge->Update();
 
+			for (size_t j = 0; j < count; j++)
+			{
+				auto target = _entities.at(j);
+
+				if (!ge->_pendingToDestroy && !target->_pendingToDestroy && ge != target) {
+					if (ge->GetAABB()->Collide(target->GetAABB())) {
+						((EntityBehaviour*)ge->getComponents().at(0))->OnCollision(target);
+						((EntityBehaviour*)target->getComponents().at(0))->OnCollision(ge);
+					
+					}
+				}
+				else {
+					continue;
+				}
+			}
+
 			ge->Bind(_camera);
 
 			//remove this from here
@@ -29,11 +45,13 @@ namespace Engine {
 			//Unbind
 			ge->UnBind();
 		}
-	}
 
-	void Scene::FixedUpdate()
-	{ 
+		for (auto i = _prendingEntities.begin(); i != _prendingEntities.end(); i++)
+		{
+			RemoveEntity(*i);
+		}
 
+		_prendingEntities.clear();
 	}
 
 	void Scene::SetCamera(Camera* camera)
@@ -51,20 +69,21 @@ namespace Engine {
 		int count = _entities.size();
 		vector<GameEntity*>::iterator it = _entities.begin();
 		
-		for (; it < _entities.end(); it++)
+		for (; it != _entities.end(); it++)
 		{
 			if (*it == entity) {
 				_entities.erase(it);
 				break;
 			}
 		}
+	
+		//delete entity;
 	}
 
 	void Scene::DestroyEntity(GameEntity* entity)
 	{
-		RemoveEntity(entity);
-
-		delete entity;
+		entity->_pendingToDestroy = true;
+		_prendingEntities.push_back(entity);
 	}
 
 	Scene::~Scene()

@@ -20,7 +20,8 @@ namespace Navecita {
 		void OnRenderStart() override;
 		void SetInput_Test(KeyboardInput* input);
 		void Shoot();
-		AABB* _aabb;
+		void OnCollision(GameEntity* name) override;
+
 	private:
 		SpriteAnimation* _anim;
 		KeyboardInput* _input;
