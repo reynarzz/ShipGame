@@ -16,7 +16,6 @@ namespace Navecita {
 		Player(GameEntity* entity);
 
 		void Update() override;
-		void Start() override;
 		void OnRenderStart() override;
 		void SetInput_Test(KeyboardInput* input);
 		void Shoot();

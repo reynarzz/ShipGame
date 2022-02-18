@@ -9,14 +9,18 @@ _textures(std::vector<Texture*>()), _color(glm::vec4(1,1,1,1))
 void Engine::Material::SetColor(glm::vec4 col)
 {
 	_color = col;
-	SetVec4("_COLOR_", col);
+}
+
+void Engine::Material::SetScroll(glm::vec2 scroll) {
+	_scroll = scroll;
 }
 
 void Engine::Material::Bind() 
 {
 	_shader->Bind();
 
-	SetColor(_color);
+	SetVec4("_COLOR_", _color);
+	SetVec2("_scroll", _scroll);
 
 	for (unsigned int i = 0; i < _textures.size(); i++)
 	{
@@ -56,6 +60,12 @@ void Engine::Material::SetVec3(std::string name, glm::vec3 value) const
 {
 	unsigned int loc = glGetUniformLocation(_shader->getProgram(), name.c_str());
 	glUniform3f(loc, value.x, value.y, value.z);
+}
+
+void Engine::Material::SetVec2(std::string name, glm::vec2 value) const
+{
+	unsigned int loc = glGetUniformLocation(_shader->getProgram(), name.c_str());
+	glUniform2f(loc, value.x, value.y);
 }
 
 void Engine::Material::SetInt(std::string name, int value) const

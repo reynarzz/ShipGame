@@ -147,8 +147,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="Game\Background.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GameHelper.cpp" />
+    <ClCompile Include="Game\GameManager.cpp" />
     <ClCompile Include="Game\Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityBehaviour.cpp" />
@@ -163,7 +165,7 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="ShadersHelper.cpp" />
+    <ClCompile Include="Game\Spawner.cpp" />
     <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="SpriteAtlast.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -173,9 +175,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="Game\Background.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameHelper.h" />
+    <ClInclude Include="Game\GameManager.h" />
     <ClInclude Include="Game\Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityBehaviour.h" />
@@ -190,6 +194,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShadersHelper.h" />
+    <ClInclude Include="Game\Spawner.h" />
     <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="SpriteAtlast.h" />
     <ClInclude Include="Texture.h" />

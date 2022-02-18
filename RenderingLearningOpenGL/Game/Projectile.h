@@ -14,7 +14,7 @@ namespace Navecita {
 		Projectile(GameEntity* entity);
 
 		void Update() override;
-		void Start() override;
+		void SetTarget(const std::string& target);
 		void OnRenderStart() override;
 		void Shoot(glm::vec2 startPos, glm::vec2 dir, float speed);
 		void OnCollision(GameEntity* entity) override;
@@ -23,5 +23,6 @@ namespace Navecita {
 		SpriteAnimation* _anim;
 		glm::vec2 _moveDir;
 		float _speed;
+		std::string _target;
 	};
 }

@@ -5,10 +5,16 @@ namespace Engine {
 	class Texture
 	{
 	public:
+		enum class ClampingMode
+		{
+			Clamp,
+			Repeat
+		};
+
 		Texture();
 		~Texture();
 
-		void LoadImage(const std::string&);
+		void LoadImage(const std::string&, ClampingMode clampingMode = ClampingMode::Clamp);
 		void Bind(unsigned int slot = 0) const;
 		void UnBind() const;
 

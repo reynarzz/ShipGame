@@ -8,26 +8,24 @@ namespace Navecita {
 		
 	}
 
-	void Player::Start()
-	{
 
-	}
 	vec2 _pos;
 	void Player::Update() {
 
+		float speed = 0.2f;
 		_anim->Update();
 		_angle += 0.1f;
-		float speed = 0.2f;
+
 		if (_input->_A_Pressed) {
-			_anim->GoToFrame(0);
+			//_anim->GoToFrame(0);
 			_pos.x -= speed;
 		}
 		else if (_input->_D_Pressed) {
-			_anim->GoToFrame(2);
+			//_anim->GoToFrame(2);
 			_pos.x += speed;
 		}
 		else {
-			_anim->GoToFrame(1);
+			//_anim->GoToFrame(1);
 		}
 
 		if (_input->_S_Pressed) {
@@ -67,20 +65,19 @@ namespace Navecita {
 		Texture* tex = new Texture();
 
 		getGameEntity()->_renderer->_material->SetTexture(tex);
-		tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Ships.png");
+		tex->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/Players.png");
 		//tex->LoadImage("assets/spaceShooter/SpaceShooterAssetPack_Ships.png");
 
-		auto atlas = SpriteAtlast(tex, 8);
+		auto atlas = SpriteAtlast(tex, 16);
 
 		_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
-		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 5.0));
-		_anim->AddAnimUvLocation(atlas.getTileUV(1.0, 5.0));
-		_anim->AddAnimUvLocation(atlas.getTileUV(2.0, 5.0));
+		_anim->AddAnimUvLocation(atlas.getTileUV(1, 3));
 
-		_anim->GoToFrame(1);
+		_anim->GoToFrame(0);
 
 		tex->UnBind();
 	}
+
 	void Player::SetInput_Test(KeyboardInput* input)
 	{
 		_input = input;

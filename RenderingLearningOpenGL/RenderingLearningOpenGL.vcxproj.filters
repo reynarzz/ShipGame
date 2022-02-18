@@ -89,8 +89,14 @@
     <ClCompile Include="GameHelper.cpp">
       <Filter>Engine\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="ShadersHelper.cpp">
-      <Filter>Engine\Utils</Filter>
+    <ClCompile Include="Game\GameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Spawner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Background.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,5 +155,8 @@
     <ClInclude Include="ShadersHelper.h">
       <Filter>Engine\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Game\GameManager.h" />
+    <ClInclude Include="Game\Spawner.h" />
+    <ClInclude Include="Game\Background.h" />
   </ItemGroup>
 </Project>

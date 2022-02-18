@@ -30,13 +30,6 @@ namespace Navecita {
 		tex->UnBind();
 	}
 
-
-
-	void Enemy::Start()
-	{
-
-	}
-
 	vec2 _enemyPos;
 	void Enemy::Update() {
 

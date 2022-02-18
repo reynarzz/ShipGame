@@ -26,7 +26,7 @@ namespace Engine {
 			for (size_t j = 0; j < count; j++)
 			{
 				auto target = _entities.at(j);
-
+				//if(target.Collidable())
 				if (!current->_pendingToDestroy && !target->_pendingToDestroy && current != target) {
 					if (current->GetAABB()->Collide(target->GetAABB())) {
 						((EntityBehaviour*)current->getComponents().at(0))->OnCollision(target);

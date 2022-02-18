@@ -12,7 +12,7 @@ Engine::Texture::~Texture()
 	glDeleteTextures(1, &_texID);
 }
 
-void Engine::Texture::LoadImage(const std::string& path)
+void Engine::Texture::LoadImage(const std::string& path, ClampingMode clampingMode)
 {
 	if (_texID != 0) {
 		glDeleteTextures(1, &_texID);
@@ -25,10 +25,21 @@ void Engine::Texture::LoadImage(const std::string& path)
 	glGenTextures(1, &_texID);
 	glBindTexture(GL_TEXTURE_2D, _texID);
 
+	int wrapMode = 0;
+	switch (clampingMode)
+	{
+	case Engine::Texture::ClampingMode::Clamp:
+		wrapMode = GL_CLAMP_TO_EDGE;
+		break;
+	case Engine::Texture::ClampingMode::Repeat:
+		wrapMode = GL_REPEAT;
+		break;
+	}
+
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
 
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageBuffer);

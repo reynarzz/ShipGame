@@ -16,7 +16,6 @@ namespace Navecita {
 		~Enemy();
 
 		void Update() override;
-		void Start() override;
 		void OnRenderStart() override;
 		void OnCollision(GameEntity* entity) override;
 

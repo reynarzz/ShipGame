@@ -8,9 +8,9 @@ namespace Navecita {
 
 	}
 
-	void Projectile::Start()
+	void Projectile::SetTarget(const std::string& target)
 	{
-
+		_target = target;
 	}
 
 	void Projectile::Update() {
@@ -27,15 +27,15 @@ namespace Navecita {
 		Texture* tex = new Texture();
 
 		getGameEntity()->_renderer->_material->SetTexture(tex);
-		tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Projectiles.png");
+		tex->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/Players.png");
 		//tex->LoadImage("assets/spaceShooter/SpaceShooterAssetPack_Ships.png");
 
-		auto atlas = SpriteAtlast(tex, 8);
+		auto atlas = SpriteAtlast(tex, 16);
 
 		_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
-		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 8.0));
-		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 7.0));
-		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 6.0));
+		_anim->AddAnimUvLocation(atlas.getTileUV(0, 2));
+		_anim->AddAnimUvLocation(atlas.getTileUV(1, 2));
+		_anim->AddAnimUvLocation(atlas.getTileUV(2, 2));
 
 		_anim->GoToFrame(1);
 		tex->UnBind();
@@ -47,17 +47,13 @@ namespace Navecita {
 		_speed = speed;
 
 		getGameEntity()->getTransform()->SetPosition(startPos.x, startPos.y, 0);
-
 	}
 
 	void Projectile::OnCollision(GameEntity* entity)
 	{
-		if (entity->getName() == "Enemy") {
+		if (entity->getName() == _target) {
 			DestroyEntity(entity);
 			DestroyEntity(getGameEntity());
-			int x = (rand() % 5) ;
-			int y = 25;
-			CreateGameEntity<Enemy>("Enemy")->GetTransform()->SetPosition({ x, y, 0 });
 		}
 	}
 }

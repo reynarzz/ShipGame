@@ -9,7 +9,6 @@ namespace Engine {
 	public:
 		EntityBehaviour(GameEntity* gameEntity);
 
-		virtual void Start() = 0;
 		virtual void Update() = 0;
 		virtual void OnRenderStart() = 0;
 		Transform* GetTransform() const;

@@ -16,6 +16,7 @@
 #include "Game/Enemy.h"
 #include "ShadersHelper.h"
 #include "GameHelper.h"
+#include "Game/Background.h"
 
 KeyboardInput* _input;
 
@@ -53,7 +54,8 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow* window = glfwCreateWindow(420, 680, "Navecita", NULL, nullptr);
+	int multiplier = 2;
+	GLFWwindow* window = glfwCreateWindow(144 * multiplier, 256 * multiplier, "Navecita", NULL, nullptr);
 
 	glfwMakeContextCurrent(window);
 	glfwSetKeyCallback(window, key_callback);
@@ -74,6 +76,7 @@ int main() {
 
 
 	_scene->SetCamera(cam);
+	CreateGameEntity<Navecita::Background>("Background");
 
 	Navecita::Player* player = CreateGameEntity<Navecita::Player>("Player");
 	player->SetInput_Test(_input);
@@ -83,8 +86,8 @@ int main() {
 	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ -4, 3, 0 });
 	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 1, 10, 0 });
 	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 4, 15, 0 });
-	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({4, 12, 0});
-
+	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 4, 12, 0 });
+	
 	int width, height;
 
 	while (!glfwWindowShouldClose(window))
