@@ -32,12 +32,20 @@ namespace Engine {
 
 	void Scene::FixedUpdate()
 	{
-
+		for (auto en : _prendingEntities)
+		{
+			en();
+		} 
 	}
 
 	void Scene::SetCamera(Camera* camera)
 	{
 		_camera = camera;
+	}
+
+	void Scene::AddEntity(AddEntityFunc addEntity)
+	{
+		_prendingEntities.push_back(addEntity);
 	}
 
 	void Scene::AddEntity(GameEntity* entity)

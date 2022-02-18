@@ -13,10 +13,11 @@ namespace Navecita {
 		auto atlas = SpriteAtlast(tex, 8);
 
 		_anim = new SpriteAnimation(entity->_renderer->_mesh);
-		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 9.0));
+		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 8.0));
+		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 7.0));
+		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 6.0));
 
-		_anim->GoToFrame(0);
-		_anim->Play();
+		_anim->GoToFrame(1);
 		tex->UnBind();
 	}
 
@@ -36,7 +37,7 @@ namespace Navecita {
 		_aabb->UpdateBoundingBox(posOut.x, posOut.y, 1, 1);
 	}
 
-	void Projectile::FixedUpdate()
+	void Projectile::OnRenderStart()
 	{
 
 	}

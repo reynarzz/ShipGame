@@ -16,7 +16,7 @@ namespace Navecita {
 
 		void Update() override;
 		void Start() override;
-		void FixedUpdate() override;
+		void OnRenderStart() override;
 		void Shoot(glm::vec2 startPos, glm::vec2 dir, float speed);
 		AABB* _aabb;
 	private:

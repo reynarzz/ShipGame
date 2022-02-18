@@ -17,13 +17,15 @@ namespace Navecita {
 
 		void Update() override;
 		void Start() override;
-		void FixedUpdate() override;
+		void OnRenderStart() override;
 		void SetInput_Test(KeyboardInput* input);
-
+		void Shoot();
 		AABB* _aabb;
 	private:
 		SpriteAnimation* _anim;
 		KeyboardInput* _input;
+		const float _shootInterval = 0.02f;
+		float _sootTime = 0.0f;
 	};
 }
 

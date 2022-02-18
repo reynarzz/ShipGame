@@ -16,8 +16,8 @@ namespace Navecita {
 
 		void Update() override;
 		void Start() override;
-		void FixedUpdate() override;
-
+		void OnRenderStart() override;
+		
 		AABB* _aabb;
 	private:
 		SpriteAnimation* _anim;

@@ -163,6 +163,7 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShadersHelper.cpp" />
     <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="SpriteAtlast.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShadersHelper.h" />
     <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="SpriteAtlast.h" />
     <ClInclude Include="Texture.h" />

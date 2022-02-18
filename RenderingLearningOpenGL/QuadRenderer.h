@@ -19,6 +19,7 @@ namespace Engine {
 		void UnBind() const;
 
 		virtual void Update() override;
+		virtual void OnRenderStart() override;
 	};
 }
 

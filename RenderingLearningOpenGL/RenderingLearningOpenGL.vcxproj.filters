@@ -87,7 +87,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameHelper.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Engine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadersHelper.cpp">
+      <Filter>Engine\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +143,11 @@
     <ClInclude Include="Game\Enemy.h" />
     <ClInclude Include="AABB.h" />
     <ClInclude Include="Game\Projectile.h" />
-    <ClInclude Include="GameHelper.h" />
+    <ClInclude Include="GameHelper.h">
+      <Filter>Engine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadersHelper.h">
+      <Filter>Engine\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

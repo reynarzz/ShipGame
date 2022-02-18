@@ -11,7 +11,7 @@ namespace Engine {
 
 		virtual void Start() = 0;
 		virtual void Update() = 0;
-		virtual void FixedUpdate() = 0;
+		virtual void OnRenderStart() = 0;
 		void OnDestroyed();
 
 		GameEntity* getGameEntity();

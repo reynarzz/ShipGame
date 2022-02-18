@@ -22,7 +22,7 @@ public:
 			"uniform sampler2D _tex0;\n"
 			"uniform vec4 _COLOR_;\n"
 			"void main(){\n"
-			"col = texture2D(_tex0, _texUV) * vec4(1.0, 1.0, 1.0, 1.0) * _COLOR_;\n"
+			"col = texture2D(_tex0, _texUV) * _COLOR_;\n"
 			"}\n";
 
 		return std::pair<std::string, std::string>(vertex, fragment);

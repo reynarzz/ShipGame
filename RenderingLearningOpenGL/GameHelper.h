@@ -40,8 +40,11 @@ inline T* CreateGameEntity(std::string name) {
 	entity->_renderer = renderer;
 	Component* component = CreateComponent<T>(entity);
 	entity->AddComponent(component);
+	
 
 	_scene->AddEntity(entity);
+
+	component->OnRenderStart();
 
 	return (T*)component;
 }

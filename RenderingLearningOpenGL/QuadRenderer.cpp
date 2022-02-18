@@ -25,6 +25,10 @@ void Engine::QuadRenderer::Update()
 {
 }
 
+void Engine::QuadRenderer::OnRenderStart() {
+
+}
+
 Engine::QuadRenderer::~QuadRenderer()
 {
 	delete _mesh;

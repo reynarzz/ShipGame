@@ -5,23 +5,7 @@
 namespace Navecita {
 
 	Player::Player(GameEntity* entity) : EntityBehaviour(entity) {
-		Texture* tex = new Texture();
-		_aabb = new AABB();
-
-		entity->_renderer->_material->SetTexture(tex);
-		tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Ships.png");
-		//tex->LoadImage("assets/spaceShooter/SpaceShooterAssetPack_Ships.png");
 		
-		auto atlas = SpriteAtlast(tex, 8);
-
-		_anim = new SpriteAnimation(entity->_renderer->_mesh);
-		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 5.0));
-		_anim->AddAnimUvLocation(atlas.getTileUV(1.0, 5.0));
-		_anim->AddAnimUvLocation(atlas.getTileUV(2.0, 5.0));
-
-		_anim->GoToFrame(1);
-
-		tex->UnBind();
 	}
 
 	void Player::Start()
@@ -51,27 +35,56 @@ namespace Navecita {
 		}
 		else if (_input->_W_Pressed) {
 			_pos.y += speed;
-
 		}
-		
-
-		getGameEntity()->getTransform()->SetPosition(_pos.x, _pos.y, 0);
 
 		if (_input->_shoot_Pressed) {
-			auto bullet = CreateGameEntity<Projectile>("PlayerBullet");
+			_sootTime -= 0.0018;
 
-			//bullet->Shoot(_pos, { 0, 1 }, 0.1f);
+
+			if (_sootTime <= 0) {
+
+				Shoot();
+
+				_sootTime = _shootInterval;
+			}
 		}
+		else {
+			_sootTime = 0.005f;
+		}
+
+		getGameEntity()->getTransform()->SetPosition(_pos.x, _pos.y, 0);
 
 		_aabb->UpdateBoundingBox(_pos.x, _pos.y, 1, 1);
 	}
 
-	void Player::FixedUpdate()
+	void Player::OnRenderStart()
 	{
+		Texture* tex = new Texture();
+		_aabb = new AABB();
 
+		getGameEntity()->_renderer->_material->SetTexture(tex);
+		tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Ships.png");
+		//tex->LoadImage("assets/spaceShooter/SpaceShooterAssetPack_Ships.png");
+
+		auto atlas = SpriteAtlast(tex, 8);
+
+		_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
+		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 5.0));
+		_anim->AddAnimUvLocation(atlas.getTileUV(1.0, 5.0));
+		_anim->AddAnimUvLocation(atlas.getTileUV(2.0, 5.0));
+
+		_anim->GoToFrame(1);
+
+		tex->UnBind();
 	}
 	void Player::SetInput_Test(KeyboardInput* input)
 	{
 		_input = input;
+	}
+	void Player::Shoot()
+	{
+		auto bullet = CreateGameEntity<Projectile>("PlayerBullet");
+
+		bullet->Shoot(_pos, { 0, 1 }, 0.4f);
 	}
 }
