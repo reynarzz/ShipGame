@@ -16,13 +16,8 @@ namespace Engine {
 	class Scene
 	{
 	public:
-		typedef void(*addEntity)();
-		using AddEntityFunc = std::function<void()>;
-
 		Scene(Renderer* renderer);
 		~Scene();
-
-		void AddEntity(AddEntityFunc addEntity);
 
 		void AddEntity(GameEntity* entity);
 		void DestroyEntity(GameEntity* entity);
@@ -37,7 +32,7 @@ namespace Engine {
 		map<int, QuadRenderer>* _renderers = nullptr;
 		map<int, vector<EntityBehaviour*>>* _behaviours = nullptr;
 		vector<GameEntity*> _entities;
-		vector<AddEntityFunc> _prendingEntities;
+		vector<GameEntity*> _prendingEntities;
 		Camera* _camera;
 	};
 }

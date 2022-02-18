@@ -18,9 +18,10 @@ namespace Engine {
 		for (int i = 0; i < count; i++)
 		{
 			GameEntity* ge = _entities.at(i);
-			ge->Bind(_camera);
 
 			ge->Update();
+
+			ge->Bind(_camera);
 
 			//remove this from here
 			glDrawElements(GL_TRIANGLES, ge->_renderer->_mesh->getIndices().size(), GL_UNSIGNED_INT, NULL);
@@ -31,21 +32,13 @@ namespace Engine {
 	}
 
 	void Scene::FixedUpdate()
-	{
-		for (auto en : _prendingEntities)
-		{
-			en();
-		} 
+	{ 
+
 	}
 
 	void Scene::SetCamera(Camera* camera)
 	{
 		_camera = camera;
-	}
-
-	void Scene::AddEntity(AddEntityFunc addEntity)
-	{
-		_prendingEntities.push_back(addEntity);
 	}
 
 	void Scene::AddEntity(GameEntity* entity)

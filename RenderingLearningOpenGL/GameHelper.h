@@ -1,10 +1,5 @@
-
 #pragma once
 
-//
-//class GameHelper
-//{
-//public:
 #ifndef GameHelper
 #define GameHelper
 
@@ -41,16 +36,10 @@ inline T* CreateGameEntity(std::string name) {
 	Component* component = CreateComponent<T>(entity);
 	entity->AddComponent(component);
 	
-
 	_scene->AddEntity(entity);
 
 	component->OnRenderStart();
 
 	return (T*)component;
 }
-
-
-#endif	
-//private:
-//
-//};
+#endif

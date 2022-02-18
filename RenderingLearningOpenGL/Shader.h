@@ -8,7 +8,7 @@ namespace Engine {
 		Shader(std::string& vertexShaderStr, std::string& fragmentShaderStr);
 
 		void LoadShader(std::string& vertexShaderStr, std::string& fragmentShaderStr);
-
+		~Shader();
 		const unsigned int getProgram() const;
 		const unsigned int Bind() const;
 		void Unbind() const;

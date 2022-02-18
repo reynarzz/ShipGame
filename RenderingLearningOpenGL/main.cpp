@@ -96,6 +96,7 @@ int main() {
 
 		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 
+
 		glfwGetWindowSize(window, &width, &height);
 
 		float targetH = 16.0f * 2;
@@ -128,9 +129,11 @@ int main() {
 		//glDrawElements(GL_TRIANGLES, quad->getIndices()->size(), GL_UNSIGNED_INT, NULL);
 
 		glfwSwapBuffers(window);
-		glfwPollEvents();
 
 		_scene->FixedUpdate();
+
+		glfwPollEvents();
+
 	}
 
 	glfwTerminate();

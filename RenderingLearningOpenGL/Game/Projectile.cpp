@@ -4,21 +4,7 @@ namespace Navecita {
 
 	Projectile::Projectile(GameEntity* entity) : EntityBehaviour(entity) {
 		_aabb = new AABB();
-		Texture* tex = new Texture();
 
-		entity->_renderer->_material->SetTexture(tex);
-		tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Projectiles.png");
-		//tex->LoadImage("assets/spaceShooter/SpaceShooterAssetPack_Ships.png");
-
-		auto atlas = SpriteAtlast(tex, 8);
-
-		_anim = new SpriteAnimation(entity->_renderer->_mesh);
-		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 8.0));
-		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 7.0));
-		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 6.0));
-
-		_anim->GoToFrame(1);
-		tex->UnBind();
 	}
 
 	void Projectile::Start()
@@ -39,7 +25,21 @@ namespace Navecita {
 
 	void Projectile::OnRenderStart()
 	{
+		Texture* tex = new Texture();
 
+		getGameEntity()->_renderer->_material->SetTexture(tex);
+		tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Projectiles.png");
+		//tex->LoadImage("assets/spaceShooter/SpaceShooterAssetPack_Ships.png");
+
+		auto atlas = SpriteAtlast(tex, 8);
+
+		_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
+		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 8.0));
+		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 7.0));
+		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 6.0));
+
+		_anim->GoToFrame(1);
+		tex->UnBind();
 	}
 
 	void Projectile::Shoot(glm::vec2 startPos, glm::vec2 dir, float speed)

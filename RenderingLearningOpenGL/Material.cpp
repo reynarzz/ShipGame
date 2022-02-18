@@ -74,7 +74,7 @@ void Engine::Material::SetMat4(std::string name, glm::mat4 value) const
 
 Engine::Material::~Material()
 {
-	delete _shader;
-
 	_textures.clear();
+
+	delete _shader;
 }

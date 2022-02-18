@@ -23,6 +23,11 @@ namespace Engine {
 		glDeleteShader(f);
 	}
 
+	Shader::~Shader()
+	{
+		glDeleteProgram(_programID);
+	}
+
 	unsigned int Shader::Compile(std::string& shader, int shaderType) {
 
 		unsigned int shaderID = glCreateShader(shaderType);

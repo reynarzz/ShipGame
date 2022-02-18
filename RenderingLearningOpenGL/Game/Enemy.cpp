@@ -26,7 +26,6 @@ namespace Navecita {
 
 		getGameEntity()->_renderer->_material->SetTexture(tex);
 		tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Ships.png");
-		//tex->LoadImage("assets/spaceShooter/SpaceShooterAssetPack_Ships.png");
 
 		auto atlas = SpriteAtlast(tex, 8);
 

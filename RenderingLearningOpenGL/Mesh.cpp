@@ -4,17 +4,15 @@ namespace Engine {
 	Mesh::Mesh(vector<vec3> verts, vector<unsigned int> indices, vector<glm::vec2> texcoord) :
 		_indices(indices), _indexBuffer(0), _meshID(0), _vertexArrayID(0)
 	{
-		// Unbind vertex array buffer
 		UnBind();
 
 		_vertexData = vector<float>();
 
-
-		int vBoBound;
+		/*int vBoBound;
 		int vaoBound;
 
 		glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &vBoBound);
-		glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &vaoBound);
+		glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &vaoBound);*/
 
 		for (size_t i = 0; i < verts.size(); i++)
 		{
@@ -29,8 +27,6 @@ namespace Engine {
 			_vertexData.push_back(uv.y);
 		}
 
-		/*delete verts;
-		delete texcoord;*/
 
 		glGenVertexArrays(1, &_vertexArrayID);
 		glBindVertexArray(_vertexArrayID);
@@ -47,20 +43,13 @@ namespace Engine {
 		// UV
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
-
 		// Set Index buffer
 		glGenBuffers(1, &_indexBuffer);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices.at(0), GL_STATIC_DRAW);
 
 		// Unbind vertex array buffer
-		//UnBind();
-
-		glBindVertexArray(vaoBound);
-		glBindBuffer(GL_VERTEX_ARRAY, vBoBound);
-
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
+		UnBind();
 	}
 
 	const vector<unsigned int> Mesh::getIndices() const {
@@ -83,8 +72,6 @@ namespace Engine {
 		}
 
 		glBufferSubData(GL_ARRAY_BUFFER, 0, _vertexData.size() * sizeof(float) * 3, &_vertexData.at(0));
-
-		//UnBind();
 	}
 
 	void Mesh::Bind() const {
