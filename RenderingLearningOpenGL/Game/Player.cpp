@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "../GameHelper.h"
+#include "Projectile.h"
 
 namespace Navecita {
 
@@ -51,8 +53,15 @@ namespace Navecita {
 			_pos.y += speed;
 
 		}
+		
 
 		getGameEntity()->getTransform()->SetPosition(_pos.x, _pos.y, 0);
+
+		if (_input->_shoot_Pressed) {
+			auto bullet = CreateGameEntity<Projectile>("PlayerBullet");
+
+			//bullet->Shoot(_pos, { 0, 1 }, 0.1f);
+		}
 
 		_aabb->UpdateBoundingBox(_pos.x, _pos.y, 1, 1);
 	}

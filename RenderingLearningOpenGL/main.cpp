@@ -14,29 +14,8 @@
 #include "SpriteAtlast.h"
 #include "Input.h"
 #include "Game/Enemy.h"
-
-
-std::string vertex = "#version 330 core\n"
-"layout (location=0) in vec3 vPos;\n"
-"layout (location=1) in vec2 _texCoord;\n"
-"uniform mat4 _MVP_;"
-"out vec2 _texUV;\n"
-"void main(){\n"
-"gl_Position = _MVP_ * vec4(vPos.x, vPos.y, vPos.z, 1.0);\n"
-"_texUV = _texCoord;\n"
-"}\n";
-
-
-
-std::string fragment = "#version 330 core\n"
-"out vec4 col;\n"
-"in vec2 _texUV;\n"
-"uniform sampler2D _tex0;\n"
-"uniform vec4 _COLOR_;\n"
-"void main(){\n"
-"col = texture2D(_tex0, _texUV) * vec4(1.0, 1.0, 1.0, 1.0) * _COLOR_;\n"
-"}\n";
-
+#include "ShadersHelper.h"
+#include "GameHelper.h"
 
 KeyboardInput* _input;
 
@@ -53,31 +32,6 @@ int gcd(int a, int b)
 		}
 	}
 }
-//Mesh* GetQuadMesh2(float x = 1.0f, float y = 1.0f) {
-//
-//	vector<vec3>* verts = new vector<vec3>();
-//	verts->push_back(vec3(-1.0f * x, -1.0f * y, 0.0));
-//	verts->push_back(vec3(1.0 * x, -1.0 * y, 0.0));
-//	verts->push_back(vec3(1.0 * x, 1.0 * y, 0.0));
-//	verts->push_back(vec3(-1.0 * x, 1.0 * y, 0.0));
-//
-//	vector<unsigned int>* indices = new vector<unsigned int>();
-//	indices->push_back(0);
-//	indices->push_back(1);
-//	indices->push_back(2);
-//
-//	indices->push_back(2);
-//	indices->push_back(3);
-//	indices->push_back(0);
-//
-//	vector<vec2>* uv = new vector<vec2>();
-//	uv->push_back(vec2(0.0f, 0.0f));
-//	uv->push_back(vec2(1.0f, 0.0f));
-//	uv->push_back(vec2(1.0f, 1.0f));
-//	uv->push_back(vec2(0.0f, 1.0f));
-//
-//	return new Mesh(verts, indices, uv);
-//}
 
 int main() {
 
@@ -101,44 +55,23 @@ int main() {
 		return -1;
 	}
 
+	 _scene = new Scene(nullptr);
+
 	_input = new KeyboardInput();
 
-	//Entity 1
-	GameEntity* gameEntity = new GameEntity("Nave");
-
-	Mesh* quad = Utils::GetQuadMesh(/*(float)texWidth / factor, (float)textHeight / factor*/);
-
-	Material* mat = new Material(new Shader(vertex, fragment));
-
-	QuadRenderer* renderer = new QuadRenderer(mat, quad);
-	gameEntity->_renderer = renderer;
-	auto player = new Navecita::Player(gameEntity);
-	player->SetInput_Test(_input);
-	gameEntity->AddComponent(player);
-
-
-	//Entity 2
-	GameEntity* enemyEntity = new GameEntity("Enemy");
-
-	Mesh* enemyQuad = Utils::GetQuadMesh(/*(float)texWidth / factor, (float)textHeight / factor*/);
-
-	Material* enemyMat = new Material(new Shader(vertex, fragment));
-
-	QuadRenderer* enemyRenderer = new QuadRenderer(enemyMat, enemyQuad);
-	enemyEntity->_renderer = enemyRenderer;
-	auto enemy = new Navecita::Enemy(enemyEntity);
-	enemy->SetInput_Test(_input);
-	enemyEntity->AddComponent(enemy);
-
+	Camera* cam = new Camera();
 
 	//Setup
-	Camera* cam = new Camera();
 	cam->_viewTransform->SetPosition(0, -10, -10);
 
-	Scene* scene = new Scene(nullptr);
-	scene->SetCamera(cam);
-	scene->AddEntity(gameEntity);
-	scene->AddEntity(enemyEntity);
+
+	_scene->SetCamera(cam);
+
+	
+	Navecita::Player* player =  CreateGameEntity<Navecita::Player>("Player");
+	player->SetInput_Test(_input);
+	
+	Navecita::Enemy* enemy = CreateGameEntity<Navecita::Enemy>("Enemy");
 
 	int width, height;
 
@@ -149,6 +82,7 @@ int main() {
 		_input->_D_Pressed = glfwGetKey(window, GLFW_KEY_D);
 		_input->_S_Pressed = glfwGetKey(window, GLFW_KEY_S);
 		_input->_W_Pressed = glfwGetKey(window, GLFW_KEY_W);
+		_input->_shoot_Pressed = glfwGetKey(window, GLFW_KEY_SPACE);
 			
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -173,18 +107,18 @@ int main() {
 
 		cam->SetOrtho(-w / 2, w / 2, -h / 2, h / 2);
 
-		scene->Update();
+		_scene->Update();
 		
-		if (player->_aabb->Collide(enemy->_aabb) != 0) {
-			std::cout << "Colliding!\n";
-			enemy->getGameEntity()->_renderer->_material->SetColor({ 1.0f, 0, 0, 1 });
+		if (enemy != nullptr && player->_aabb->Collide(enemy->_aabb) != 0) {
+			_scene->DestroyEntity(enemy->getGameEntity());
+			enemy = nullptr;
+			//enemy->getGameEntity()->_renderer->_material->SetColor({ 1.0f, 0, 0, 1 });
 		}
 		else {
-			std::cout << "No!\n";
-			enemy->getGameEntity()->_renderer->_material->SetColor({ 1.0f, 1.0, 1.0, 1.0 });
-
+			//enemy->getGameEntity()->_renderer->_material->SetColor({ 1.0f, 1.0, 1.0, 1.0 });
 		}
-		std::cout << player->getGameEntity()->getTransform()->getPosition().x << ", " << player->getGameEntity()->getTransform()->getPosition().y;
+
+		//std::cout << player->getGameEntity()->getTransform()->getPosition().x << ", " << player->getGameEntity()->getTransform()->getPosition().y;
 
 		//glDrawElements(GL_TRIANGLES, quad->getIndices()->size(), GL_UNSIGNED_INT, NULL);
 

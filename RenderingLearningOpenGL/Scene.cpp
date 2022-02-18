@@ -13,8 +13,11 @@ namespace Engine {
 
 	void Scene::Update()
 	{
-		for (GameEntity* ge : _entities)
+		int count = _entities.size();
+
+		for (int i = 0; i < count; i++)
 		{
+			GameEntity* ge = _entities.at(i);
 			ge->Bind(_camera);
 
 			ge->Update();

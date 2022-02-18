@@ -9,4 +9,5 @@ public:
 
 	 bool _W_Pressed;
 	 bool _S_Pressed;
+	 bool _shoot_Pressed;
 };

@@ -34,37 +34,10 @@ namespace Navecita {
 
 		auto pos = getGameEntity()->getTransform()->getPosition();
 		_aabb->UpdateBoundingBox(pos.x, pos.y, 2, 2);
-
-		/*_angle += 0.1f;
-		float speed = 0.2f;
-		if (_input->_A_Pressed) {
-			_anim->GoToFrame(0);
-			_enemyPos.x -= speed;
-		}
-		else if (_input->_D_Pressed) {
-			_anim->GoToFrame(2);
-			_enemyPos.x += speed;
-		}
-		else {
-			_anim->GoToFrame(1);
-		}
-
-		if (_input->_S_Pressed) {
-			_enemyPos.y -= speed;
-		}
-		else if (_input->_W_Pressed) {
-			_enemyPos.y += speed;
-
-		}
-		*/
 	}
 
 	void Enemy::FixedUpdate()
 	{
 
-	}
-	void Enemy::SetInput_Test(KeyboardInput* input)
-	{
-		_input = input;
 	}
 }

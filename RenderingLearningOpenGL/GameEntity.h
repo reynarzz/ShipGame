@@ -1,8 +1,8 @@
 #pragma once
-#include <vector>
 #include "QuadRenderer.h"
 #include "Camera.h"
 #include "Entity.h"
+#include <vector>
 
 namespace Engine {
 	class GameEntity : Entity

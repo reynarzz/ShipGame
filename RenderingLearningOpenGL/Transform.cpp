@@ -22,7 +22,7 @@ namespace Engine {
 	{
 		_v_position = pos;
 
-		_position = glm::translate(glm::mat4(1.0f), pos);
+		_position = glm::translate(glm::mat4(1.0f), _v_position);
 
 		updateModelM();
 	}

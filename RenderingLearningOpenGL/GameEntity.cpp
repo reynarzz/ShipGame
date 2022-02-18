@@ -48,10 +48,11 @@ namespace Engine {
 		return _transform;
 	}
 
-
 	GameEntity::~GameEntity()
 	{
 		delete _transform;
 		delete _renderer;
+
+		_components.clear();
 	}
 }
