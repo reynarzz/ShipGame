@@ -12,21 +12,19 @@ namespace Navecita {
 		Texture* tex = new Texture();
 
 		getGameEntity()->_renderer->_material->SetTexture(tex);
-		tex->LoadImage("C:/Users/Reynardo/Desktop/spaceShooter/SpaceShooterAssetPack_Ships.png");
+		tex->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/Players.png");
 
-		auto atlas = SpriteAtlast(tex, 8);
+		auto atlas = SpriteAtlast(tex, 16);
 
 		_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
 
-		int val = rand() % 4;
+		int val = rand() % 3;
 
-		_anim->AddAnimUvLocation(atlas.getTileUV(0.0, 6.0 + val));
-		_anim->AddAnimUvLocation(atlas.getTileUV(1.0, 6.0 + val));
-		_anim->AddAnimUvLocation(atlas.getTileUV(2.0, 6.0 + val));
+		_anim->AddAnimUvLocation(atlas.getTileUV(val, 0));
 
-		_anim->GoToFrame(1);
+		_anim->GoToFrame(0);
 		getGameEntity()->getTransform()->SetPosition(0, 10, 0);
-		_anim->Play();
+		//_anim->Play();
 		tex->UnBind();
 	}
 

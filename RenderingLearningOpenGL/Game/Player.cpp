@@ -71,7 +71,7 @@ namespace Navecita {
 		auto atlas = SpriteAtlast(tex, 16);
 
 		_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
-		_anim->AddAnimUvLocation(atlas.getTileUV(1, 3));
+		_anim->AddAnimUvLocation(atlas.getTileUV(0, 3));
 
 		_anim->GoToFrame(0);
 
@@ -85,7 +85,7 @@ namespace Navecita {
 	void Player::Shoot()
 	{
 		auto bullet = CreateGameEntity<Projectile>("PlayerBullet");
-
+		bullet->SetTarget("Enemy");
 		bullet->Shoot(_pos, { 0, 1 }, 0.5f);
 	}
 }
