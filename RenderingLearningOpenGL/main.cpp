@@ -26,6 +26,9 @@
 KeyboardInput* _input;
 
 using namespace Engine;
+using glm::mat4;
+using glm::mat;
+
 int gcd(int a, int b)
 {
 	while (b != 0)
@@ -188,6 +191,9 @@ int main() {
 
 
 		cam->SetOrtho(-w / 2, w / 2, -h / 2, h / 2);
+		_projM_ = cam->getProj();
+		_viewM_ = cam->getView();
+		_screenSize_ = {width, height};
 
 		_scene->Update();
 		frameBuffer.Unbind();

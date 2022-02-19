@@ -9,6 +9,7 @@ namespace Navecita {
 	Player::Player(GameEntity* entity) : EntityBehaviour(entity) {
 
 	}
+	unsigned char* pixels[288 * 512];
 
 	Texture* _tar;
 	PixelHelper _helper;
@@ -73,20 +74,38 @@ namespace Navecita {
 			auto projPos = p->getTransform()->getPosition();
 			bool hit;
 			auto coord = _helper.World2Texel(8, 8, { 0, 0 }, projPos, hit);
-			
+
 			ivec2 iCoord = ivec2((int)round(coord.x * _tar->getWidth()), (int)round(coord.y * _tar->getHeight()));
 
 			auto it2 = std::find(_destroyed.begin(), _destroyed.end(), iCoord);
 
-			if (coord.x != 0 && coord.y != 0 && it2 == _destroyed.end())
+			//Safe destroy
+			//while (true)
 			{
-				_destroyed.push_back(iCoord);
-				_helper.RemovePixel(_tar, coord);
-				DestroyEntity(p);
+				auto NDC = _projM_ * _viewM_* glm::vec4(projPos, 1.0f);
 
-				_projectiles.erase(it);
-				break;
+				// to 0 - +1 range instead of -1 - +1
+				NDC = (NDC += 1) * 0.5f;
+
+				int xPixel = round(NDC.x * _screenSize_.x);
+				int yPixel = round(NDC.y * _screenSize_.y);
+
+
+				glReadPixels(xPixel, yPixel, 5, 5, GL_RED, GL_UNSIGNED_BYTE, &pixels);
+
+				
+				if (coord.x != 0 && coord.y != 0 && it2 == _destroyed.end() && pixels[4])
+				{
+					_destroyed.push_back(iCoord);
+					_helper.RemovePixel(_tar, coord);
+					DestroyEntity(p);
+
+					_projectiles.erase(it);
+					break;
+				}
 			}
+
+			
 		}
 
 		_destroy -= 0.4f;
@@ -117,7 +136,7 @@ namespace Navecita {
 		tex->UnBind();
 
 		Texture* tex2 = new Texture();
-		tex2->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/white.png", Engine::Texture::ClampingMode::Clamp);
+		tex2->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/random.png", Engine::Texture::ClampingMode::Clamp);
 
 		auto destroyable = CreateGameEntity("Destroyable");
 		destroyable->getTransform()->SetScale(8, 8, 8);
@@ -136,7 +155,7 @@ namespace Navecita {
 	{
 		auto bullet = CreateGameEntity<Projectile>("PlayerBullet");
 		bullet->SetTarget("Enemy");
-		bullet->Shoot(_pos, { 0, 1 }, 0.5f);
+		bullet->Shoot(_pos, { 0, 1 }, 0.1f);
 		_projectiles.push_back(bullet->getGameEntity());
 	}
 }

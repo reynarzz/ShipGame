@@ -15,6 +15,10 @@
 
 #include <string>
 extern Scene* _scene;
+extern glm::mat4 _projM_;
+extern glm::mat4 _viewM_;
+extern ivec2 _screenSize_;
+extern unsigned char* _currentFrameBufferTex_;
 
 inline GameEntity* CreateGameEntity(std::string name) {
 
