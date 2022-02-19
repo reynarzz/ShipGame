@@ -2,67 +2,102 @@
 #include <glew.h>
 #include <iostream>
 
-FrameBuffer::FrameBuffer(int width, int height)
-{
-	_width = width;
-	_height = height;
+namespace Engine {
+	FrameBuffer::FrameBuffer(int width, int height)
+	{
+		_width = width;
+		_height = height;
+		glGenTextures(1, &_texID);
+		glBindTexture(GL_TEXTURE_2D, _texID);
 
-	
-	glGenFramebuffers(1, &_frameID);
-	glBindFramebuffer(GL_FRAMEBUFFER, _frameID);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	glGenTextures(1, &_texID);
-	glBindTexture(GL_TEXTURE_2D, _texID);
+		glGenFramebuffers(1, &_frameID);
+		glBindFramebuffer(GL_FRAMEBUFFER, _frameID);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texID, 0);
-
-
-	/*unsigned int rbo;
-	glGenRenderbuffers(1, &rbo);
-	glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);*/
-
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-}
+		
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texID, 0);
 
 
-FrameBuffer::~FrameBuffer()
-{
+		glGenRenderbuffers(1, &_renderBuffID);
+		glBindRenderbuffer(GL_RENDERBUFFER, _renderBuffID);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
-}
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _renderBuffID);
 
-void FrameBuffer::Bind()
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, _frameID);
-}
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+			std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
 
-void FrameBuffer::Unbind()
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
 
-int FrameBuffer::GetWidth() const
-{
-	return _width;
-}
+	FrameBuffer::FrameBuffer(int width, int height, unsigned char* colors)
+	{
+		_width = width;
+		_height = height;
+		glGenTextures(1, &_texID);
+		glBindTexture(GL_TEXTURE_2D, _texID);
 
-int FrameBuffer::GetHeight() const
-{
-	return _height;
-}
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, colors);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-unsigned int FrameBuffer::GetTexID() const
-{
-	return _texID;
+		glGenFramebuffers(1, &_frameID);
+		glBindFramebuffer(GL_FRAMEBUFFER, _frameID);
+
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texID, 0);
+
+
+		glGenRenderbuffers(1, &_renderBuffID);
+		glBindRenderbuffer(GL_RENDERBUFFER, _renderBuffID);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _renderBuffID);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+			std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+
+	FrameBuffer::~FrameBuffer()
+	{
+
+	}
+
+	void FrameBuffer::Bind()
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, _frameID);
+		glBindRenderbuffer(GL_RENDERBUFFER, _renderBuffID);
+		//glBindTexture(GL_TEXTURE_2D, _texID);
+	}
+
+	void FrameBuffer::Unbind()
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		//glBindTexture(GL_TEXTURE_2D, 0);
+
+	}
+
+	int FrameBuffer::GetWidth() const
+	{
+		return _width;
+	}
+
+	int FrameBuffer::GetHeight() const
+	{
+		return _height;
+	}
+
+	unsigned int FrameBuffer::GetTexID() const
+	{
+		return _texID;
+	}
 }

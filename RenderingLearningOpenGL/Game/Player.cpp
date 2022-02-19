@@ -21,7 +21,7 @@ namespace Navecita {
 		float speed = 0.2f;
 		_anim->Update();
 		_angle += 0.1f;
-
+		_pos = GetTransform()->getPosition();
 		if (_input->_A_Pressed) {
 			//_anim->GoToFrame(0);
 			_pos.x -= speed;
@@ -72,7 +72,7 @@ namespace Navecita {
 			auto p = *it;
 			auto projPos = p->getTransform()->getPosition();
 			bool hit;
-			auto coord = _helper.World2Texel(8, 8, { 0, 10 }, projPos, hit);
+			auto coord = _helper.World2Texel(8, 8, { 0, 0}, projPos, hit);
 
 			//if (coord.x != 0 && coord.y != 0)
 			{
@@ -116,7 +116,7 @@ namespace Navecita {
 
 		auto destroyable = CreateGameEntity("Destroyable");
 		destroyable->getTransform()->SetScale(8, 8, 8);
-		destroyable->getTransform()->SetPosition(0, 10, 0);
+		destroyable->getTransform()->SetPosition(0, 0, 0);
 		destroyable->_renderer->_material->SetTexture(tex2);
 
 		tex2->UnBind();

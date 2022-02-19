@@ -22,10 +22,10 @@ public:
 		int index = (round(coord.x * tex->getWidth()) * channels - 1) +
 			round(tex->getWidth() * channels * round(tex->getWidth() * coord.y));
 
-		tex->_imageBuffer[index - 3] = 0x00; // Red
+		tex->_imageBuffer[index - 3] = 0xff; // Red
 		tex->_imageBuffer[index - 2] = 0x00; // Green
 		tex->_imageBuffer[index - 1] = 0x00; // Blue
-		tex->_imageBuffer[index] = 0x00;	 // Alpha
+		tex->_imageBuffer[index] = 0xff;	 // Alpha
 
 		tex->UpdateTexture(tex->_imageBuffer);
 	}
@@ -46,10 +46,10 @@ public:
 		float targetHeight = 1;
 		float targetWidth = 1;
 
-		float texLeft = (texPos.x - texWidth / 2);
-		float texRight = (texPos.x + texWidth / 2);
-		float texTop = (texPos.y + textHeight / 2);
-		float texBottom = (texPos.y - textHeight / 2);
+		float texLeft = (texPos.x - texWidth );
+		float texRight = (texPos.x + texWidth );
+		float texTop = (texPos.y + textHeight );
+		float texBottom = (texPos.y - textHeight);
 
 
 		float left = (target.x - targetWidth / 2);
@@ -64,7 +64,7 @@ public:
 			float yCoord = Utils::Normalize(target.y, texTop, texBottom);
 			float xCoord = Utils::Normalize(target.x, texRight, texLeft);
 			hit = true;
-			return vec2(xCoord, yCoord);
+			return vec2(abs(xCoord), abs(yCoord));
 		}
 		hit = false;
 		return { 0.0, 0.0 };

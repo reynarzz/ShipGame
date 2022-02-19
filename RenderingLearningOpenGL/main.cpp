@@ -18,6 +18,10 @@
 #include "GameHelper.h"
 #include "Game/Background.h"
 #include "FrameBuffer.h"
+#include "Game/Projectile.h"
+
+
+
 
 KeyboardInput* _input;
 
@@ -41,6 +45,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	}
 }
+int game[144*2][256*2];
 
 int main() {
 
@@ -68,6 +73,12 @@ int main() {
 		return -1;
 	}
 
+	for (size_t i = 0; i < 144*2; i++)
+	{
+		for (size_t j = 0; j < 144 * 2; j++)
+			game[i][j];
+	}
+
 	_scene = new Scene(nullptr);
 
 	_input = new KeyboardInput();
@@ -75,7 +86,7 @@ int main() {
 	Camera* cam = new Camera();
 
 	//Setup
-	cam->_viewTransform->SetPosition(0, -10, -10);
+	cam->_viewTransform->SetPosition(0, 0, -10);
 
 
 	_scene->SetCamera(cam);
@@ -83,21 +94,41 @@ int main() {
 
 	Navecita::Player* player = CreateGameEntity<Navecita::Player>("Player");
 	player->SetInput_Test(_input);
+	player->GetTransform()->SetPosition(0, -12, 0);
 
-	//CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 0, 3, 0 });
+	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 0, 3, 0 });
 
-	//CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ -4, 3, 0 });
-	//CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 1, 10, 0 });
-	//CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 4, 15, 0 });
-	//CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 4, 12, 0 });
-	//
+	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ -4, 3, 0 });
+	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 1, 10, 0 });
+	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 4, 15, 0 });
+	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 4, 12, 0 });
+	auto test = CreateGameEntity<Navecita::Projectile>("test");
+	test->GetTransform()->SetPosition({ 0, -8, 0 });
+	test->getGameEntity()->_renderer->_material->SetColor({ 1, 0,0,1 });
+
 	int width, height;
+	glfwGetWindowSize(window, &width, &height);
 
-	FrameBuffer frameBuffer(nativeWidth, nativeWidth);
+
+	FrameBuffer frameBuffer(nativeWidth, nativeHeight/*nativeWidth * 4, nativeWidth * 4*/);
+
+	frameBuffer.Bind();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
+
+	frameBuffer.Unbind();
 
 	auto sh = ShadersHelper::GetScreenQuad();
+
 	Shader screenQuadShader(sh.first, sh.second);
 	Mesh* quad = Utils::GetQuadMesh();
+
+	/*Texture t;
+	t.LoadImage("B:/Projects/UnityEditorGame/assets/navecita/white.png");*/
+	//FrameBuffer frameBuffer(nativeWidth * 4, nativeHeight * 4);
+
+	//Shader screenQuadShader2(sh.first, sh.second);
+	//Mesh* quad2 = Utils::GetQuadMesh();
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -107,14 +138,37 @@ int main() {
 		_input->_D_Pressed = glfwGetKey(window, GLFW_KEY_D);
 		_input->_S_Pressed = glfwGetKey(window, GLFW_KEY_S);
 		_input->_W_Pressed = glfwGetKey(window, GLFW_KEY_W);
+
+
 		_input->_shoot_Pressed = glfwGetKey(window, GLFW_KEY_SPACE);
+		int isMouse = glfwGetMouseButton(window, 0);
 
 		frameBuffer.Bind();
 		glViewport(0, 0, frameBuffer.GetWidth(), frameBuffer.GetHeight());
 
+		/*
+		quad2->Bind();
+		screenQuadShader2.Bind();
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+		xpos = round(xpos);
+		ypos = round(ypos);
+
+		int loc2 = glGetUniformLocation(screenQuadShader2.getProgram(), "_MOUSE_");
+
+		if (isMouse) {
+			float x = (int)round((xpos / width) * nativeWidth);
+			float y = (int)round((1.0f -(ypos / height)) * nativeHeight);
+
+			glUniform2i(loc2, x, y);
+		}
+
+		glDrawElements(GL_TRIANGLES, quad2->getIndices().size(), GL_UNSIGNED_INT, NULL);
+		*/
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_BLEND);
-		glEnable(GL_DEPTH_TEST);
+		//glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
@@ -139,7 +193,7 @@ int main() {
 		frameBuffer.Unbind();
 		glViewport(0, 0, width, height);
 
-		glClear(GL_COLOR_BUFFER_BIT );
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDisable(GL_BLEND);
 		glDisable(GL_DEPTH_TEST);
 
