@@ -101,6 +101,9 @@
     <ClCompile Include="Game\StonePixel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FrameBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
@@ -163,5 +166,6 @@
     <ClInclude Include="Game\Background.h" />
     <ClInclude Include="Game\StonePixel.h" />
     <ClInclude Include="PixelHelper.h" />
+    <ClInclude Include="FrameBuffer.h" />
   </ItemGroup>
 </Project>

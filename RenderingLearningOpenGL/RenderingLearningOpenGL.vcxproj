@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="Game\Background.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GameHelper.cpp" />
@@ -176,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Game\Background.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />

@@ -17,6 +17,7 @@
 #include "ShadersHelper.h"
 #include "GameHelper.h"
 #include "Game/Background.h"
+#include "FrameBuffer.h"
 
 KeyboardInput* _input;
 
@@ -55,7 +56,9 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	int multiplier = 2;
-	GLFWwindow* window = glfwCreateWindow(144 * multiplier, 256 * multiplier, "Navecita", NULL, nullptr);
+	int nativeWidth = 144 * multiplier;
+	int nativeHeight = 256 * multiplier;
+	GLFWwindow* window = glfwCreateWindow(nativeWidth, nativeHeight, "Navecita", NULL, nullptr);
 
 	glfwMakeContextCurrent(window);
 	glfwSetKeyCallback(window, key_callback);
@@ -90,21 +93,32 @@ int main() {
 	//
 	int width, height;
 
+	FrameBuffer frameBuffer(nativeWidth, nativeWidth);
+
+	auto sh = ShadersHelper::GetScreenQuad();
+	Shader screenQuadShader(sh.first, sh.second);
+	Mesh* quad = Utils::GetQuadMesh();
+
 	while (!glfwWindowShouldClose(window))
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+		glfwGetWindowSize(window, &width, &height);
+
 		_input->_A_Pressed = glfwGetKey(window, GLFW_KEY_A);
 		_input->_D_Pressed = glfwGetKey(window, GLFW_KEY_D);
 		_input->_S_Pressed = glfwGetKey(window, GLFW_KEY_S);
 		_input->_W_Pressed = glfwGetKey(window, GLFW_KEY_W);
 		_input->_shoot_Pressed = glfwGetKey(window, GLFW_KEY_SPACE);
 
+		frameBuffer.Bind();
+		glViewport(0, 0, frameBuffer.GetWidth(), frameBuffer.GetHeight());
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 
-		glfwGetWindowSize(window, &width, &height);
 
 		float targetH = 16.0f * 2;
 		float targetW = 9.0f * 2;// 9.0f;
@@ -118,13 +132,28 @@ int main() {
 		else
 			h = targetH, w = width / scale_h;
 
-		glViewport(0, 0, width, height);
 
 		cam->SetOrtho(-w / 2, w / 2, -h / 2, h / 2);
 
 		_scene->Update();
+		frameBuffer.Unbind();
+		glViewport(0, 0, width, height);
+
+		glClear(GL_COLOR_BUFFER_BIT );
+		glDisable(GL_BLEND);
+		glDisable(GL_DEPTH_TEST);
+
+		screenQuadShader.Bind();
+		quad->Bind();
+		glBindTexture(GL_TEXTURE_2D, frameBuffer.GetTexID());
+
+		int loc = glGetUniformLocation(screenQuadShader.getProgram(), "_tex0");
+		glUniform1i(loc, 0);
+
+		glDrawElements(GL_TRIANGLES, quad->getIndices().size(), GL_UNSIGNED_INT, NULL);
 
 		glfwSwapBuffers(window);
+
 
 		glfwPollEvents();
 	}
