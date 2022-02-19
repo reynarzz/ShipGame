@@ -22,10 +22,10 @@ public:
 		int index = (round(coord.x * tex->getWidth()) * channels - 1) +
 			round(tex->getWidth() * channels * round(tex->getWidth() * coord.y));
 
-		tex->_imageBuffer[index - 3] = 0xff; // Red
+		tex->_imageBuffer[index - 3] = 0x00; // Red
 		tex->_imageBuffer[index - 2] = 0x00; // Green
 		tex->_imageBuffer[index - 1] = 0x00; // Blue
-		tex->_imageBuffer[index] = 0xff;	 // Alpha
+		tex->_imageBuffer[index] = 0x00;	 // Alpha
 
 		tex->UpdateTexture(tex->_imageBuffer);
 	}

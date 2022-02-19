@@ -15,7 +15,7 @@ namespace Navecita {
 	vec2 _pos;
 	float _destroy = 5;
 	vector<GameEntity*> _projectiles;
-
+	vector<ivec2> _destroyed;
 	void Player::Update() {
 
 		float speed = 0.2f;
@@ -64,7 +64,7 @@ namespace Navecita {
 			float valx = (rand() % 100) / 100.0f;
 			float valy = (rand() % 100) / 100.0f;
 
-		//	_helper.RemovePixel(_tar, { valx, valy });
+			//	_helper.RemovePixel(_tar, { valx, valy });
 		}
 
 		for (auto it = _projectiles.begin(); it < _projectiles.end(); it++)
@@ -72,15 +72,20 @@ namespace Navecita {
 			auto p = *it;
 			auto projPos = p->getTransform()->getPosition();
 			bool hit;
-			auto coord = _helper.World2Texel(8, 8, { 0, 0}, projPos, hit);
+			auto coord = _helper.World2Texel(8, 8, { 0, 0 }, projPos, hit);
+			
+			ivec2 iCoord = ivec2((int)round(coord.x * _tar->getWidth()), (int)round(coord.y * _tar->getHeight()));
 
-			//if (coord.x != 0 && coord.y != 0)
+			auto it2 = std::find(_destroyed.begin(), _destroyed.end(), iCoord);
+
+			if (coord.x != 0 && coord.y != 0 && it2 == _destroyed.end())
 			{
+				_destroyed.push_back(iCoord);
 				_helper.RemovePixel(_tar, coord);
+				DestroyEntity(p);
 
-				//DestroyEntity(p);
-				//_projectiles.erase(it);
-				//break;
+				_projectiles.erase(it);
+				break;
 			}
 		}
 
