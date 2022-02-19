@@ -24,7 +24,7 @@ namespace Engine {
 			float targetBottom = (target->_y - target->_height / 2);
 
 			return ((right <= targetRight && right >= targetLeft) || (left <= targetRight && left >= targetLeft)) &&
-				((top <= targetTop && top >= targetBottom) || (bottom <= targetTop && bottom >= targetBottom));
+			       ((top <= targetTop && top >= targetBottom) || (bottom <= targetTop && bottom >= targetBottom));
 		}
 	}
 

@@ -18,51 +18,55 @@ public:
 
 		int channels = 4;
 
-		{
-			
-			int index = (round(coord.x * tex->getWidth()) * channels - 1) +
-				round(tex->getWidth() * channels * round(tex->getWidth() * coord.y)  );
+		
+		int index = (round(coord.x * tex->getWidth()) * channels - 1) +
+			round(tex->getWidth() * channels * round(tex->getWidth() * coord.y));
 
-			tex->_imageBuffer[index - 3] = 0x00; // Red
-			tex->_imageBuffer[index - 2] = 0xff; // Green
-			tex->_imageBuffer[index - 1] = 0x00; // Blue
-			tex->_imageBuffer[index] = 0xff;	 // Alpha
-		}
+		tex->_imageBuffer[index - 3] = 0x00; // Red
+		tex->_imageBuffer[index - 2] = 0x00; // Green
+		tex->_imageBuffer[index - 1] = 0x00; // Blue
+		tex->_imageBuffer[index] = 0x00;	 // Alpha
 
 		tex->UpdateTexture(tex->_imageBuffer);
 	}
 
 	static	ivec2 Texel2Screen(ivec2 coord) {
-
+		//Camera matrix
+		//coord * _VP_ * screenWith * screenheigh
 	}
 
 	static	ivec2 Screen2Texel(ivec2 coord) {
 
 	}
 
-	static	vec2 World2Texel(int texWidth, int textHeight, glm::vec2 texPos, glm::vec2 target) {
+	static vec2 World2Texel(int texWidth, int textHeight, glm::vec2 texPos, glm::vec2 target, bool& hit) {
 
 		//Construct bounding box.
-		float right = (texPos.x + texWidth * 0.5f);
-		float left = (texPos.x - texWidth * 0.5f);
-		float top = (texPos.y + textHeight * 0.5f);
-		float bottom = (texPos.y - textHeight * 0.5f);
 
-		float targetLeft = (target.x - 0.5f);
-		float targetRight = (target.x + 0.5f);
-		float targetTop = (target.y + 0.5f);
-		float targetBottom = (target.y - 0.5f);
+		float targetHeight = 1;
+		float targetWidth = 1;
 
-		//Normalize.
-		if (((right <= targetRight && right >= targetLeft) || (left <= targetRight && left >= targetLeft)) &&
-			((top <= targetTop && top >= targetBottom) || (bottom <= targetTop && bottom >= targetBottom)))
-		{
-			float yCoord = Utils::Normalize(target.y, top, bottom);
-			float xCoord = Utils::Normalize(target.x, right, left);
+		float texLeft = (texPos.x - texWidth / 2);
+		float texRight = (texPos.x + texWidth / 2);
+		float texTop = (texPos.y + textHeight / 2);
+		float texBottom = (texPos.y - textHeight / 2);
 
+
+		float left = (target.x - targetWidth / 2);
+		float right = (target.x + targetWidth / 2);
+		float top = (target.y + targetHeight / 2);
+		float bottom = (target.y - targetHeight / 2);
+		
+
+
+		if (((right <= texRight && right >= texLeft) || (left <= texRight && left >= texLeft)) &&
+			((top <= texTop && top >= texBottom) || (bottom <= texTop && bottom >= texBottom))) {
+			float yCoord = Utils::Normalize(target.y, texTop, texBottom);
+			float xCoord = Utils::Normalize(target.x, texRight, texLeft);
+			hit = true;
 			return vec2(xCoord, yCoord);
 		}
-
-		return { };
+		hit = false;
+		return { 0.0, 0.0 };
 	}
 };

@@ -13,6 +13,9 @@ namespace Navecita {
 	Texture* _tar;
 	PixelHelper _helper;
 	vec2 _pos;
+	float _destroy = 5;
+	vector<GameEntity*> _projectiles;
+
 	void Player::Update() {
 
 		float speed = 0.2f;
@@ -55,7 +58,33 @@ namespace Navecita {
 
 		getGameEntity()->getTransform()->SetPosition(_pos.x, _pos.y, 0);
 
-		_helper.RemovePixel(_tar, { 1.0f, 1.99f });
+		if (_destroy < 0) {
+			_destroy = 5;
+
+			float valx = (rand() % 100) / 100.0f;
+			float valy = (rand() % 100) / 100.0f;
+
+		//	_helper.RemovePixel(_tar, { valx, valy });
+		}
+
+		for (auto it = _projectiles.begin(); it < _projectiles.end(); it++)
+		{
+			auto p = *it;
+			auto projPos = p->getTransform()->getPosition();
+			bool hit;
+			auto coord = _helper.World2Texel(8, 8, { 0, 10 }, projPos, hit);
+
+			//if (coord.x != 0 && coord.y != 0)
+			{
+				_helper.RemovePixel(_tar, coord);
+
+				//DestroyEntity(p);
+				//_projectiles.erase(it);
+				//break;
+			}
+		}
+
+		_destroy -= 0.4f;
 	}
 
 	void Player::OnCollision(GameEntity* entity) {
@@ -103,5 +132,6 @@ namespace Navecita {
 		auto bullet = CreateGameEntity<Projectile>("PlayerBullet");
 		bullet->SetTarget("Enemy");
 		bullet->Shoot(_pos, { 0, 1 }, 0.5f);
+		_projectiles.push_back(bullet->getGameEntity());
 	}
 }
