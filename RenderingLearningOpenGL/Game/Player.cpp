@@ -2,13 +2,16 @@
 #include "../GameHelper.h"
 #include "Projectile.h"
 #include <iostream>
+#include "../PixelHelper.h"
+
 namespace Navecita {
 
 	Player::Player(GameEntity* entity) : EntityBehaviour(entity) {
-		
+
 	}
 
-
+	Texture* _tar;
+	PixelHelper _helper;
 	vec2 _pos;
 	void Player::Update() {
 
@@ -51,6 +54,8 @@ namespace Navecita {
 		}
 
 		getGameEntity()->getTransform()->SetPosition(_pos.x, _pos.y, 0);
+
+		_helper.RemovePixel(_tar, { 1.0f, 1.99f });
 	}
 
 	void Player::OnCollision(GameEntity* entity) {
@@ -71,11 +76,22 @@ namespace Navecita {
 		auto atlas = SpriteAtlast(tex, 16);
 
 		_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
-		_anim->AddAnimUvLocation(atlas.getTileUV(0, 3));
+		_anim->AddAnimUvLocation(atlas.getTileUV(1, 3));
 
 		_anim->GoToFrame(0);
 
 		tex->UnBind();
+
+		Texture* tex2 = new Texture();
+		tex2->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/white.png", Engine::Texture::ClampingMode::Clamp);
+
+		auto destroyable = CreateGameEntity("Destroyable");
+		destroyable->getTransform()->SetScale(8, 8, 8);
+		destroyable->getTransform()->SetPosition(0, 10, 0);
+		destroyable->_renderer->_material->SetTexture(tex2);
+
+		tex2->UnBind();
+		_tar = tex2;
 	}
 
 	void Player::SetInput_Test(KeyboardInput* input)

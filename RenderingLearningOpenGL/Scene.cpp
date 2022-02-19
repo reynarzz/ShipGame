@@ -27,7 +27,7 @@ namespace Engine {
 			{
 				auto target = _entities.at(j);
 				//if(target.Collidable())
-				if (!current->_pendingToDestroy && !target->_pendingToDestroy && current != target) {
+				/*if (!current->_pendingToDestroy && !target->_pendingToDestroy && current != target) {
 					if (current->GetAABB()->Collide(target->GetAABB())) {
 						((EntityBehaviour*)current->getComponents().at(0))->OnCollision(target);
 						((EntityBehaviour*)target->getComponents().at(0))->OnCollision(current);
@@ -36,7 +36,7 @@ namespace Engine {
 				}
 				else {
 					continue;
-				}
+				}*/
 			}
 
 			current->Bind(_camera);

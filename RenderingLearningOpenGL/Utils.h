@@ -61,5 +61,10 @@ namespace Engine {
 
 			return locations;
 		}
+
+		static float Normalize(float val, float max, float min) 
+		{
+			return (val - min) / (max - min); 
+		}
 	};
 }

@@ -21,13 +21,14 @@ namespace Engine {
 		unsigned int getTexID() const;
 		int getWidth() const;
 		int getHeight() const;
-
+		void UpdateTexture(void* colors);
+		unsigned char* _imageBuffer;
+		int _channels;
+		unsigned char col[2500*4];
 	private:
 		unsigned int _texID;
 		int _width;
 		int _height;
-		unsigned char* _imageBuffer;
-		int _channels;
 	};
 }
 

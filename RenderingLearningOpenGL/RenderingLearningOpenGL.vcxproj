@@ -170,6 +170,7 @@
     <ClCompile Include="SpriteAtlast.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="stb_image.h" />
+    <ClCompile Include="Game\StonePixel.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
@@ -189,6 +190,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Game\Player.h" />
     <ClInclude Include="Game\Projectile.h" />
+    <ClInclude Include="PixelHelper.h" />
     <ClInclude Include="QuadRenderer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
@@ -197,6 +199,7 @@
     <ClInclude Include="Game\Spawner.h" />
     <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="SpriteAtlast.h" />
+    <ClInclude Include="Game\StonePixel.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Utils.h" />

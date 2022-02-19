@@ -10,6 +10,7 @@ Engine::Texture::Texture() : _texID(0), _imageBuffer(NULL),
 Engine::Texture::~Texture()
 {
 	glDeleteTextures(1, &_texID);
+	stbi_image_free(_imageBuffer);
 }
 
 void Engine::Texture::LoadImage(const std::string& path, ClampingMode clampingMode)
@@ -45,8 +46,8 @@ void Engine::Texture::LoadImage(const std::string& path, ClampingMode clampingMo
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageBuffer);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	if (_imageBuffer)
-		stbi_image_free(_imageBuffer);
+	/*if (_imageBuffer)
+		stbi_image_free(_imageBuffer);*/
 }
 
 void Engine::Texture::Bind(unsigned int slot) const
@@ -75,4 +76,11 @@ int Engine::Texture::getWidth() const
 int Engine::Texture::getHeight() const
 {
 	return _height;
+}
+
+void Engine::Texture::UpdateTexture(void* colors)
+{
+	Bind();
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _width, _height, GL_RGBA, GL_UNSIGNED_BYTE, colors);
+	UnBind();
 }

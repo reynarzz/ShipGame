@@ -7,11 +7,11 @@
 using namespace Engine;
 
 namespace Navecita {
-	class Projectile : public EntityBehaviour
+	class StonePixel : public EntityBehaviour
 	{
 	public:
 		float _angle;
-		Projectile(GameEntity* entity);
+		StonePixel(GameEntity* entity);
 
 		void Update() override;
 		void SetTarget(const std::string& target);

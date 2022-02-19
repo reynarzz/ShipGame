@@ -6,13 +6,12 @@ namespace Navecita {
 	{
 
 	}
-	glm::vec2 _sd;
 
 	void Background::Update() {
 
-		_sd.y += 0.02f;
+		_scroll.y += 0.017f;
 
-		_mat->SetScroll(_sd);
+		_mat->SetScroll(_scroll);
 	}
 
 	void Background::OnCollision(GameEntity* entity)
