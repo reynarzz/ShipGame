@@ -56,7 +56,7 @@ inline glm::dvec3 Pixel2World(glm::ivec3 pixel) {
 
 	ndc -= 1.0f;
 
-	auto resilt = _projMInv_ * _viewMInv_ * glm::vec4(ndc.x, ndc.y, 1.0, 1.0);
+	auto resilt = _projMInv_ * _viewMInv_ * glm::vec4(ndc.x, ndc.y, 0.0, 1.0);
 
 	return glm::dvec3(resilt.x, resilt.y, resilt.z);
 }
@@ -65,25 +65,38 @@ inline vec2 Pixel2World(glm::ivec2 pixel) {
 	return Pixel2World({ pixel.x, pixel.y, 0.f });
 }
 
+enum class ShaderType
+{
+	Basic,
+	OutputXyCoord
+};
 
-inline GameEntity* CreateGameEntity(std::string name, int ppu = 1, Texture* text = nullptr) {
+inline GameEntity* CreateGameEntity(std::string name, int texWidth = 1, int texHeight = 1) {
 
 	GameEntity* entity = new GameEntity(name);
 
-	float texWidth = 1;
-	float texHeight = 1;
 	float factor = 1;
+	float ppu = 1;
 
-	//if (text != nullptr) {
-	//	 texWidth = text->getWidth();
-	//	 texHeight = text->getHeight();
+	
+		 factor = gcd(texWidth, texHeight);
+	pair<std::string, std::string> shaderPair;
 
-	//	 factor = gcd(texWidth, texHeight);
-	//}
+	/*switch (shaderType)
+	{
+	case ShaderType::Basic:
+		shaderPair = ShadersHelper::GetBasicShader();
+		break;
+	case ShaderType::OutputXyCoord:
+		shaderPair = ShadersHelper::GetOutputPixelCoords();
+		break;
+	
+	}*/
+	shaderPair = ShadersHelper::GetBasicShader();
 
-	Mesh* quad = Utils::GetQuadMesh((float)texWidth / factor * ppu, (float)texHeight / factor * ppu);
+	Mesh* quad = Utils::GetQuadMesh((float)texWidth / factor * (texWidth / 16) , (float)texHeight / factor * (texHeight/  16));
 
-	auto shaderPair = ShadersHelper::GetBasicShader();
+	
 	Material* material = new Material(new Shader(shaderPair.first, shaderPair.second));
 
 	QuadRenderer* renderer = new QuadRenderer(material, quad);
@@ -100,9 +113,9 @@ inline T* CreateComponent(GameEntity* gameEntity) {
 }
 
 template<class T>
-inline T* CreateGameEntity(std::string name, int ppu = 1) {
+inline T* CreateGameEntity(std::string name, int texWidth = 1, int texHeight = 1) {
 
-	GameEntity* entity = CreateGameEntity(name, ppu);
+	GameEntity* entity = CreateGameEntity(name, texWidth, texHeight);
 
 	//GameEntity* entity = new GameEntity(name);
 

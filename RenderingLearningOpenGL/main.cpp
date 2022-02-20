@@ -36,7 +36,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	}
 }
-int game[144 * 2][256 * 2];
 
 int main() {
 
@@ -51,7 +50,7 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	int multiplier = 2;
+	int multiplier = 4;
 	int nativeWidth = 144 * multiplier;
 	int nativeHeight = 256 * multiplier;
 	GLFWwindow* window = glfwCreateWindow(nativeWidth, nativeHeight, "Navecita", NULL, nullptr);
@@ -64,11 +63,8 @@ int main() {
 		return -1;
 	}
 
-	for (size_t i = 0; i < 144 * 2; i++)
-	{
-		for (size_t j = 0; j < 144 * 2; j++)
-			game[i][j];
-	}
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
 
 	_scene = new Scene(nullptr);
 
@@ -79,25 +75,38 @@ int main() {
 	//Setup
 	cam->_viewTransform->SetPosition(0, 0, -10);
 
+	_projM_ = cam->getProj();
+	_viewM_ = cam->getView();
+
+	_projMInv_ = cam->getProjInv();
+	_viewMInv_ = cam->getViewInv();
+	_screenSize_ = { width, height };
+
 
 	_scene->SetCamera(cam);
 	//CreateGameEntity<Navecita::Background>("Background");
 
 
-	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 0, 3, 0 });
+	/*CreateGameEntity<Navecita::Enemy>("Enemy", 16, 16)->GetTransform()->SetPosition({ 0, 3, 0 });
 
-	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ -4, 3, 0 });
-	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 1, 10, 0 });
-	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 4, 15, 0 });
-	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 4, 12, 0 });
-
+	CreateGameEntity<Navecita::Enemy>("Enemy", 16, 16)->GetTransform()->SetPosition({ -4, 3, 0 });
+	CreateGameEntity<Navecita::Enemy>("Enemy", 16, 16)->GetTransform()->SetPosition({ 1, 10, 0 });
+	CreateGameEntity<Navecita::Enemy>("Enemy", 16, 16)->GetTransform()->SetPosition({ 4, 15, 0 });
+	CreateGameEntity<Navecita::Enemy>("Enemy", 16, 16)->GetTransform()->SetPosition({ 4, 12, 0 });
+*/
 
 	Texture* tex2 = new Texture();
 	tex2->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/random.png", Engine::Texture::ClampingMode::Clamp);
 
-	auto destroyable = CreateGameEntity("Destroyable");
-	destroyable->getTransform()->SetScale(4, 4, 0);
-	destroyable->getTransform()->SetPosition(0, 0, 0);
+	auto destroyable = CreateGameEntity("Destroyable", 64, 64);
+	//destroyable->getTransform()->SetScale(1, 1, 0);
+
+	auto w = World2Pixel({ 0.0f, 0.0f });
+	auto pixelPos = glm::round(Pixel2World(w));
+
+	std::cout << "PixelPos: " << pixelPos.x << "\n";
+
+	destroyable->getTransform()->SetPosition(pixelPos.x, pixelPos.y, 0);
 	destroyable->_renderer->_material->SetTexture(tex2);
 
 	tex2->UnBind();
@@ -105,17 +114,14 @@ int main() {
 
 
 
-	Navecita::Player* player = CreateGameEntity<Navecita::Player>("Player");
+	Navecita::Player* player = CreateGameEntity<Navecita::Player>("Player" , 16, 16);
 	player->SetInput_Test(_input);
 	player->GetTransform()->SetPosition(0, -12, 0);
 	player->SetDestroyableTex(tex2);
 
-	/*auto test = CreateGameEntity<Navecita::Projectile>("test");
-	test->GetTransform()->SetPosition({ 0, -8, 0 });
-	test->getGameEntity()->_renderer->_material->SetColor({ 1, 0,0,1 });*/
+	
 
-	int width, height;
-	glfwGetWindowSize(window, &width, &height);
+
 
 
 	FrameBuffer frameBuffer(nativeWidth, nativeHeight/*nativeWidth * 4, nativeWidth * 4*/);
@@ -153,8 +159,8 @@ int main() {
 
 		//for (size_t i = 0; i < 2; i++)
 		{
-
 			frameBuffer.Bind();
+			frameBuffer.UpdateBuffer(width, height);
 			glViewport(0, 0, frameBuffer.GetWidth(), frameBuffer.GetHeight());
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -179,6 +185,8 @@ int main() {
 
 
 			cam->SetOrtho(-w / 2, w / 2, -h / 2, h / 2);
+			//cam->SetOrtho(0, width, 0, height);
+			
 			_projM_ = cam->getProj();
 			_viewM_ = cam->getView();
 

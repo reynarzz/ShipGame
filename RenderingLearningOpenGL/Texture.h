@@ -22,7 +22,7 @@ namespace Engine {
 		int getWidth() const;
 		int getHeight() const;
 		void UpdateTexture(void* colors);
-		unsigned char* _imageBuffer;
+		unsigned short* _imageBuffer;
 		int _channels;
 		unsigned char col[2500*4];
 	private:

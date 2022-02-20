@@ -21,8 +21,9 @@ void Engine::Texture::LoadImage(const std::string& path, ClampingMode clampingMo
 
 	stbi_set_flip_vertically_on_load(1);
 
-	_imageBuffer = stbi_load(path.c_str(), &_width, &_height, &_channels, 4);
-	
+	//_imageBuffer = stbi_load(path.c_str(), &_width, &_height, &_channels, 4);
+	_imageBuffer = stbi_load_16(path.c_str(), &_width, &_height, &_channels, 4);
+
 	glGenTextures(1, &_texID);
 	glBindTexture(GL_TEXTURE_2D, _texID);
 
@@ -43,7 +44,7 @@ void Engine::Texture::LoadImage(const std::string& path, ClampingMode clampingMo
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
 
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageBuffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _width, _height, 0, GL_RGBA, GL_UNSIGNED_SHORT, _imageBuffer);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	/*if (_imageBuffer)
@@ -81,6 +82,6 @@ int Engine::Texture::getHeight() const
 void Engine::Texture::UpdateTexture(void* colors)
 {
 	Bind();
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _width, _height, GL_RGBA, GL_UNSIGNED_BYTE, colors);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _width, _height, GL_RGBA, GL_UNSIGNED_SHORT, colors);
 	UnBind();
 }

@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include "GameHelper.h"
 
 namespace Engine {
 	Transform::Transform() {
@@ -20,15 +21,12 @@ namespace Engine {
 
 	void Transform::SetPosition(glm::vec3 pos)
 	{
-		/*float xFract = round(glm::fract(pos.x));
-		float yFract = round(glm::fract(pos.y));
-
-		pos.x = round(pos.x) + xFract;
-		pos.y = round(pos.y) + yFract;*/
+		/*auto w = World2Pixel({ 0.0f, 0.0f });
+		auto pixelPos = Pixel2World(w);*/
 
 		_v_position = pos;
 
-		_position = glm::translate(glm::mat4(1.0f), _v_position);
+		_position = glm::translate(glm::mat4(1.0f), pos);
 
 		updateModelM();
 	}

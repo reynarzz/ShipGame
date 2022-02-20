@@ -1,3 +1,5 @@
+#include "GameHelper.h"
+
 #include "Camera.h"
 
 namespace Engine {
@@ -14,8 +16,8 @@ namespace Engine {
     }
 
     void Camera::SetOrtho(float left, float right, float bottom, float top) {
-        _proj = glm::ortho(left, right, bottom, top, 1.0f, 100.0f);
-
+      _proj = glm::ortho(left, right, bottom, top, 1.0f, 100.0f);
+       // _proj = glm::ortho(-0.5, (9.0 * 2 - 1) + 0.5, -0.5, (16.0f * 2 - 1) + 0.5, 1.0, 100.0);
         _projInv = glm::inverse(_proj);
     }
 

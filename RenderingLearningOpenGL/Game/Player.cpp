@@ -5,9 +5,13 @@
 #include "../PixelHelper.h"
 
 namespace Navecita {
+	Transform* _point;
 
 	Player::Player(GameEntity* entity) : EntityBehaviour(entity) {
-
+		auto test = CreateGameEntity<Navecita::Projectile>("test", 16, 16);
+		test->GetTransform()->SetPosition({ 0, -8, 0 });
+		test->getGameEntity()->_renderer->_material->SetColor({ 1, 0,0,1 });
+		_point = test->GetTransform();
 	}
 	unsigned char* pixels[16] = { nullptr };
 	unsigned char* prevPixels[16] = { nullptr };
@@ -21,7 +25,7 @@ namespace Navecita {
 	void Player::Update() {
 
 		float speed = 0.1f;
-		_anim->Update();
+		//_anim->Update();
 		_angle += 0.1f;
 		_pos = GetTransform()->getPosition();
 		if (_input->_A_Pressed) {
@@ -83,7 +87,7 @@ namespace Navecita {
 
 				//int xPixel = round(NDC.x * _screenSize_.x);
 				//int yPixel = round(NDC.y * _screenSize_.y);
-				auto projPos = vec2(_pos.x, _pos.y + 2);//(*it)->getTransform()->getPosition();
+				auto projPos = vec2(_pos.x, _pos.y + 3);//(*it)->getTransform()->getPosition();
 
 				vec2 pixelPos = World2Pixel(projPos);
 				vec2 newpos = Pixel2World(pixelPos);
@@ -100,26 +104,28 @@ namespace Navecita {
 				{
 					maxChecks--;
 
-					glReadPixels(pixelPos.x, pixelPos.y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &pixels);
+					glReadPixels(pixelPos.x, pixelPos.y, 8, 8, GL_RGBA, GL_UNSIGNED_BYTE, &pixels);
 
 					if (pixels[0]) {
 						projPos = Pixel2World({ pixelPos.x, pixelPos.y, 0 });
 					}
 
+					// advance to the next pixel.
 					pixelPos.y += 1.0f;
 				}
 
 				bool hit;
-				auto coord = _helper.World2Texel(4, 4, { 0, 0 }, projPos, hit);
+				auto coord = _helper.World2Texel(64 / 16, 64 / 16, Pixel2World(World2Pixel( { 0, 0 })), projPos, hit);
+				//_point->SetPosition({ projPos, 0.0f });
+				//ivec2 iCoord = ivec2((int)round(coord.x * _tar->getWidth()), (int)round(coord.y * _tar->getHeight()));
 
-				ivec2 iCoord = ivec2((int)round(coord.x * _tar->getWidth()), (int)round(coord.y * _tar->getHeight()));
-
-				auto it2 = std::find(_destroyed.begin(), _destroyed.end(), iCoord);
+				//auto it2 = std::find(_destroyed.begin(), _destroyed.end(), iCoord);
 
 
 				//if (coord.x != 0 && coord.y != 0 && it2 == _destroyed.end() && pixels[0])
 				{
 					//_destroyed.push_back(iCoord);
+					//_helper.RemovePixel(_tar, pixelPos.x, pixelPos.y);
 					_helper.RemovePixel(_tar, coord);
 					//DestroyEntity(*it);
 
@@ -144,15 +150,15 @@ namespace Navecita {
 		Texture* tex = new Texture();
 
 		getGameEntity()->_renderer->_material->SetTexture(tex);
-		tex->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/Players.png");
+		tex->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/Player.png");
 		//tex->LoadImage("assets/spaceShooter/SpaceShooterAssetPack_Ships.png");
 
 		auto atlas = SpriteAtlast(tex, 16);
 
-		_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
-		_anim->AddAnimUvLocation(atlas.getTileUV(1, 3));
+		//_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
+		//_anim->AddAnimUvLocation(atlas.getTileUV(1, 3));
 
-		_anim->GoToFrame(0);
+		//_anim->GoToFrame(0);
 
 		tex->UnBind();
 

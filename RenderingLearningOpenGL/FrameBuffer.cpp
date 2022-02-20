@@ -41,7 +41,7 @@ namespace Engine {
 		glGenTextures(1, &_texID);
 		glBindTexture(GL_TEXTURE_2D, _texID);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, colors);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, colors);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -69,6 +69,13 @@ namespace Engine {
 	FrameBuffer::~FrameBuffer()
 	{
 
+	}
+
+	void FrameBuffer::UpdateBuffer(int width, int height)
+	{
+	/*	_width = width;
+		_height = height;
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0,width, height, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);*/
 	}
 
 	void FrameBuffer::Bind()
