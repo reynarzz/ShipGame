@@ -15,11 +15,23 @@ namespace Engine {
 
     void Camera::SetOrtho(float left, float right, float bottom, float top) {
         _proj = glm::ortho(left, right, bottom, top, 1.0f, 100.0f);
+
+        _projInv = glm::inverse(_proj);
     }
 
     glm::mat4 Camera::getProj()
     {
         return _proj;
+    }
+
+    glm::mat4 Camera::getProjInv()
+    {
+        return _projInv;
+    }
+
+    glm::mat4 Camera::getViewInv()
+    {
+        return _viewTransform->getModelMInv();;
     }
 
     glm::mat4 Camera::getView()

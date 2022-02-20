@@ -21,6 +21,7 @@ namespace Engine {
 		void AddEntity(GameEntity* entity);
 		void DestroyEntity(GameEntity* entity);
 		
+		//void RenderAbove()
 		void Start();
 		void Update();
 		void SetCamera(Camera* camera);

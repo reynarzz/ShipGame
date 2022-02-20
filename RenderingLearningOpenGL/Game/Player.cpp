@@ -9,17 +9,18 @@ namespace Navecita {
 	Player::Player(GameEntity* entity) : EntityBehaviour(entity) {
 
 	}
-	unsigned char* pixels[288 * 512];
+	unsigned char* pixels[16] = { nullptr };
+	unsigned char* prevPixels[16] = { nullptr };
 
 	Texture* _tar;
 	PixelHelper _helper;
-	vec2 _pos;
+	vec3 _pos;
 	float _destroy = 5;
 	vector<GameEntity*> _projectiles;
 	vector<ivec2> _destroyed;
 	void Player::Update() {
 
-		float speed = 0.2f;
+		float speed = 0.1f;
 		_anim->Update();
 		_angle += 0.1f;
 		_pos = GetTransform()->getPosition();
@@ -68,44 +69,64 @@ namespace Navecita {
 			//	_helper.RemovePixel(_tar, { valx, valy });
 		}
 
-		for (auto it = _projectiles.begin(); it < _projectiles.end(); it++)
+		//for (auto it = _projectiles.begin(); it < _projectiles.end(); it++)
+		if(_input->_shoot_Pressed)
 		{
-			auto p = *it;
-			auto projPos = p->getTransform()->getPosition();
-			bool hit;
-			auto coord = _helper.World2Texel(8, 8, { 0, 0 }, projPos, hit);
-
-			ivec2 iCoord = ivec2((int)round(coord.x * _tar->getWidth()), (int)round(coord.y * _tar->getHeight()));
-
-			auto it2 = std::find(_destroyed.begin(), _destroyed.end(), iCoord);
-
+			
 			//Safe destroy
 			//while (true)
 			{
-				auto NDC = _projM_ * _viewM_* glm::vec4(projPos, 1.0f);
+				//auto NDC = _projM_ * _viewM_ * glm::vec4(projPos, 1.0f);
 
-				// to 0 - +1 range instead of -1 - +1
-				NDC = (NDC += 1) * 0.5f;
+				//// to 0 - +1 range instead of -1 - +1
+				//NDC = (NDC += 1) * 0.5f;
 
-				int xPixel = round(NDC.x * _screenSize_.x);
-				int yPixel = round(NDC.y * _screenSize_.y);
+				//int xPixel = round(NDC.x * _screenSize_.x);
+				//int yPixel = round(NDC.y * _screenSize_.y);
+				auto projPos = vec2(_pos.x, _pos.y + 2);//(*it)->getTransform()->getPosition();
 
+				vec2 pixelPos = World2Pixel(projPos);
+				vec2 newpos = Pixel2World(pixelPos);
 
-				glReadPixels(xPixel, yPixel, 5, 5, GL_RED, GL_UNSIGNED_BYTE, &pixels);
-
-				
-				if (coord.x != 0 && coord.y != 0 && it2 == _destroyed.end() && pixels[4])
+				std::cout << "x: " << projPos.x << ", y: " << projPos.y << " | " << " x: " << newpos.x << ", y: " << newpos.y << "\n";
+				for (size_t i = 0; i < 16; i++)
 				{
-					_destroyed.push_back(iCoord);
-					_helper.RemovePixel(_tar, coord);
-					DestroyEntity(p);
+					pixels[i] = NULL;
+				}
 
-					_projectiles.erase(it);
-					break;
+				int maxChecks = _screenSize_.y *2;
+
+				while (!pixels[0] && maxChecks > 0)
+				{
+					maxChecks--;
+
+					glReadPixels(pixelPos.x, pixelPos.y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &pixels);
+
+					if (pixels[0]) {
+						projPos = Pixel2World({ pixelPos.x, pixelPos.y, 0 });
+					}
+
+					pixelPos.y += 1.0f;
+				}
+
+				bool hit;
+				auto coord = _helper.World2Texel(4, 4, { 0, 0 }, projPos, hit);
+
+				ivec2 iCoord = ivec2((int)round(coord.x * _tar->getWidth()), (int)round(coord.y * _tar->getHeight()));
+
+				auto it2 = std::find(_destroyed.begin(), _destroyed.end(), iCoord);
+
+
+				//if (coord.x != 0 && coord.y != 0 && it2 == _destroyed.end() && pixels[0])
+				{
+					//_destroyed.push_back(iCoord);
+					_helper.RemovePixel(_tar, coord);
+					//DestroyEntity(*it);
+
+					//_projectiles.erase(it);
+					//break;
 				}
 			}
-
-			
 		}
 
 		_destroy -= 0.4f;
@@ -135,16 +156,7 @@ namespace Navecita {
 
 		tex->UnBind();
 
-		Texture* tex2 = new Texture();
-		tex2->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/random.png", Engine::Texture::ClampingMode::Clamp);
 
-		auto destroyable = CreateGameEntity("Destroyable");
-		destroyable->getTransform()->SetScale(8, 8, 8);
-		destroyable->getTransform()->SetPosition(0, 0, 0);
-		destroyable->_renderer->_material->SetTexture(tex2);
-
-		tex2->UnBind();
-		_tar = tex2;
 	}
 
 	void Player::SetInput_Test(KeyboardInput* input)
@@ -153,9 +165,14 @@ namespace Navecita {
 	}
 	void Player::Shoot()
 	{
-		auto bullet = CreateGameEntity<Projectile>("PlayerBullet");
-		bullet->SetTarget("Enemy");
-		bullet->Shoot(_pos, { 0, 1 }, 0.1f);
-		_projectiles.push_back(bullet->getGameEntity());
+		//auto bullet = CreateGameEntity<Projectile>("PlayerBullet");
+		//bullet->SetTarget("Enemy");
+		//bullet->Shoot({ _pos.x, _pos.y + 1.2f }, { 0, 1 }, 0.2f);
+		////_projectiles.push_back(bullet->getGameEntity());
+	}
+
+	void Player::SetDestroyableTex(Texture* tex)
+	{
+		_tar = tex;
 	}
 }

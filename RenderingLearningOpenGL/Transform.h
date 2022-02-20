@@ -22,6 +22,7 @@ namespace Engine {
 		 glm::vec3 getScale() const;
 
 		 glm::mat4 getModelM();
+		 glm::mat4 getModelMInv();
 
 	private:
 		glm::mat4 _position;
@@ -34,7 +35,8 @@ namespace Engine {
 		glm::vec3 _v_scale;
 
 		glm::mat4 _modelM;
-
+		glm::mat4 _modelMInv;
+		
 		void updateModelM();
 	};
 }

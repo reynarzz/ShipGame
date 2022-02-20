@@ -29,18 +29,6 @@ using namespace Engine;
 using glm::mat4;
 using glm::mat;
 
-int gcd(int a, int b)
-{
-	while (b != 0)
-	{
-		int tmp = a;
-		a = b;
-		b = tmp % b;
-		{
-			return a;
-		}
-	}
-}
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
@@ -48,7 +36,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	}
 }
-int game[144*2][256*2];
+int game[144 * 2][256 * 2];
 
 int main() {
 
@@ -76,7 +64,7 @@ int main() {
 		return -1;
 	}
 
-	for (size_t i = 0; i < 144*2; i++)
+	for (size_t i = 0; i < 144 * 2; i++)
 	{
 		for (size_t j = 0; j < 144 * 2; j++)
 			game[i][j];
@@ -93,11 +81,8 @@ int main() {
 
 
 	_scene->SetCamera(cam);
-	CreateGameEntity<Navecita::Background>("Background");
+	//CreateGameEntity<Navecita::Background>("Background");
 
-	Navecita::Player* player = CreateGameEntity<Navecita::Player>("Player");
-	player->SetInput_Test(_input);
-	player->GetTransform()->SetPosition(0, -12, 0);
 
 	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 0, 3, 0 });
 
@@ -105,9 +90,29 @@ int main() {
 	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 1, 10, 0 });
 	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 4, 15, 0 });
 	CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ 4, 12, 0 });
-	auto test = CreateGameEntity<Navecita::Projectile>("test");
+
+
+	Texture* tex2 = new Texture();
+	tex2->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/random.png", Engine::Texture::ClampingMode::Clamp);
+
+	auto destroyable = CreateGameEntity("Destroyable");
+	destroyable->getTransform()->SetScale(4, 4, 0);
+	destroyable->getTransform()->SetPosition(0, 0, 0);
+	destroyable->_renderer->_material->SetTexture(tex2);
+
+	tex2->UnBind();
+
+
+
+
+	Navecita::Player* player = CreateGameEntity<Navecita::Player>("Player");
+	player->SetInput_Test(_input);
+	player->GetTransform()->SetPosition(0, -12, 0);
+	player->SetDestroyableTex(tex2);
+
+	/*auto test = CreateGameEntity<Navecita::Projectile>("test");
 	test->GetTransform()->SetPosition({ 0, -8, 0 });
-	test->getGameEntity()->_renderer->_material->SetColor({ 1, 0,0,1 });
+	test->getGameEntity()->_renderer->_material->SetColor({ 1, 0,0,1 });*/
 
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);
@@ -117,7 +122,7 @@ int main() {
 
 	frameBuffer.Bind();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
+	//glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 
 	frameBuffer.Unbind();
 
@@ -146,57 +151,46 @@ int main() {
 		_input->_shoot_Pressed = glfwGetKey(window, GLFW_KEY_SPACE);
 		int isMouse = glfwGetMouseButton(window, 0);
 
-		frameBuffer.Bind();
-		glViewport(0, 0, frameBuffer.GetWidth(), frameBuffer.GetHeight());
+		//for (size_t i = 0; i < 2; i++)
+		{
 
-		/*
-		quad2->Bind();
-		screenQuadShader2.Bind();
-		double xpos, ypos;
-		glfwGetCursorPos(window, &xpos, &ypos);
-		xpos = round(xpos);
-		ypos = round(ypos);
+			frameBuffer.Bind();
+			glViewport(0, 0, frameBuffer.GetWidth(), frameBuffer.GetHeight());
 
-		int loc2 = glGetUniformLocation(screenQuadShader2.getProgram(), "_MOUSE_");
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glEnable(GL_BLEND);
+			//glEnable(GL_DEPTH_TEST);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		if (isMouse) {
-			float x = (int)round((xpos / width) * nativeWidth);
-			float y = (int)round((1.0f -(ypos / height)) * nativeHeight);
+			//glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 
-			glUniform2i(loc2, x, y);
+
+			float targetH = 16.0f * 2;
+			float targetW = 9.0f * 2;// 9.0f;
+
+			float scale_w = (float)width / targetW;
+			float scale_h = (float)height / targetH;
+			float w, h;
+
+			if (scale_w < scale_h)
+				w = targetW, h = height / scale_w;
+			else
+				h = targetH, w = width / scale_h;
+
+
+			cam->SetOrtho(-w / 2, w / 2, -h / 2, h / 2);
+			_projM_ = cam->getProj();
+			_viewM_ = cam->getView();
+
+			_projMInv_ = cam->getProjInv();
+			_viewMInv_ = cam->getViewInv();
+			_screenSize_ = { width, height };
+
+			_scene->Update();
+			frameBuffer.Unbind();
 		}
 
-		glDrawElements(GL_TRIANGLES, quad2->getIndices().size(), GL_UNSIGNED_INT, NULL);
-		*/
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable(GL_BLEND);
-		//glEnable(GL_DEPTH_TEST);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
-
-
-		float targetH = 16.0f * 2;
-		float targetW = 9.0f * 2;// 9.0f;
-
-		float scale_w = (float)width / targetW;
-		float scale_h = (float)height / targetH;
-		float w, h;
-
-		if (scale_w < scale_h)
-			w = targetW, h = height / scale_w;
-		else
-			h = targetH, w = width / scale_h;
-
-
-		cam->SetOrtho(-w / 2, w / 2, -h / 2, h / 2);
-		_projM_ = cam->getProj();
-		_viewM_ = cam->getView();
-		_screenSize_ = {width, height};
-
-		_scene->Update();
-		frameBuffer.Unbind();
 		glViewport(0, 0, width, height);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

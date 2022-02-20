@@ -20,6 +20,12 @@ namespace Engine {
 
 	void Transform::SetPosition(glm::vec3 pos)
 	{
+		/*float xFract = round(glm::fract(pos.x));
+		float yFract = round(glm::fract(pos.y));
+
+		pos.x = round(pos.x) + xFract;
+		pos.y = round(pos.y) + yFract;*/
+
 		_v_position = pos;
 
 		_position = glm::translate(glm::mat4(1.0f), _v_position);
@@ -64,7 +70,13 @@ namespace Engine {
 		return _modelM;
 	}
 
+	glm::mat4 Transform::getModelMInv() {
+		return _modelMInv;
+	}
+
+
 	void Transform::updateModelM() {
 		_modelM = _position * _rotation * _scale;
+		_modelMInv = glm::inverse(_modelM);
 	}
 }

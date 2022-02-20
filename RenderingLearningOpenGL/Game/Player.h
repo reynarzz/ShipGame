@@ -20,6 +20,7 @@ namespace Navecita {
 		void SetInput_Test(KeyboardInput* input);
 		void Shoot();
 		void OnCollision(GameEntity* name) override;
+		void SetDestroyableTex(Texture* tex);
 
 	private:
 		SpriteAnimation* _anim;
