@@ -23,6 +23,7 @@ extern glm::mat4 _viewMInv_;
 extern ivec2 _screenSize_;
 extern unsigned char* _currentFrameBufferTex_;
 extern vector<unsigned int> _boundingBoxIndices_;
+extern Camera* _camera_;
 
 inline int gcd(int a, int b)
 {
@@ -37,7 +38,6 @@ inline int gcd(int a, int b)
 	}
 }
 
-
 inline vec2 World2Pixel(vec2 pos) {
 	auto ndc = _projM_* _viewM_ * glm::vec4(pos, 0., 1.0f);
 
@@ -46,6 +46,9 @@ inline vec2 World2Pixel(vec2 pos) {
 	return vec2(ndc.x * _screenSize_.x, ndc.y * _screenSize_.y);
 }
 
+inline Camera* GetCamera() {
+	return _camera_;
+}
 
 inline glm::dvec3 Pixel2World(glm::ivec3 pixel) {
 

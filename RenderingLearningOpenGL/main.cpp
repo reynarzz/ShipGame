@@ -79,13 +79,11 @@ int main() {
 	_boundingBoxIndices_.push_back(0);
 
 	_scene->SetCamera(cam);
-	
 
 	FrameBuffer frameBuffer(nativeWidth, nativeHeight);
 
 	frameBuffer.Bind();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 
 	frameBuffer.Unbind();
 

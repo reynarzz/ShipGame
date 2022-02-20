@@ -3,6 +3,5 @@ namespace Navecita {
 	NavecitaGame::NavecitaGame()
 	{
 		CreateEmptyGameEntity<GameManager>("GameManager");
-
 	}
 }

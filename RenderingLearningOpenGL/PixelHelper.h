@@ -43,7 +43,7 @@ public:
 				tex->_imageBuffer[i - 1] = 0x00; // Blue
 				tex->_imageBuffer[i] = 0x00;	 // Alpha
 
-				std::cout << "found: " << tex->_imageBuffer[i] << "\n";	 // Alpha
+				//std::cout << "found: " << tex->_imageBuffer[i] << "\n";	 // Alpha
 
 
 			}

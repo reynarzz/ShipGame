@@ -1,49 +1,38 @@
 #include "Player.h"
 #include "../GameHelper.h"
 #include "Projectile.h"
-#include <iostream>
-#include "../PixelHelper.h"
+#include "Player.h"
 
 namespace Navecita {
 	Transform* _point;
 
-	Player::Player(GameEntity* entity) : EntityBehaviour(entity) {
-	/*	auto test = CreateGameEntity<Navecita::Projectile>("test", 16, 16);
-		test->GetTransform()->SetPosition({ 0, -8, 0 });
-		test->getGameEntity()->_renderer->_material->SetColor({ 1, 0,0,1 });
-		_point = test->GetTransform();*/
-	}
-
-	int life = 2;
-
-	PixelHelper _helper;
-	vec3 _pos;
-	float _destroy = 5;
+	INIT_BEHAVIOUR(Player)
 
 	void Player::Update() {
 
-		float speed = 0.2f;
 		_anim->Update();
-		_angle += 0.1f;
-		_pos = GetTransform()->getPosition();
+
+		float speed = 0.2f;
+
+		vec3 pos = GetTransform()->getPosition();
 
 		if (Input::_A_Pressed) {
 			//_anim->GoToFrame(0);
-			_pos.x -= speed;
+			pos.x -= speed;
 		}
 		else if (Input::_D_Pressed) {
 			//_anim->GoToFrame(2);
-			_pos.x += speed;
+			pos.x += speed;
 		}
 		else {
 			//_anim->GoToFrame(1);
 		}
 
 		if (Input::_S_Pressed) {
-			_pos.y -= speed;
+			pos.y -= speed;
 		}
 		else if (Input::_W_Pressed) {
-			_pos.y += speed;
+			pos.y += speed;
 		}
 
 		if (Input::_Space_Pressed) {
@@ -61,7 +50,7 @@ namespace Navecita {
 			_sootTime = 0.005f;
 		}
 
-		getGameEntity()->getTransform()->SetPosition(_pos.x, _pos.y, 0);
+		getGameEntity()->getTransform()->SetPosition(pos.x, pos.y, 0);
 
 		//if (_input->_shoot_Pressed)
 		{
@@ -109,9 +98,9 @@ namespace Navecita {
 	void Player::OnCollision(GameEntity* entity) {
 
 		if (entity->getName() == "Enemy") {
-			life -= 1;
+			_life -= 1;
 
-			if (life <= 0) {
+			if (_life <= 0) {
 				DestroyEntity(getGameEntity());
 			}
 		}
@@ -137,8 +126,10 @@ namespace Navecita {
 	void Player::Shoot()
 	{
 		auto bullet = CreateGameEntity<Projectile>("PlayerBullet", 16, 16);
+
+		auto pos = GetTransform()->getPosition();
 		bullet->SetTarget("Enemy");
-		bullet->Shoot({ _pos.x, _pos.y + 1 }, { 0, 1 }, 0.6f);
+		bullet->Shoot({ pos.x, pos.y + 1 }, { 0, 1 }, 0.6f);
 	}
 
 	void Player::SetDestroyableTex(Texture* tex)
