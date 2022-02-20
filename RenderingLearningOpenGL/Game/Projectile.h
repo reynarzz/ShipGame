@@ -25,5 +25,6 @@ namespace Navecita {
 		float _speed;
 		std::string _target;
 		float _autoDestroyCurrent;
+		bool _shooted = false;
 	};
 }

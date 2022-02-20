@@ -33,5 +33,6 @@ namespace Engine {
 		vector<GameEntity*> _entities;
 		vector<GameEntity*> _prendingEntities;
 		Camera* _camera;
+		bool _renderBoundingBox = false;
 	};
 }

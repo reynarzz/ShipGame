@@ -3,6 +3,8 @@
 
 #include <vector>
 #include "Mesh.h"
+#include <map>
+#include  "Texture.h"
 using glm::ivec2;
 using glm::vec2;
 using std::map;
@@ -23,9 +25,9 @@ namespace Engine {
 			indices.push_back(1);
 			indices.push_back(2);
 
+			indices.push_back(0);
 			indices.push_back(2);
 			indices.push_back(3);
-			indices.push_back(0);
 
 			vector<vec2> uv;
 			uv.push_back(vec2(0.0f, 0.0f));

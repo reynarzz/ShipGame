@@ -40,23 +40,19 @@ public:
 			"_texUV = _texCoord;\n"
 			"}\n";
 
-
-
 		std::string fragment = "#version 330 core\n"
 			"out vec4 col;\n"
 			"in vec2 _texUV;\n"
 			"uniform sampler2D _tex0;\n"
+			"uniform ivec2 _SCREEN_;\n"
 			"uniform vec4 _COLOR_;\n"
 			"uniform ivec2 _MOUSE_;\n"
 			"void main(){\n"
-			"int x = int(round(gl_FragCoord.x));\n"
-			"int y = int(round(gl_FragCoord.y));\n"
-			//"if(distance(vec2(x,y), vec2(_MOUSE_.x, _MOUSE_.y)) < round(256.0f * 0.01f))\n"
-			"if(x == _MOUSE_.x && y == _MOUSE_.y)\n"
-			"col = vec4(1.,0.,0.,0.);\n"
-			"else\n"
-			"\n"
-			"col = texture2D(_tex0, _texUV);\n"
+			"float r = texture2D(_tex0, _texUV + vec2(1.0f / 288.0f, 1.0f / 512.0f)).r; \n"
+			"float g = texture2D(_tex0, _texUV + vec2(-1.0f / 288.0f, -1.0f / 512.0f)).g; \n"
+			"float b = texture2D(_tex0, _texUV + vec2(-1.0f / 288.0f, 1.0f / 512.0f)).b; \n"
+			"vec4 c = texture2D(_tex0, _texUV); \n"
+			"col =vec4(r, g, b, 1.0);\n"
 			"}\n";
 
 		return std::pair<std::string, std::string>(vertex, fragment);

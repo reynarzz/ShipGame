@@ -15,7 +15,7 @@ namespace Engine {
 
 		void Bind(Camera*);
 		void UnBind();
-		QuadRenderer* _renderer;
+		QuadRenderer* _renderer = nullptr;
 		Transform* getTransform() const;
 
 		void AddComponent(Component* component);
@@ -42,8 +42,8 @@ namespace Engine {
 
 		bool _pendingToDestroy;
 	private:
-		Transform* _transform;
+		Transform* _transform = nullptr;
 		vector<Component*> _components;
-		AABB* _aabb;
+		AABB* _aabb = nullptr;
 	};
 }

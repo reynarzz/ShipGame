@@ -3,7 +3,7 @@
 #ifndef GAMEHELPER
 #define GAMEHELPER
 
-
+#include "EntityBehaviour.h"
 #include "Mesh.h"
 #include "Material.h"
 #include "QuadRenderer.h"
@@ -12,7 +12,6 @@
 #include "ShadersHelper.h"
 #include "Scene.h"
 #include "GameEntity.h"
-
 #include <string>
 extern Scene* _scene;
 extern glm::mat4 _projM_;
@@ -23,6 +22,7 @@ extern glm::mat4 _viewMInv_;
 
 extern ivec2 _screenSize_;
 extern unsigned char* _currentFrameBufferTex_;
+extern vector<unsigned int> _boundingBoxIndices_;
 
 inline int gcd(int a, int b)
 {
@@ -137,6 +137,18 @@ inline T* CreateGameEntity(std::string name, int texWidth = 1, int texHeight = 1
 	return (T*)component;
 }
 
+template<typename T>
+inline T* CreateEmptyGameEntity(const std::string name) {
+	GameEntity* entity = new GameEntity(name);
+	Component* component = CreateComponent<T>(entity);
+
+	entity->AddComponent(component);
+
+	component->OnRenderStart();
+
+	_scene->AddEntity(entity);
+	return (T*)component;
+}
 
 
 inline void DestroyEntity(GameEntity* entity) {

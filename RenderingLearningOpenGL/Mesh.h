@@ -9,6 +9,11 @@ using glm::vec3;
 
 namespace Engine {
 
+	class BoundingBox {
+		vector<glm::vec2> horizontal;
+		vector<glm::vec2> vertical;
+	};
+
 	class Mesh
 	{
 	public:
@@ -31,5 +36,3 @@ namespace Engine {
 		vector<float> _vertexData;
 	};
 }
-
-

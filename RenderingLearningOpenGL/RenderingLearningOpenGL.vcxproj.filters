@@ -92,9 +92,6 @@
     <ClCompile Include="Game\GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Spawner.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Background.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -102,6 +99,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FrameBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NavecitaGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -162,10 +162,10 @@
       <Filter>Engine\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameManager.h" />
-    <ClInclude Include="Game\Spawner.h" />
     <ClInclude Include="Game\Background.h" />
     <ClInclude Include="Game\StonePixel.h" />
     <ClInclude Include="PixelHelper.h" />
     <ClInclude Include="FrameBuffer.h" />
+    <ClInclude Include="NavecitaGame.h" />
   </ItemGroup>
 </Project>

@@ -33,16 +33,16 @@ namespace Navecita {
 		auto atlas = SpriteAtlast(tex, 16);
 
 		_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
-		
+
 		_anim->AddAnimUvLocation(atlas.getTileUV(2, 1));
 
-		
+
 		_anim->AddAnimUvLocation(atlas.getTileUV(0, 2));
 		_anim->AddAnimUvLocation(atlas.getTileUV(1, 2));
 		_anim->AddAnimUvLocation(atlas.getTileUV(2, 2));
 		_anim->AddAnimUvLocation(atlas.getTileUV(3, 2));
 
-		_anim->GoToFrame(0);
+		_anim->GoToFrame(1);
 		tex->UnBind();
 	}
 
@@ -58,11 +58,7 @@ namespace Navecita {
 	{
 		if (entity->getName() == _target) {
 			DestroyEntity(entity);
-
-			//destroy projectile.
 			DestroyEntity(getGameEntity());
-
-			CreateGameEntity<Navecita::Enemy>("Enemy")->GetTransform()->SetPosition({ -4, 13, 0 });
 		}
 	}
 }

@@ -12,8 +12,8 @@ namespace Engine {
 		QuadRenderer(Material* mat, Mesh* mesh);
 		~QuadRenderer();
 
-		Material* _material;
-		Mesh* _mesh;
+		Material* _material = nullptr;
+		Mesh* _mesh = nullptr;
 
 		void Bind(glm::mat4 modelM, glm::mat4 viewM, glm::mat4 projM) const;
 		void UnBind() const;

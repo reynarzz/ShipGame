@@ -1,5 +1,7 @@
 #include "Material.h"
 #include <glew.h>
+#include "GameHelper.h"
+#include <iostream>
 
 Engine::Material::Material(Shader* shader) : _shader(shader), 
 _textures(std::vector<Texture*>()), _color(glm::vec4(1,1,1,1))
@@ -19,9 +21,10 @@ void Engine::Material::Bind()
 {
 	_shader->Bind();
 
+	SetIVec2("_SCREEN_", _screenSize_);
 	SetVec4("_COLOR_", _color);
 	SetVec2("_scroll", _scroll);
-
+	//std::cout << _screenSize_.x << ", y: " << _screenSize_.y << "\n";
 	for (unsigned int i = 0; i < _textures.size(); i++)
 	{
 		Texture* tex = _textures.at(i);
@@ -32,6 +35,7 @@ void Engine::Material::Bind()
 
 		SetInt(texName, i);
 	}
+
 }
 
 void Engine::Material::UnBind()
@@ -66,6 +70,12 @@ void Engine::Material::SetVec2(std::string name, glm::vec2 value) const
 {
 	unsigned int loc = glGetUniformLocation(_shader->getProgram(), name.c_str());
 	glUniform2f(loc, value.x, value.y);
+}
+
+void Engine::Material::SetIVec2(std::string name, glm::ivec2 value) const
+{
+	unsigned int loc = glGetUniformLocation(_shader->getProgram(), name.c_str());
+	glUniform2i(loc, value.x, value.y);
 }
 
 void Engine::Material::SetInt(std::string name, int value) const

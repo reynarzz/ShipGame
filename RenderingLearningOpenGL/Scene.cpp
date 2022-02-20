@@ -1,4 +1,6 @@
 #include "Scene.h"
+#include "GameHelper.h"
+#include <iostream>
 
 namespace Engine {
 
@@ -27,7 +29,7 @@ namespace Engine {
 			{
 				auto target = _entities.at(j);
 				//if(target.Collidable())
-				/*if (!current->_pendingToDestroy && !target->_pendingToDestroy && current != target) {
+				if (!current->_pendingToDestroy && !target->_pendingToDestroy && current != target) {
 					if (current->GetAABB()->Collide(target->GetAABB())) {
 						((EntityBehaviour*)current->getComponents().at(0))->OnCollision(target);
 						((EntityBehaviour*)target->getComponents().at(0))->OnCollision(current);
@@ -36,16 +38,27 @@ namespace Engine {
 				}
 				else {
 					continue;
-				}*/
+				}
 			}
+			if (current->_renderer != nullptr) {
+				current->Bind(_camera);
+				//remove this from here
+				glDrawElements(GL_TRIANGLES, current->_renderer->_mesh->getIndices().size(), GL_UNSIGNED_INT, NULL);
 
-			current->Bind(_camera);
+				if (_renderBoundingBox) {
+					glDisable(GL_BLEND);
+					glLineWidth(2);
 
-			//remove this from here
-			glDrawElements(GL_TRIANGLES, current->_renderer->_mesh->getIndices().size(), GL_UNSIGNED_INT, NULL);
+					glBufferData(GL_ELEMENT_ARRAY_BUFFER, _boundingBoxIndices_.size() * sizeof(unsigned int), &_boundingBoxIndices_.at(0), GL_DYNAMIC_DRAW);
 
-			//Unbind
-			current->UnBind();
+					glDrawElements(GL_LINES, _boundingBoxIndices_.size(), GL_UNSIGNED_INT, NULL);
+					glEnable(GL_BLEND);
+
+				}
+
+				//Unbind
+				current->UnBind();
+			}
 		}
 
 		for (auto i = _prendingEntities.begin(); i != _prendingEntities.end(); i++)

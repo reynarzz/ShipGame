@@ -50,7 +50,9 @@ namespace Engine {
 
 	void GameEntity::Bind(Camera* cam)
 	{
-		_renderer->Bind(_transform->getModelM(), cam->getView(), cam->getProj());
+		if (_renderer != nullptr) {
+			_renderer->Bind(_transform->getModelM(), cam->getView(), cam->getProj());
+		}
 	}
 
 	void GameEntity::UnBind()

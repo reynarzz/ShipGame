@@ -78,6 +78,8 @@ namespace Engine {
 		glBindVertexArray(_vertexArrayID);
 		glBindBuffer(GL_ARRAY_BUFFER, _meshID);
 
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(unsigned int), &_indices.at(0), GL_DYNAMIC_DRAW);
+
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 	}

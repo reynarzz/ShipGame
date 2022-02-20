@@ -5,18 +5,6 @@ namespace Engine {
     {
     }
 
-    /*void EntityBehaviour::Start()
-    {
-    }
-
-    void EntityBehaviour::Update()
-    {
-    }
-
-    void EntityBehaviour::FixedUpdate()
-    {
-    }*/
-
     Transform* EntityBehaviour::GetTransform() const
     {
         return _gameEntity->getTransform();
@@ -25,8 +13,6 @@ namespace Engine {
     void EntityBehaviour::OnDestroyed()
     {
     }
-
-
 
     GameEntity* EntityBehaviour::getGameEntity()
     {
