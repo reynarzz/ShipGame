@@ -40,7 +40,8 @@ namespace Engine {
 					continue;
 				}
 			}
-			if (current->_renderer != nullptr) {
+			_renderBoundingBox = true;
+			if (!current->_pendingToDestroy && current->_renderer != nullptr) {
 				current->Bind(_camera);
 				//remove this from here
 				glDrawElements(GL_TRIANGLES, current->_renderer->_mesh->getIndices().size(), GL_UNSIGNED_INT, NULL);
@@ -61,9 +62,11 @@ namespace Engine {
 			}
 		}
 
-		for (auto i = _prendingEntities.begin(); i != _prendingEntities.end(); i++)
+		int pendingCount = _prendingEntities.size();
+
+		for (auto i = 0; i < pendingCount; i++)
 		{
-			RemoveEntity(*i);
+			RemoveEntity(_prendingEntities.at(i));
 		}
 
 		_prendingEntities.clear();

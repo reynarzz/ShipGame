@@ -80,7 +80,7 @@ int main() {
 
 	_scene->SetCamera(cam);
 
-	FrameBuffer frameBuffer(nativeWidth, nativeHeight);
+	FrameBuffer frameBuffer(nativeWidth*2, nativeHeight*2);
 
 	frameBuffer.Bind();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -109,8 +109,11 @@ int main() {
 			frameBuffer.UpdateBuffer(width, height);
 			glViewport(0, 0, frameBuffer.GetWidth(), frameBuffer.GetHeight());
 
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 			glEnable(GL_BLEND);
+			glDepthFunc(GL_LEQUAL);
+
+			glEnable(GL_DEPTH);
 			//glEnable(GL_DEPTH_TEST);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

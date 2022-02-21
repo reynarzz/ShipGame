@@ -39,7 +39,7 @@ namespace Navecita {
 		auto pos = getGameEntity()->getTransform()->getPosition();
 
 
-		getGameEntity()->getTransform()->SetPosition(pos.x, pos.y - 0.1f, 0);
+		getGameEntity()->getTransform()->SetPosition(pos.x, pos.y - 0.05f, 0);
 	}
 
 	Enemy::~Enemy()

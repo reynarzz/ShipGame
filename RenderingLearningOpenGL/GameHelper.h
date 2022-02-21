@@ -120,21 +120,9 @@ inline T* CreateGameEntity(std::string name, int texWidth = 1, int texHeight = 1
 
 	GameEntity* entity = CreateGameEntity(name, texWidth, texHeight);
 
-	//GameEntity* entity = new GameEntity(name);
-
-	//Mesh* quad = Utils::GetQuadMesh(/*(float)texWidth / factor, (float)textHeight / factor*/);
-
-	//auto shaderPair = ShadersHelper::GetBasicShader();
-	//Material* material = new Material(new Shader(shaderPair.first, shaderPair.second));
-
-	//QuadRenderer* renderer = new QuadRenderer(material, quad);
-	//entity->_renderer = renderer;
-
 	Component* component = CreateComponent<T>(entity);
 	entity->AddComponent(component);
 	
-	//_scene->AddEntity(entity);
-
 	component->OnRenderStart();
 
 	return (T*)component;

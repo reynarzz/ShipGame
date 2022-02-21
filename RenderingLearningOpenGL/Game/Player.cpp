@@ -122,7 +122,7 @@ namespace Navecita {
 		SpriteAtlast atlas = SpriteAtlast(tex, 16);
 
 		_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
-		_anim->AddAnimUvLocation(atlas.getTileUV(0, 3));
+		_anim->AddAnimUvLocation(atlas.getTileUV(2, 3));
 
 		_anim->GoToFrame(0);
 

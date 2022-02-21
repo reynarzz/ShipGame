@@ -1,19 +1,28 @@
 #include "GameManager.h"
 #include "../GameHelper.h"
-#include "Enemy.h"
-#include "Player.h"
-#include "Background.h"
 #include "GameTypes.h"
 #include <iostream>
+
 namespace Navecita {
 
 	INIT_BEHAVIOUR(GameManager), _levelContainer(new LevelContainer())
 	{
+		_fade = CreateGameEntity<Fade>("FadeScreen", 1024, 1024);
+		_fade->GetTransform()->SetPosition(0, 0, -4);
+
+		auto fadeInCall = std::bind(&GameManager::OnFadeIn, this);
+		auto fadeOutCall = std::bind(&GameManager::OnFadeOut, this);
+
+
+		_fade->OnFadeIn(fadeInCall);
+		_fade->OnFadeOut(fadeOutCall);
 	}
 
 	void GameManager::Update()
 	{
 		if (!_gameStarted && Input::_Space_Pressed) {
+			_fade->FadeOut();
+
 			_gameStarted = true;
 			_initGame = true;
 		}
@@ -23,11 +32,11 @@ namespace Navecita {
 
 			_currentLevel = _levelContainer->GetLevelInfo(0);
 
-
-			CreateGameEntity<Background>("Background", 16, 16)->GetTransform()->SetPosition(0, -5, 0);
+			_background = CreateGameEntity<Background>("Background", 16, 16);
+			_background->GetTransform()->SetPosition(0, -5, 0);
 
 			_player = CreateGameEntity<Player>("Player", 16, 16);
-			_player->GetTransform()->SetPosition(0, -12, 0);
+			_player->GetTransform()->SetPosition(0, -12, 2);
 
 			auto bind = std::bind(&GameManager::EndGame, this);
 			_player->getGameEntity()->OnDestroyedCallback(bind);
@@ -41,8 +50,9 @@ namespace Navecita {
 
 				Enemy* enemy = CreateGameEntity<Enemy>("Enemy", 16, 16);
 				enemy->_life = enemyInf._life;
-				enemy->GetTransform()->SetPosition({ enemyInf._spawnPos.x, enemyInf._spawnPos.y, 0 });
+				enemy->GetTransform()->SetPosition({ enemyInf._spawnPos.x, enemyInf._spawnPos.y, 3 });
 
+				_enemies.push_back(enemy);
 				_enemyIndex++;
 
 				_enemySpawnTime = _currentLevel->_enemySpawnInterval;
@@ -62,8 +72,32 @@ namespace Navecita {
 
 	void GameManager::EndGame()
 	{
-		std::cout << "player dead" << "\n";
+		_fade->FadeIn();
+		
+	}
+
+	void GameManager::OnFadeIn()
+	{
+		//DestroyEntity(_background->getGameEntity());
+
+		////_background = nullptr;
+		////_player = nullptr;
+
+		//for (size_t i = 0; i < _enemies.size(); i++)
+		//{
+		//	DestroyEntity(_enemies.at(0)->getGameEntity());
+		//}
+
+		//_enemies.clear();
+
+		//_fade->FadeOut();
 		_gameStarted = false;
+
+	}
+
+	void GameManager::OnFadeOut()
+	{
+		_gameStarted = true;
 	}
 
 	GameManager::~GameManager()

@@ -101,7 +101,7 @@
     <ClCompile Include="NavecitaGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Fade.cpp">
+    <ClCompile Include="Game\Fade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine.cpp">
@@ -172,7 +172,7 @@
     <ClInclude Include="PixelHelper.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="NavecitaGame.h" />
-    <ClInclude Include="Fade.h" />
+    <ClInclude Include="Game\Fade.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Game\LevelContainer.h" />
     <ClInclude Include="Game\GameTypes.h" />

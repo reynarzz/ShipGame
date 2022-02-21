@@ -9,8 +9,8 @@ namespace Navecita {
 		for (size_t i = 0; i < 50; i++)
 		{
 			EnemyInfo enemy;
-			enemy._spawnPos = {rand() % 14, 16 };
-			enemy._life = 5;
+			enemy._spawnPos = {rand() % 9, 16 };
+			enemy._life = 3;
 			level->_enemies.push_back(enemy);
 		}
 
