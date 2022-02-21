@@ -14,9 +14,10 @@ namespace Navecita {
 	public:
 		DECLARE_BEHAVIOUR(Player)
 
+		void Update() override;
+		void OnRenderStart() override;
 		void Shoot();
 		void OnCollision(GameEntity* name) override;
-		void SetDestroyableTex(Texture* tex);
 
 	private:
 		SpriteAnimation* _anim = nullptr;

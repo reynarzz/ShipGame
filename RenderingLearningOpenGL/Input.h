@@ -1,17 +1,23 @@
 #pragma once
 #include <glfw/glfw3.h>
-
-typedef struct Input Input;
+#include <map>
 
 class Input {
-public:
+private:
+	typedef void (*KeyListener)();
 
+public:
 	static bool _A_Pressed;
 	static bool _D_Pressed;
 
 	static bool _W_Pressed;
 	static bool _S_Pressed;
 	static bool _Space_Pressed;
+	static std::map<int, KeyListener> _listeners;
+
+	static void ListenKey(int key, void(*callback)()) {
+		_listeners[key] = callback;
+	}
 
 	static void Update(GLFWwindow* window) {
 

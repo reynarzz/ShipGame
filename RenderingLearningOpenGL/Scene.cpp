@@ -92,7 +92,7 @@ namespace Engine {
 			}
 		}
 	
-		//delete entity;
+		delete entity;
 	}
 
 	void Scene::DestroyEntity(GameEntity* entity)

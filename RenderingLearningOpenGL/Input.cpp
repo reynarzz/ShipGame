@@ -7,6 +7,7 @@
  bool Input::_W_Pressed = false;
  bool Input::_S_Pressed = false;
  bool Input::_Space_Pressed = false;
+ std::map<int, Input::KeyListener> Input::_listeners;
 /*void Engine::KeyboardInput::Init(GLFWwindow* window)
 {
 	glfwSetKeyCallback(window, key_callback);

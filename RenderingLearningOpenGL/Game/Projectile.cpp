@@ -57,7 +57,6 @@ namespace Navecita {
 	void Projectile::OnCollision(GameEntity* entity)
 	{
 		if (entity->getName() == _target) {
-			DestroyEntity(entity);
 			DestroyEntity(getGameEntity());
 		}
 	}

@@ -5,6 +5,7 @@
 #include <vector>
 #include "AABB.h"
 #include <typeinfo>
+#include <functional>
 
 namespace Engine {
 	class GameEntity : Entity
@@ -40,10 +41,15 @@ namespace Engine {
 				return nullptr;
 		}
 
+		void OnDestroyedCallback(std::function<void()> fun);
+
 		bool _pendingToDestroy;
 	private:
 		Transform* _transform = nullptr;
 		vector<Component*> _components;
 		AABB* _aabb = nullptr;
+
+
+		vector<std::function<void()>> _onDestroyedCallbacks;
 	};
 }

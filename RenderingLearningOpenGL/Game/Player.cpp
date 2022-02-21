@@ -6,10 +6,13 @@
 namespace Navecita {
 	Transform* _point;
 
-	INIT_BEHAVIOUR(Player)
+	INIT_BEHAVIOUR(Player) 
+	{
 
-	void Player::Update() {
+	}
 
+	void Player::Update() 
+	{
 		_anim->Update();
 
 		float speed = 0.2f;
@@ -49,6 +52,9 @@ namespace Navecita {
 		else {
 			_sootTime = 0.005f;
 		}
+
+		// provisional clamp.
+		pos = glm::clamp(pos, vec3(-8, -15, 0.), vec3(8, 15, 0.));
 
 		getGameEntity()->getTransform()->SetPosition(pos.x, pos.y, 0);
 
@@ -116,7 +122,7 @@ namespace Navecita {
 		SpriteAtlast atlas = SpriteAtlast(tex, 16);
 
 		_anim = new SpriteAnimation(getGameEntity()->_renderer->_mesh);
-		_anim->AddAnimUvLocation(atlas.getTileUV(1, 3));
+		_anim->AddAnimUvLocation(atlas.getTileUV(0, 3));
 
 		_anim->GoToFrame(0);
 
@@ -129,10 +135,6 @@ namespace Navecita {
 
 		auto pos = GetTransform()->getPosition();
 		bullet->SetTarget("Enemy");
-		bullet->Shoot({ pos.x, pos.y + 1 }, { 0, 1 }, 0.6f);
-	}
-
-	void Player::SetDestroyableTex(Texture* tex)
-	{
+		bullet->Shoot({ pos.x, pos.y + 0.3f }, { 0, 1 }, 0.6f);
 	}
 }

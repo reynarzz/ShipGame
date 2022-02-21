@@ -5,17 +5,23 @@ namespace Engine {
     {
     }
 
+    void EntityBehaviour::Update()
+    {
+    }
+
+    void EntityBehaviour::OnRenderStart()
+    {
+    }
+
     Transform* EntityBehaviour::GetTransform() const
     {
         return _gameEntity->getTransform();
-    }
-
-    void EntityBehaviour::OnDestroyed()
-    {
     }
 
     GameEntity* EntityBehaviour::getGameEntity()
     {
         return _gameEntity;
     }
+
+    void EntityBehaviour::OnCollision(GameEntity* entity) { }
 }

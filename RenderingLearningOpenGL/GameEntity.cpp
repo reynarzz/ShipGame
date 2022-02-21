@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "GameEntity.h"
 #include <iostream>
+#include "EntityBehaviour.h"
 
 namespace Engine {
 
@@ -27,6 +28,11 @@ namespace Engine {
 	AABB* GameEntity::GetAABB() const
 	{
 		return _aabb;
+	}
+
+	void GameEntity::OnDestroyedCallback(std::function<void()> callback)
+	{
+		_onDestroyedCallbacks.push_back(callback);
 	}
 
 	void GameEntity::AddComponent(Component* component)
@@ -67,6 +73,11 @@ namespace Engine {
 
 	GameEntity::~GameEntity()
 	{
+		for (auto callbacks : _onDestroyedCallbacks)
+		{
+			callbacks();
+		}
+
 		delete _transform;
 		delete _renderer;
 		delete _aabb;

@@ -9,14 +9,14 @@ namespace Engine {
 	public:
 		EntityBehaviour(GameEntity* gameEntity);
 
-		virtual void Update() = 0;
-		virtual void OnRenderStart() = 0;
+		virtual void Update();
+		virtual void OnRenderStart();
 		Transform* GetTransform() const;
-		void OnDestroyed();
 
 		GameEntity* getGameEntity();
-		virtual void OnCollision(GameEntity* entity) = 0;
+		virtual void OnCollision(GameEntity* entity);
 	private:
 		GameEntity* _gameEntity;
+		
 	};
 }

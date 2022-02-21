@@ -14,7 +14,7 @@ namespace Engine {
 		long getGUID();
 
 	private:
-		long _GUID;
+		long _GUID = 0;
 	};
 }
 

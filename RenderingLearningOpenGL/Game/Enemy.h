@@ -11,6 +11,7 @@ namespace Navecita {
 	class Enemy : public EntityBehaviour
 	{
 	public:
+		int _life = 0;
 		float _angle;
 		Enemy(GameEntity* entity);
 		~Enemy();

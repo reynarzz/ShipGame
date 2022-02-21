@@ -1,6 +1,9 @@
 #include "Enemy.h"
 #include "../GameEntity.h"
 #include "Player.h"
+#include "../Gamehelper.h"
+
+
 namespace Navecita {
 
 	Enemy::Enemy(GameEntity* entity) : EntityBehaviour(entity) {
@@ -50,6 +53,13 @@ namespace Navecita {
 			//auto a = entity->getComponent<Enemy>();
 			auto p = (Player*)entity->getComponents().at(0);
 			//entity->_renderer->_material->SetColor({ 0, 0,1, 1 });
+		}
+		else if (entity->getName() == "PlayerBullet") {
+			_life -= 1;
+
+			if (_life <= 0) {
+				DestroyEntity(getGameEntity());
+			}
 		}
 	}
 }
