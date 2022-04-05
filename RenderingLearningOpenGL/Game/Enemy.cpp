@@ -2,7 +2,7 @@
 #include "../GameEntity.h"
 #include "Player.h"
 #include "../Gamehelper.h"
-
+#include "../Time.h"
 
 namespace Navecita {
 
@@ -15,7 +15,7 @@ namespace Navecita {
 		Texture* tex = new Texture();
 
 		getGameEntity()->_renderer->_material->SetTexture(tex);
-		tex->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/Players.png");
+		tex->LoadImage("assets/navecita/Players.png");
 
 		auto atlas = SpriteAtlast(tex, 16);
 
@@ -39,7 +39,7 @@ namespace Navecita {
 		auto pos = getGameEntity()->getTransform()->getPosition();
 
 
-		getGameEntity()->getTransform()->SetPosition(pos.x, pos.y - 0.05f, 0);
+		getGameEntity()->getTransform()->SetPosition(pos.x, pos.y - 5 * Time::DeltaTime, 0);
 	}
 
 	Enemy::~Enemy()

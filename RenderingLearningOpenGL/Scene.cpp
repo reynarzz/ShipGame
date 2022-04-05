@@ -40,7 +40,7 @@ namespace Engine {
 					continue;
 				}
 			}
-			_renderBoundingBox = true;
+			_renderBoundingBox = false;
 			if (!current->_pendingToDestroy && current->_renderer != nullptr) {
 				current->Bind(_camera);
 				//remove this from here

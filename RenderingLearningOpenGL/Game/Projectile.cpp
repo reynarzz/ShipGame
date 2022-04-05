@@ -1,6 +1,7 @@
 #include "Projectile.h"
 #include "../GameHelper.h"
 #include "Enemy.h"
+#include "../Time.h"
 
 namespace Navecita {
 
@@ -18,7 +19,7 @@ namespace Navecita {
 		auto pos = getGameEntity()->getTransform()->getPosition();
 		glm::vec2 posOut(pos.x, pos.y);
 
-		posOut += _moveDir * _speed;
+		posOut += _moveDir * _speed * Time::DeltaTime;
 		getGameEntity()->getTransform()->SetPosition(posOut.x, posOut.y, 0.0f);
 	}
 
@@ -27,7 +28,7 @@ namespace Navecita {
 		Texture* tex = new Texture();
 
 		getGameEntity()->_renderer->_material->SetTexture(tex);
-		tex->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/Players.png");
+		tex->LoadImage("assets/navecita/Players.png");
 		//tex->LoadImage("assets/spaceShooter/SpaceShooterAssetPack_Ships.png");
 
 		auto atlas = SpriteAtlast(tex, 16);

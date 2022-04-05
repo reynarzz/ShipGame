@@ -10,7 +10,8 @@
 #include "GameHelper.h"
 #include "FrameBuffer.h"
 #include "NavecitaGame.h"
-
+#include <chrono>
+#include "Time.h"
 
 using namespace Engine;
 using glm::mat4;
@@ -95,11 +96,33 @@ int main() {
 
 	Navecita::NavecitaGame* game = new Navecita::NavecitaGame();
 
+	//timeval t1, t2;
+	//double elapsedTime;
+
+	////start timer
+	//gettimeofday(&t1, NULL);
+
+	////do stuff...
+
+	////stop timer
+	//gettimeofday(&t2, NULL);
+
+	auto t_start = std::chrono::high_resolution_clock::now();
+
 	while (!glfwWindowShouldClose(window))
 	{
+		// the work...
+		auto t_end = std::chrono::high_resolution_clock::now();
+
+		double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count() / 1000;
+
+		t_start = t_end;
+
+		std::cout << elapsed_time_ms << std::endl;
 		glfwGetWindowSize(window, &width, &height);
 
 		Input::Update(window);
+		Time::DeltaTime = elapsed_time_ms;
 
 		int isMouse = glfwGetMouseButton(window, 0);
 

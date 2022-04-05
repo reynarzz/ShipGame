@@ -21,7 +21,7 @@ namespace Navecita {
 
 	private:
 		SpriteAnimation* _anim = nullptr;
-		const float _shootInterval = 0.02f;
+		const float _shootInterval = 0.1f;
 		float _sootTime = 0.0f;
 		int _life = 0;
 	};

@@ -2,6 +2,7 @@
 #include "../GameHelper.h"
 #include "Projectile.h"
 #include "Player.h"
+#include "../Time.h"
 
 namespace Navecita {
 	Transform* _point;
@@ -15,7 +16,7 @@ namespace Navecita {
 	{
 		_anim->Update();
 
-		float speed = 0.2f;
+		float speed = Time::DeltaTime * 10;
 
 		vec3 pos = GetTransform()->getPosition();
 
@@ -39,7 +40,7 @@ namespace Navecita {
 		}
 
 		if (Input::_Space_Pressed) {
-			_sootTime -= 0.0018;
+			_sootTime -= Time::DeltaTime;
 
 
 			if (_sootTime <= 0) {
@@ -49,9 +50,7 @@ namespace Navecita {
 				_sootTime = _shootInterval;
 			}
 		}
-		else {
-			_sootTime = 0.005f;
-		}
+		
 
 		// provisional clamp.
 		pos = glm::clamp(pos, vec3(-8, -15, 0.), vec3(8, 15, 0.));
@@ -117,7 +116,7 @@ namespace Navecita {
 		Texture* tex = new Texture();
 
 		getGameEntity()->_renderer->_material->SetTexture(tex);
-		tex->LoadImage("B:/Projects/UnityEditorGame/assets/navecita/Players.png");
+		tex->LoadImage("assets/navecita/Players.png");
 
 		SpriteAtlast atlas = SpriteAtlast(tex, 16);
 
@@ -135,6 +134,6 @@ namespace Navecita {
 
 		auto pos = GetTransform()->getPosition();
 		bullet->SetTarget("Enemy");
-		bullet->Shoot({ pos.x, pos.y + 0.3f }, { 0, 1 }, 0.6f);
+		bullet->Shoot({ pos.x, pos.y + 0.3f }, { 0, 1 }, 25);
 	}
 }

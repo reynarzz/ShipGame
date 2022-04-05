@@ -52,7 +52,7 @@ public:
 			"float g = texture2D(_tex0, _texUV + vec2(-1.0f / 288.0f, -1.0f / 512.0f)).g; \n"
 			"float b = texture2D(_tex0, _texUV + vec2(-1.0f / 288.0f, 1.0f / 512.0f)).b; \n"
 			"vec4 c = texture2D(_tex0, _texUV); \n"
-			"col =vec4(r, g, b, 1.0);\n"
+			"col =vec4(c.r, g, b, 1.0);\n"
 			"}\n";
 
 		return std::pair<std::string, std::string>(vertex, fragment);
