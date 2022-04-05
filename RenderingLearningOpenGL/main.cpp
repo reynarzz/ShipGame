@@ -17,14 +17,6 @@ using namespace Engine;
 using glm::mat4;
 using glm::mat;
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
-	{
-
-	}
-}
-
 int main() {
 
 	if (!glfwInit()) {
@@ -45,7 +37,7 @@ int main() {
 	GLFWwindow* window = glfwCreateWindow(nativeWidth, nativeHeight, "Navecita", NULL, nullptr);
 
 	glfwMakeContextCurrent(window);
-	glfwSetKeyCallback(window, key_callback);
+
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, false);
 	if (glewInit() != GLEW_OK) {
 		std::cout << "can't init glew";
@@ -96,22 +88,10 @@ int main() {
 
 	Navecita::NavecitaGame* game = new Navecita::NavecitaGame();
 
-	//timeval t1, t2;
-	//double elapsedTime;
-
-	////start timer
-	//gettimeofday(&t1, NULL);
-
-	////do stuff...
-
-	////stop timer
-	//gettimeofday(&t2, NULL);
-
 	auto t_start = std::chrono::high_resolution_clock::now();
 
 	while (!glfwWindowShouldClose(window))
 	{
-		// the work...
 		auto t_end = std::chrono::high_resolution_clock::now();
 
 		double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count() / 1000;
@@ -126,7 +106,6 @@ int main() {
 
 		int isMouse = glfwGetMouseButton(window, 0);
 
-		//for (size_t i = 0; i < 2; i++)
 		{
 			frameBuffer.Bind();
 			frameBuffer.UpdateBuffer(width, height);
@@ -170,7 +149,6 @@ int main() {
 			frameBuffer.Unbind();
 		}
 
-
 		glViewport(0, 0, width, height);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -187,7 +165,6 @@ int main() {
 		glDrawElements(GL_TRIANGLES, quad->getIndices().size(), GL_UNSIGNED_INT, NULL);
 
 		glfwSwapBuffers(window);
-
 
 		glfwPollEvents();
 	}
