@@ -6,7 +6,8 @@
 
 namespace Navecita {
 
-	Enemy::Enemy(GameEntity* entity) : EntityBehaviour(entity) {
+	INIT_BEHAVIOUR(Enemy) 
+	{
 		entity->GetAABB()->_width = 2;
 		entity->GetAABB()->_height = 2;
 	}
