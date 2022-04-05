@@ -1,8 +1,4 @@
-About
-A ship game I made in three days with C++, OpenGL, and various libs.
-A custom C# - OpenGL standalone lib to create tools easier!
-
-And this is the result:
+A ship game for my own, single person, game jam. C++ and various libs.
 
 ![](readmefiles/navecita.gif)
 
