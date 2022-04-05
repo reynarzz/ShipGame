@@ -1,4 +1,4 @@
-A ship game for own game jam. C++ and various libs.
+A ship game for my own, single person, game jam. C++ and various libs.
 
 ![](readmefiles/navecita.gif)
 
