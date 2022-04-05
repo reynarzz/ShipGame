@@ -24,7 +24,7 @@
     <ProjectGuid>{3404d691-0fc5-4ef0-8db1-2945283cd5ec}</ProjectGuid>
     <RootNamespace>RenderingLearningOpenGL</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>RenderingLearningOpenGL</ProjectName>
+    <ProjectName>shipgame</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
