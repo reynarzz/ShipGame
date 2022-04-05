@@ -5,7 +5,8 @@
 
 namespace Navecita {
 
-	Projectile::Projectile(GameEntity* entity) : EntityBehaviour(entity) {
+	INIT_BEHAVIOUR(Projectile) 
+	{
 
 	}
 
@@ -60,5 +61,10 @@ namespace Navecita {
 		if (entity->getName() == _target) {
 			DestroyEntity(getGameEntity());
 		}
+	}
+
+	Projectile::~Projectile() 
+	{
+		delete _anim;
 	}
 }

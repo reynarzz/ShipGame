@@ -1,5 +1,5 @@
 #pragma once
-
+#include "../Engine.h"
 #include "../EntityBehaviour.h"
 #include "../SpriteAnimation.h"
 #include "../SpriteAtlast.h"
@@ -13,8 +13,7 @@ namespace Navecita {
 	public:
 		int _life = 0;
 		float _angle;
-		Enemy(GameEntity* entity);
-		~Enemy();
+		DECLARE_BEHAVIOUR(Enemy);
 
 		void Update() override;
 		void OnRenderStart() override;

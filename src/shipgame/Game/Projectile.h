@@ -1,5 +1,5 @@
 #pragma once
-
+#include "../Engine.h"
 #include "../EntityBehaviour.h"
 #include "../SpriteAnimation.h"
 #include "../SpriteAtlast.h"
@@ -11,7 +11,7 @@ namespace Navecita {
 	{
 	public:
 		float _angle;
-		Projectile(GameEntity* entity);
+		DECLARE_BEHAVIOUR(Projectile);
 
 		void Update() override;
 		void SetTarget(const std::string& target);
