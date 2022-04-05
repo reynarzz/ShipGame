@@ -1,4 +1,4 @@
-A ship game I made in almost four days: C++, and various libs.
+A ship game for own game jam. C++ and various libs.
 
 ![](readmefiles/navecita.gif)
 
